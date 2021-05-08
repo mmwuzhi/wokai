@@ -1,0 +1,48 @@
+{
+  "name": "wokai",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "antd": "^4.15.4",
+    "axios": "^0.21.1",
+    "bootstrap": "^4.3.1",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "express": "^5.0.0-alpha.7",
+    "express-async-handler": "^1.1.4",
+    "express-session": "^1.17.1",
+    "mongoose": "^5.12.7",
+    "react": "^16.8.6",
+    "react-datepicker": "^2.8.0",
+    "react-dom": "^16.8.6",
+    "react-redux": "^7.2.4",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "^4.0.3",
+    "redux": "^4.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "client": "react-scripts start",
+    "server": "nodemon --watch server/index.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

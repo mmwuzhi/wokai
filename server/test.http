@@ -1,0 +1,44 @@
+@url = http://localhost:5000
+@json = Content-Type: application/json
+
+###添加用户
+post {{url}}/users/add
+{{json}}
+
+{
+  "username":"damin"
+}
+
+###查找用户
+get {{url}}/users
+
+###添加exercises
+post {{url}}/exercises/add
+{{json}}
+
+{
+  "username":"mumu",
+  "description":"bike ride",
+  "duration":30,
+  "date":"2019-07-23T04:05:16.055Z"
+}
+
+###查找exercises
+get {{url}}/exercises
+
+###get:id
+get {{url}}/exercises/5d36941c6ee1a039d4cbb5e8
+
+###update:id
+post {{url}}/exercises/update/5d36941c6ee1a039d4cbb5e8
+{{json}}
+
+{
+  "username": "mumu",
+  "description": "walk",
+  "duration": 120,
+  "date": "2019-07-23T04:05:17.055Z"
+}
+
+###delete:id
+delete {{url}}/exercises/5d36941c6ee1a039d4cbb5e8

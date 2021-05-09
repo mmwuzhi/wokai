@@ -6,7 +6,7 @@ const commentSchema = new Schema(
     username: { type: String, required: true },
     email: { type: String },
     content: { type: String, required: true },
-    createdTime: { type: Date, required: true },
+    createdTime: { type: String, required: true },
   },
   { timestamps: true }
 )

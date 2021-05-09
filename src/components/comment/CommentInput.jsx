@@ -42,7 +42,7 @@ class CommentInput extends Component {
         username,
         email,
         content,
-        createdTime: new Date(),
+        createdTime: +new Date(),
       })
     }
     this.setState({ content: '' })

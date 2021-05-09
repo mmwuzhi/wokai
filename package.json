@@ -24,7 +24,7 @@
   "scripts": {
     "start": "react-scripts start",
     "client": "react-scripts start",
-    "server": "nodemon ./server/server.js",
+    "server": "cross-env NODE_ENV=production pm2 start ./server/server.js --name 'wokai'",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "react-scripts build",
     "test": "react-scripts test",

@@ -16,7 +16,6 @@ export default class CreateUsers extends Component {
       isLoading: true
     }
     axios.get('/api/users/userInfo').then((res) => {
-      console.log(res.data.data)
       res.data.code === 0
         ? this.props.history.push('/comment')
         : this.setState({ isLoading: false })

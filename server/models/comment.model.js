@@ -4,8 +4,9 @@ const Schema = mongoose.Schema
 const commentSchema = new Schema(
   {
     username: { type: String, required: true },
+    email: { type: String },
     content: { type: String, required: true },
-    createdTime: { type: Number, require: true },
+    createdTime: { type: Date, required: true },
   },
   { timestamps: true }
 )

@@ -11,7 +11,6 @@ export default class CreateUsers extends Component {
       display: 'block',
     }
     axios.get('/api/users/userInfo').then((res) => {
-      console.log(res.data.data)
       res.data.code === 0
         ? this.setState({ display: 'none' })
         : this.props.history.push('/user/login')
@@ -25,7 +24,6 @@ export default class CreateUsers extends Component {
   logout() {
     //调用后端接口创建user
     axios.get('/api/users/logout').then((res) => {
-      console.log(res.data)
       if (res.data.logout === '1') this.props.history.push('/')
     })
   }

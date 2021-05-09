@@ -8,13 +8,11 @@ router.route('/').get((req, res) => {
 })
 
 router.route('/add').post((req, res) => {
-  const username = req.body.username
-  const content = req.body.content
-  const createdTime = req.body.createdTime
-
+  const {username, content, email, createdTime} = req.body
   const newComment = new Comment({
     username,
     content,
+    email,
     createdTime,
   })
 

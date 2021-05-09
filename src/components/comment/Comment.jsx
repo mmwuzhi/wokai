@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import CommentDelete from './CommentDelete'
 
 class Comment extends Component {
   static propTypes = {
@@ -8,8 +9,8 @@ class Comment extends Component {
     index: PropTypes.number,
   }
 
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = { timeString: '' }
   }
 
@@ -72,12 +73,12 @@ class Comment extends Component {
             __html: this._getProcessedContent(comment.content),
           }}
         />
-        <span
-          onClick={this.handleDeleteComment.bind(this)}
-          className='comment-delete'
-        >
-          削除
-        </span>
+        {comment.email !== '' && (
+          <CommentDelete
+            onDeleteComment={this.handleDeleteComment.bind(this)}
+            id={comment.id}
+          />
+        )}
       </div>
     )
   }

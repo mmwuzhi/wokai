@@ -1,28 +1,23 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import wrapWithLoadData from './wrapWithLoadData'
 
 class CommentInput extends Component {
   static propTypes = {
-    data: PropTypes.any,
-    saveData: PropTypes.func.isRequired,
+    username: PropTypes.string,
+    email: PropTypes.string,
     onSubmit: PropTypes.func,
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      username: props.data,
+      username: '',
       content: '',
     }
   }
 
   componentDidMount() {
     this.textarea.focus()
-  }
-
-  handleUsernameBlur(event) {
-    this.props.saveData(event.target.value)
   }
 
   handleUsernameChange(event) {
@@ -42,11 +37,12 @@ class CommentInput extends Component {
 
     if (this.props.onSubmit) {
       const { username, content } = this.state
+      const email = this.props.email
       this.props.onSubmit({
-        // TODO:可能会在submit的时候出现问题
         username,
+        email,
         content,
-        createdTime: +new Date()
+        createdTime: new Date(),
       })
     }
     this.setState({ content: '' })
@@ -60,7 +56,6 @@ class CommentInput extends Component {
           <div className='comment-field-input'>
             <input
               value={this.state.username}
-              onBlur={this.handleUsernameBlur.bind(this)}
               onChange={this.handleUsernameChange.bind(this)}
               // 这里的ref的作用是 将这个input命名为inputName
               // 并且设置为组件实例的一个属性
@@ -92,5 +87,4 @@ class CommentInput extends Component {
   }
 }
 
-CommentInput = wrapWithLoadData(CommentInput, 'username')
 export default CommentInput

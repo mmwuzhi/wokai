@@ -5,24 +5,12 @@ import PropTypes from 'prop-types'
 class CommentList extends Component {
   static propTypes = {
     comments: PropTypes.array,
+    email: PropTypes.string,
     onDeleteComment: PropTypes.func,
   }
 
   static defaultProps = {
     comments: [],
-  }
-
-  // constructor() {
-  //   super()
-  // }
-
-  UNSAFE_componentWillMount() {
-  }
-
-  componentDidMount() {
-  }
-
-  componentWillUnmount() {
   }
 
   handleDeleteComment(id) {
@@ -34,7 +22,7 @@ class CommentList extends Component {
   render() {
     return (
       <div>
-        {this.props.comments.map((comment, index) => (
+        {this.props.comments.map((comment, index) => (comment.email === this.props.email || comment.email === '') && (
           <Comment
             comment={comment}
             key={index}

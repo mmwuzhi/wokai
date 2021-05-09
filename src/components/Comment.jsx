@@ -15,12 +15,21 @@ class Comment extends Component {
       comments: [],
       isShowCommentList: true,
       isShowClock: true,
+      username: '',
+      email: '',
       style: {
         width: '105px',
         fontSize: '12px',
         marginRight: '10px',
       },
     }
+    axios.get('/api/users/userInfo').then((res) => {
+      res.data.code === 0 &&
+        this.setState({
+          username: res.data.data.username,
+          email: res.data.data.email,
+        })
+    })
   }
 
   componentDidMount() {
@@ -29,9 +38,6 @@ class Comment extends Component {
       .then((res) => {
         this.setState({ comments: res.data })
       })
-      // .then(() => {
-      //   console.log(this.state.comments)
-      // })
       .catch((err) => {
         console.log(err)
       })
@@ -49,7 +55,6 @@ class Comment extends Component {
     if (!comment.content) return alert('コメントを入力してください！')
     axios
       .post('/api/comments/add', comment)
-      .then((res) => console.log(res.data))
       .then(this.componentDidMount.bind(this))
       .catch((err) => {
         console.log(err)
@@ -79,10 +84,15 @@ class Comment extends Component {
           // ・handleSubmit判断onSubmit是否存在 因为存在 所以onSubmit() = onSubmit(CommentInput.state({username, content}))
           // ・所以 onSubmit() = this.handleSubmitComment({username, content})
         }
-        <CommentInput onSubmit={this.handleSubmitComment.bind(this)} />
+        <CommentInput
+          onSubmit={this.handleSubmitComment.bind(this)}
+          username={this.state.username}
+          email={this.state.email}
+        />
         <CommentList
           comments={this.state.comments}
           onDeleteComment={this.handleDeleteComment.bind(this)}
+          email={this.state.email}
         />
       </div>
     )

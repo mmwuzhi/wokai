@@ -17,7 +17,6 @@ export default class CreateUsers extends Component {
       message: '',
     }
     axios.get('/api/users/userInfo').then((res) => {
-      console.log(res.data.data)
       res.data.code === 0
         ? this.setState({
             username: res.data.data.username,
@@ -66,7 +65,6 @@ export default class CreateUsers extends Component {
       //调用后端接口创建user
       axios
         .post('/api/users/update', user)
-        .then((res) => console.log(res.data))
         .then(() => {
           alert('変更しました！')
           this.props.history.push('/comment')

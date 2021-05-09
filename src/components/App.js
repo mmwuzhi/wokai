@@ -6,7 +6,6 @@ import '../style.css'
 import Navbar from './Navbar'
 import Example from './Example'
 import Comment from './Comment'
-import EditExercise from './edit-exercise.component'
 import SignIn from './user/SignIn'
 import MyPage from './user/MyPage'
 import Login from './user/Login'
@@ -20,7 +19,6 @@ function App() {
         <br />
         <Route path='/' exact component={Example} />
         <Route path='/comment' component={Comment} />
-        <Route path='/edit/:id' component={EditExercise} />
         <Route path='/user/signup' component={SignIn} />
         <Route path='/user/mypage' component={MyPage} />
         <Route path='/user/login' component={Login} />

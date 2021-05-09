@@ -4,8 +4,6 @@ import { Link, NavLink } from 'react-router-dom'
 
 import axios from 'axios'
 
-// 解决跨域session无效(自动重置)问题
-axios.defaults.withCredentials = true
 export default class Navbar extends Component {
   constructor(props) {
     super(props)
@@ -15,24 +13,22 @@ export default class Navbar extends Component {
       loginLink: '',
       loginText: '',
     }
-    axios
-      .get('http://localhost:5000/users/userInfo')
-      .then((res) => {
-        console.log(res.data)
-        res.data.code === 1
-          ? this.setState({
-              myPageLink: '/user/signup',
-              myPageText: 'サインアップ',
-              loginLink: '/user/login',
-              loginText: 'ログイン',
-            })
-          : this.setState({
-              myPageLink: '/user/mypage',
-              myPageText: 'マイページ',
-              loginLink: '/user/logout',
-              loginText: 'ログアウト',
-            })
-      })
+    axios.get('/api/users/userInfo').then((res) => {
+      console.log(res.data)
+      res.data.code === 1
+        ? this.setState({
+            myPageLink: '/user/signup',
+            myPageText: 'サインアップ',
+            loginLink: '/user/login',
+            loginText: 'ログイン',
+          })
+        : this.setState({
+            myPageLink: '/user/mypage',
+            myPageText: 'マイページ',
+            loginLink: '/user/logout',
+            loginText: 'ログアウト',
+          })
+    })
   }
 
   render() {

@@ -24,7 +24,7 @@
   "scripts": {
     "start": "react-scripts start",
     "client": "react-scripts start",
-    "server": "nodemon --watch server/index.js",
+    "server": "nodemon ./server/server.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -44,5 +44,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }

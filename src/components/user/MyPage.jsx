@@ -16,7 +16,7 @@ export default class CreateUsers extends Component {
       errorMessage: '',
       message: '',
     }
-    axios.get('http://localhost:5000/users/userInfo').then((res) => {
+    axios.get('/api/users/userInfo').then((res) => {
       console.log(res.data.data)
       res.data.code === 0
         ? this.setState({
@@ -65,7 +65,7 @@ export default class CreateUsers extends Component {
       })
       //调用后端接口创建user
       axios
-        .post('http://localhost:5000/users/update', user)
+        .post('/api/users/update', user)
         .then((res) => console.log(res.data))
         .then(() => {
           alert('変更しました！')

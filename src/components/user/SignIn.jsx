@@ -17,7 +17,7 @@ export default class CreateUsers extends Component {
       message: '',
       isLoading: true,
     }
-    axios.get('http://localhost:5000/users/userInfo').then((res) => {
+    axios.get('/api/users/userInfo').then((res) => {
       console.log(res.data.data)
       res.data.code === 0
         ? this.props.history.push('/user/mypage')
@@ -62,7 +62,7 @@ export default class CreateUsers extends Component {
       })
       //调用后端接口创建user
       axios
-        .post('http://localhost:5000/users/', user)
+        .post('/api/users/', user)
         .then((res) => console.log(res.data))
         .then(() => {
           alert('サインアップしました！')

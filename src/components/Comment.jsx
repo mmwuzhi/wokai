@@ -25,7 +25,7 @@ class Comment extends Component {
 
   componentDidMount() {
     axios
-      .get('http://localhost:5000/comments/')
+      .get('/api/comments/')
       .then((res) => {
         this.setState({ comments: res.data })
       })
@@ -48,7 +48,7 @@ class Comment extends Component {
     if (!comment.username) return alert('ユーザ名を入力してください！')
     if (!comment.content) return alert('コメントを入力してください！')
     axios
-      .post('http://localhost:5000/comments/add', comment)
+      .post('/api/comments/add', comment)
       .then((res) => console.log(res.data))
       .then(this.componentDidMount.bind(this))
       .catch((err) => {
@@ -58,7 +58,7 @@ class Comment extends Component {
 
   handleDeleteComment(id) {
     axios
-      .delete('http://localhost:5000/comments/' + id)
+      .delete('/api/comments/' + id)
       .then((res) => console.log(res.data))
       .catch((err) => {
         console.log(err)

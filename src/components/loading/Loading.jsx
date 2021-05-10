@@ -1,8 +1,7 @@
 import React from 'react'
 import { Spin } from 'antd'
-import style from './style.css'
 export const Loading = () => (
-  <div className={style.loading}>
+  <div className='loading'>
     <Spin size='large' />
   </div>
 )

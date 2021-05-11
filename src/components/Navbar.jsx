@@ -37,7 +37,7 @@ class Navbar extends Component {
                 コメント
               </NavLink>
             </li>
-            {this.props.isLogin ? (
+            {this.props.Signed ? (
               <li className='navbar-item'>
                 <NavLink
                   to='/user/mypage'
@@ -58,7 +58,7 @@ class Navbar extends Component {
                 </NavLink>
               </li>
             )}
-            {this.props.isLogin ? (
+            {this.props.Signed ? (
               <li className='navbar-item'>
                 <NavLink
                   to='/user/logout'
@@ -89,9 +89,7 @@ class Navbar extends Component {
 
 function NewNavbar() {
   return (
-    <LoginConsumer>
-      {(data) => <Navbar isLogin={data.isLogin} />}
-    </LoginConsumer>
+    <LoginConsumer>{(data) => <Navbar Signed={data.Signed} />}</LoginConsumer>
   )
 }
 

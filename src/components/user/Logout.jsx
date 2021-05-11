@@ -31,7 +31,7 @@ export default class CreateUsers extends Component {
   render() {
     return (
       <div>
-        {this.state.isLoading && <Loading />}
+        {this.state.onLoading && <Loading />}
         <h3 className='mt-3 mb-5'>ログアウト</h3>
         <span className='form-group'>
           なんでもさいとからログアウトしますか？

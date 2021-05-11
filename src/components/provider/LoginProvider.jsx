@@ -9,17 +9,21 @@ class LoginProvider extends Component {
     doLogout: null,
     doLogin: null,
     error: null,
-    isLogin: true,
-    isLoading: true,
+    Signed: false,
+    onLoading: true,
   }
 
   componentDidMount() {
     this.setState({ login: false, error: null })
     axios
       .get('/api/users/userInfo')
-      .then((user) => this.setState({ isLoading: false, isLogin: true, user }))
+      .then((user) => {
+        user.data.code === 0
+          ? this.setState({ onLoading: false, Signed: true, user: user.data })
+          : this.setState({ onLoading: false, Signed: false })
+      })
       .catch((error) =>
-        this.setState({ isLoading: false, isLogin: false, error })
+        this.setState({ onLoading: false, Signed: false, error })
       )
   }
 
@@ -31,7 +35,7 @@ class LoginProvider extends Component {
     return (
       <Provider
         value={{
-          ...this.state
+          ...this.state,
         }}
       >
         {this.props.children}

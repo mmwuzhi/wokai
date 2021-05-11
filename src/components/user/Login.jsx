@@ -13,12 +13,12 @@ export default class CreateUsers extends Component {
       email: '',
       password: '',
       code: 1,
-      isLoading: true
+      onLoading: true,
     }
     axios.get('/api/users/userInfo').then((res) => {
       res.data.code === 0
         ? this.props.history.push('/comment')
-        : this.setState({ isLoading: false })
+        : this.setState({ onLoading: false })
     })
   }
 
@@ -57,7 +57,7 @@ export default class CreateUsers extends Component {
   render() {
     return (
       <div>
-        {this.state.isLoading && <Loading />}
+        {this.state.onLoading && <Loading />}
         <h3 className='mt-3 mb-5'>ログイン</h3>
         <form onSubmit={this.onSubmit}>
           <div className='form-group'>

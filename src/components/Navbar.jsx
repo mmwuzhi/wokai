@@ -1,36 +1,11 @@
 import React, { Component } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-//import Clock from './Clock'
-
 import axios from 'axios'
 
-export default class Navbar extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      myPageLink: '',
-      myPageText: '',
-      loginLink: '',
-      loginText: '',
-    }
-    axios.get('/api/users/userInfo').then((res) => {
-      console.log(res.data)
-      res.data.code === 1
-        ? this.setState({
-            myPageLink: '/user/signup',
-            myPageText: 'サインアップ',
-            loginLink: '/user/login',
-            loginText: 'ログイン',
-          })
-        : this.setState({
-            myPageLink: '/user/mypage',
-            myPageText: 'マイページ',
-            loginLink: '/user/logout',
-            loginText: 'ログアウト',
-          })
-    })
-  }
+//import Clock from './Clock'
+import { LoginConsumer } from '../components/provider/LoginProvider'
 
+class Navbar extends Component {
   render() {
     return (
       <nav className='navbar navbar-dark bg-info navbar-expand-lg shadow'>
@@ -62,24 +37,48 @@ export default class Navbar extends Component {
                 コメント
               </NavLink>
             </li>
-            <li className='navbar-item'>
-              <NavLink
-                to={this.state.myPageLink}
-                activeClassName='active'
-                className='nav-link'
-              >
-                {this.state.myPageText}
-              </NavLink>
-            </li>
-            <li className='navbar-item'>
-              <NavLink
-                to={this.state.loginLink}
-                activeClassName='active'
-                className='nav-link'
-              >
-                {this.state.loginText}
-              </NavLink>
-            </li>
+            {this.props.isLogin ? (
+              <li className='navbar-item'>
+                <NavLink
+                  to='/user/mypage'
+                  activeClassName='active'
+                  className='nav-link'
+                >
+                  マイページ
+                </NavLink>
+              </li>
+            ) : (
+              <li className='navbar-item'>
+                <NavLink
+                  to='/user/signup'
+                  activeClassName='active'
+                  className='nav-link'
+                >
+                  サインアップ
+                </NavLink>
+              </li>
+            )}
+            {this.props.isLogin ? (
+              <li className='navbar-item'>
+                <NavLink
+                  to='/user/logout'
+                  activeClassName='active'
+                  className='nav-link'
+                >
+                  ログアウト
+                </NavLink>
+              </li>
+            ) : (
+              <li className='navbar-item'>
+                <NavLink
+                  to='/user/login'
+                  activeClassName='active'
+                  className='nav-link'
+                >
+                  ログイン
+                </NavLink>
+              </li>
+            )}
           </ul>
           {/* <Clock /> */}
         </div>
@@ -87,3 +86,13 @@ export default class Navbar extends Component {
     )
   }
 }
+
+function NewNavbar() {
+  return (
+    <LoginConsumer>
+      {(data) => <Navbar isLogin={data.isLogin} />}
+    </LoginConsumer>
+  )
+}
+
+export { NewNavbar }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Spin } from 'antd'
 import axios from 'axios'
+
+import { Loading } from '../loading/Loading'
 
 export default class CreateUsers extends Component {
   constructor(props) {
@@ -30,7 +31,7 @@ export default class CreateUsers extends Component {
   render() {
     return (
       <div>
-        <Spin size='large' tip='Loading...' />
+        {this.state.isLoading && <Loading />}
         <h3 className='mt-3 mb-5'>ログアウト</h3>
         <span className='form-group'>
           なんでもさいとからログアウトしますか？

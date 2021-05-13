@@ -15,12 +15,12 @@ export default class CreateUsers extends Component {
       password: '',
       confirmPassword: '',
       message: '',
-      onLoading: true,
+      loading: true,
     }
     axios.get('/api/users/userInfo').then((res) => {
       res.data.code === 0
         ? this.props.history.push('/user/mypage')
-        : this.setState({ onLoading: false })
+        : this.setState({ loading: false })
     })
   }
 
@@ -75,7 +75,7 @@ export default class CreateUsers extends Component {
   render() {
     return (
       <div>
-        {this.state.onLoading && <Loading />}
+        {this.state.loading && <Loading />}
         <h3 className='mt-3 mb-5'>サインアップ</h3>
         <form onSubmit={this.onSubmit}>
           <div className='form-group'>

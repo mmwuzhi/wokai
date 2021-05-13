@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import { UserContext } from '../provider/UserContext'
 class CommentInput extends Component {
   static propTypes = {
     username: PropTypes.string,
     email: PropTypes.string,
     onSubmit: PropTypes.func,
   }
+  // TODO: 想想这边的用户名怎么获取
+  static contextType = UserContext
 
   constructor(props) {
     super(props)

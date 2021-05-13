@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom'
 import App from './components/App'
 import 'antd/dist/antd.css'
 
-import {LoginProvider} from './components/provider/LoginProvider'
+import {UserProvider} from './components/provider/UserContext'
 
 ReactDOM.render(
-  <LoginProvider>
+  <UserProvider>
     <App />
-  </LoginProvider>,
+  </UserProvider>,
   document.getElementById('root')
 )

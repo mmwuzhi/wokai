@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import axios from 'axios'
 
 //import Clock from './Clock'
-import { LoginConsumer } from '../components/provider/LoginProvider'
+import { UserContext } from './provider/UserContext'
 
 class Navbar extends Component {
+  static contextType = UserContext
   render() {
+    const { logged } = this.context
     return (
       <nav className='navbar navbar-dark bg-info navbar-expand-lg shadow'>
         <Link to='/' className='navbar-brand'>
@@ -37,7 +38,7 @@ class Navbar extends Component {
                 コメント
               </NavLink>
             </li>
-            {this.props.Signed ? (
+            {logged ? (
               <li className='navbar-item'>
                 <NavLink
                   to='/user/mypage'
@@ -58,7 +59,7 @@ class Navbar extends Component {
                 </NavLink>
               </li>
             )}
-            {this.props.Signed ? (
+            {logged ? (
               <li className='navbar-item'>
                 <NavLink
                   to='/user/logout'
@@ -87,10 +88,4 @@ class Navbar extends Component {
   }
 }
 
-function NewNavbar() {
-  return (
-    <LoginConsumer>{(data) => <Navbar Signed={data.Signed} />}</LoginConsumer>
-  )
-}
-
-export { NewNavbar }
+export { Navbar }

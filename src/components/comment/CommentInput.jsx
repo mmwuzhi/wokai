@@ -1,93 +1,65 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useContext, useEffect } from 'react'
+import { UserContext } from '../../provider/UserContext'
 
-import { UserContext } from '../provider/UserContext'
-class CommentInput extends Component {
-  static propTypes = {
-    username: PropTypes.string,
-    email: PropTypes.string,
-    onSubmit: PropTypes.func,
-  }
-  // TODO: 想想这边的用户名怎么获取
-  static contextType = UserContext
+import axios from 'axios'
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      username: '',
-      content: '',
-    }
-  }
+const CommentInput = (props) => {
+  const { state } = useContext(UserContext)
+  const [username, setUsername] = useState('')
+  const [content, setContent] = useState('')
 
-  componentDidMount() {
-    this.textarea.focus()
-  }
-
-  handleUsernameChange(event) {
-    this.setState({
-      username: event.target.value,
+  // 第一次加载界面的时候调用，使光标移动到输入框
+  useEffect(() => {
+    // TODO: 以后说不定会有更好的获得当前用户名的方法
+    axios.get('/api/users/userInfo').then((res) => {
+      res.data.code === 0 && setUsername(res.data.data.username)
     })
-  }
+    // TODO: 估计要用useRef
+    // this.textarea.focus()
+  }, [])
 
-  handleContentChange(event) {
-    this.setState({
-      content: event.target.value,
-    })
-  }
-
-  handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault()
 
-    if (this.props.onSubmit) {
-      const { username, content } = this.state
-      const email = this.props.email
-      this.props.onSubmit({
+    if (props.onSubmit) {
+      const { email } = state.user
+      props.onSubmit({
         username,
         email,
         content,
         createdTime: +new Date(),
       })
     }
-    this.setState({ content: '' })
+    setContent('')
   }
 
-  render() {
-    return (
-      <div className='comment-input'>
-        <div className='comment-field'>
-          <span className='comment-field-name'>ユーザ名：</span>
-          <div className='comment-field-input'>
-            <input
-              value={this.state.username}
-              onChange={this.handleUsernameChange.bind(this)}
-              // 这里的ref的作用是 将这个input命名为inputName
-              // 并且设置为组件实例的一个属性
-              // 之后就可以通过this.inputName来获取这个DOM元素
-              // 比如可以在componentDidMount里面使用这个DOM元素
-              // 并且调用类似this.inputName.focus()之类的DOM API
-              // 就可以达到加载完页面自动focus到输入框的效果
-              // *** 但是！！！能用react的机能做到的事一定不要用ref
-              // *** 并且 总之不到万不得已尽量不要用ref
-              // ref={(inputName) => (this.inputName = inputName)}
-            />
-          </div>
-        </div>
-        <div className='comment-field'>
-          <span className='comment-field-name'>コメント：</span>
-          <div className='comment-field-input'>
-            <textarea
-              ref={(textarea) => (this.textarea = textarea)}
-              value={this.state.content}
-              onChange={this.handleContentChange.bind(this)}
-            />
-          </div>
-        </div>
-        <div className='comment-field-button'>
-          <button onClick={this.handleSubmit.bind(this)}>投稿</button>
+  return (
+    <div className='comment-input'>
+      <div className='comment-field'>
+        <span className='comment-field-name'>ユーザ名：</span>
+        <div className='comment-field-input'>
+          <input
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
         </div>
       </div>
-    )
-  }
+      <div className='comment-field'>
+        <span className='comment-field-name'>コメント：</span>
+        <div className='comment-field-input'>
+          <textarea
+            // TODO: 估计要用useRef
+            // ref={(textarea) => (this.textarea = textarea)}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
+        </div>
+      </div>
+      <div className='comment-field-button'>
+        <button onClick={(e) => handleSubmit(e)}>投稿</button>
+      </div>
+    </div>
+  )
 }
 
 export default CommentInput

@@ -42,6 +42,7 @@
 import React, { useState, useEffect } from 'react'
 
 export default function Example() {
+  // 相当于 state setState
   const [count, setCount] = useState(0)
 
   useEffect(() => {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import CommentDelete from './CommentDelete'
 
-class Comment extends Component {
+// TODO: 改为函数式
+class CommentDetail extends Component {
   static propTypes = {
     comment: PropTypes.object.isRequired,
     onDeleteComment: PropTypes.func,
@@ -74,14 +74,16 @@ class Comment extends Component {
           }}
         />
         {comment.email !== '' && (
-          <CommentDelete
-            onDeleteComment={this.handleDeleteComment.bind(this)}
-            id={comment.id}
-          />
+          <span
+            onClick={this.handleDeleteComment.bind(this)}
+            className='comment-delete'
+          >
+            削除
+          </span>
         )}
       </div>
     )
   }
 }
 
-export default Comment
+export default CommentDetail

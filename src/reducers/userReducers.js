@@ -1,27 +1,75 @@
-const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST'
-const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'
-const USER_LOGIN_FAIL = 'USER_LOGIN_FAIL'
-const USER_LOGOUT = 'USER_LOGOUT'
+export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST'
+export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'
+export const USER_LOGIN_FAIL = 'USER_LOGIN_FAIL'
 
-const USER_SIGNUP_REQUEST = 'USER_SIGNUP_REQUEST'
-const USER_SIGNUP_SUCCESS = 'USER_SIGNUP_SUCCESS'
-const USER_SIGNUP_FAIL = 'USER_SIGNUP_FAIL'
+export const USER_LOGOUT_REQUEST = 'USER_LOGOUT_REQUEST'
+export const USER_LOGOUT_SUCCESS = 'USER_LOGOUT_SUCCESS'
+export const USER_LOGOUT_FAIL = 'USER_LOGOUT_FAIL'
 
-const USER_UPDATE_PROFILE_REQUEST = 'USER_UPDATE_PROFILE_REQUEST'
-const USER_UPDATE_PROFILE_SUCCESS = 'USER_UPDATE_PROFILE_SUCCESS'
-const USER_UPDATE_PROFILE_FAIL = 'USER_UPDATE_PROFILE_FAIL'
-const USER_UPDATE_PROFILE_RESET = 'USER_UPDATE_PROFILE_RESET'
+export const USER_CHECK_LOGGED_REQUEST = 'USER_CHECK_LOGGED_REQUEST'
+export const USER_CHECK_LOGGED_SUCCESS = 'USER_CHECK_LOGGED_SUCCESS'
+export const USER_CHECK_LOGGED_FAIL = 'USER_CHECK_LOGGED_FAIL'
 
-export const userLoginReducer = (state = {}, action) => {
+// const USER_SIGNUP_REQUEST = 'USER_SIGNUP_REQUEST'
+// const USER_SIGNUP_SUCCESS = 'USER_SIGNUP_SUCCESS'
+// const USER_SIGNUP_FAIL = 'USER_SIGNUP_FAIL'
+
+export const userReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_LOGIN_REQUEST:
-      return { loading: true }
+      return {
+        ...state,
+        loading: true,
+      }
     case USER_LOGIN_SUCCESS:
-      return { loading: false, userData: action.payload }
+      return {
+        ...state,
+        loading: false,
+        logged: true,
+        userData: action.value,
+      }
     case USER_LOGIN_FAIL:
-      return { loading: false, error: action.payload }
-    case USER_LOGOUT:
-      return {}
+      return {
+        ...state,
+        loading: false,
+        error: action.value,
+      }
+    case USER_LOGOUT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      }
+    case USER_LOGOUT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        logged: false,
+        userData: {},
+      }
+    case USER_LOGOUT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.value,
+      }
+    case USER_CHECK_LOGGED_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      }
+    case USER_CHECK_LOGGED_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        logged: true,
+        userData: action.value,
+      }
+    case USER_CHECK_LOGGED_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.value,
+      }
     default:
       return state
   }

@@ -1,15 +1,15 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import '../style.css'
+import './style.css'
 
-import {Navbar} from './Navbar'
-import Example from './Example'
-import Comment from './Comment'
-import SignIn from './user/SignIn'
-import MyPage from './user/MyPage'
-import Login from './user/Login'
-import Logout from './user/Logout'
+import {Navbar} from './components/Navbar'
+import Example from './components/Example'
+import Comment from './components/Comment'
+import SignIn from './components/user/SignIn'
+import MyPage from './components/user/MyPage'
+import Login from './components/user/Login'
+import Logout from './components/user/Logout'
 
 function App() {
   return (

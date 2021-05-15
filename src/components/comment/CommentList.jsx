@@ -1,38 +1,29 @@
-import React, { Component } from 'react'
-import Comment from './Comment'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
+import CommentDetail from './CommentDetail'
+import { UserContext } from '../../provider/UserContext'
 
-class CommentList extends Component {
-  static propTypes = {
-    comments: PropTypes.array,
-    email: PropTypes.string,
-    onDeleteComment: PropTypes.func,
-  }
-
-  static defaultProps = {
-    comments: [],
-  }
-
-  handleDeleteComment(id) {
-    if (this.props.onDeleteComment) {
-      this.props.onDeleteComment(id)
+const CommentList = (props) => {
+  const { state } = useContext(UserContext)
+  const handleDeleteComment = (id) => {
+    if (props.onDeleteComment) {
+      props.onDeleteComment(id)
     }
   }
-
-  render() {
-    return (
-      <div>
-        {this.props.comments.map((comment, index) => (comment.email === this.props.email || comment.email === '') && (
-          <Comment
-            comment={comment}
-            key={index}
-            index={index}
-            onDeleteComment={this.handleDeleteComment.bind(this)}
-          />
-        ))}
-      </div>
-    )
-  }
+  return (
+    <div>
+      {props.comments.map(
+        (comment, index) =>
+          (comment.email === state.userData.email || comment.email === '') && (
+            <CommentDetail
+              comment={comment}
+              key={index}
+              index={index}
+              onDeleteComment={(id) => handleDeleteComment(id)}
+            />
+          )
+      )}
+    </div>
+  )
 }
 
 export default CommentList

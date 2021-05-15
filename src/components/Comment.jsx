@@ -4,32 +4,17 @@ import CommentList from './comment/CommentList'
 //import PropTypes from 'prop-types'
 import axios from 'axios'
 
-class Comment extends Component {
-  // static propTypes = {
-  //   data: PropTypes.any,
-  // }
+// const Comment = (props) => {
 
+// }
+
+class Comment extends Component {
   constructor(props) {
     super(props)
     this.state = {
       comments: [],
-      isShowCommentList: true,
-      isShowClock: true,
       username: '',
-      email: '',
-      style: {
-        width: '105px',
-        fontSize: '12px',
-        marginRight: '10px',
-      },
     }
-    axios.get('/api/users/userInfo').then((res) => {
-      res.data.code === 0 &&
-        this.setState({
-          username: res.data.data.username,
-          email: res.data.data.email,
-        })
-    })
   }
 
   componentDidMount() {
@@ -41,12 +26,6 @@ class Comment extends Component {
       .catch((err) => {
         console.log(err)
       })
-  }
-
-  handleShowOrCommentList() {
-    this.setState({
-      isShowCommentList: !this.state.isShowCommentList,
-    })
   }
 
   handleSubmitComment(comment) {
@@ -84,15 +63,10 @@ class Comment extends Component {
           // ・handleSubmit判断onSubmit是否存在 因为存在 所以onSubmit() = onSubmit(CommentInput.state({username, content}))
           // ・所以 onSubmit() = this.handleSubmitComment({username, content})
         }
-        <CommentInput
-          onSubmit={this.handleSubmitComment.bind(this)}
-          username={this.state.username}
-          email={this.state.email}
-        />
+        <CommentInput onSubmit={this.handleSubmitComment.bind(this)} />
         <CommentList
           comments={this.state.comments}
           onDeleteComment={this.handleDeleteComment.bind(this)}
-          email={this.state.email}
         />
       </div>
     )

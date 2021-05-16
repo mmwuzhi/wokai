@@ -6,7 +6,7 @@ import './style.css'
 import {Navbar} from './components/Navbar'
 import Example from './components/Example'
 import Comment from './components/Comment'
-import SignIn from './components/user/SignIn'
+import SignUp from './components/user/SignUp'
 import MyPage from './components/user/MyPage'
 import Login from './components/user/Login'
 import Logout from './components/user/Logout'
@@ -19,7 +19,7 @@ function App() {
         <br />
         <Route path='/' exact component={Example} />
         <Route path='/comment' component={Comment} />
-        <Route path='/user/signup' component={SignIn} />
+        <Route path='/user/signup' component={SignUp} />
         <Route path='/user/mypage' component={MyPage} />
         <Route path='/user/login' component={Login} />
         <Route path='/user/logout' component={Logout} />

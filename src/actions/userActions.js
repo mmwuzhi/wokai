@@ -9,6 +9,9 @@ import {
   USER_CHECK_LOGGED_REQUEST,
   USER_CHECK_LOGGED_SUCCESS,
   USER_CHECK_LOGGED_FAIL,
+  USER_SIGNUP_REQUEST,
+  USER_SIGNUP_SUCCESS,
+  USER_SIGNUP_FAIL,
 } from '../reducers/userReducers'
 
 export const login = (email, password) => async (dispatch) => {
@@ -40,7 +43,7 @@ export const logout = (dispatch) => {
   })
   axios
     .get('/api/users/logout')
-    .then((res) => {
+    .then(() => {
       dispatch({
         type: USER_LOGOUT_SUCCESS,
       })
@@ -75,4 +78,23 @@ export const checkLogged = (dispatch) => {
         type: USER_CHECK_LOGGED_FAIL,
       })
     })
+}
+
+export const signup = (user) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_SIGNUP_REQUEST,
+    })
+    const { data } = await axios.post('/api/users/', user)
+    alert('サインアップしました！')
+    dispatch({
+      type: USER_SIGNUP_SUCCESS,
+      value: data,
+    })
+  } catch (error) {
+    dispatch({
+      type: USER_SIGNUP_FAIL,
+      value: error.response ? error.response.data.message : 'errorMessage',
+    })
+  }
 }

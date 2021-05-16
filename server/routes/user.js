@@ -20,6 +20,8 @@ router.route('/').post(
     })
 
     if (user) {
+      //注册成功后设置session
+      req.session.userInfo = user
       res.status(201).json({
         id: user.id,
         name: user.username,
@@ -43,8 +45,6 @@ router.route('/update').post(
       username: username,
       email: email,
     }
-    console.log('data')
-    console.log(data)
     //登录成功后设置session
     req.session.userInfo = data
     if (user && (await user.matchPW(password))) {
@@ -68,7 +68,6 @@ router.route('/update').post(
 )
 
 router.route('/userInfo').get((req, res) => {
-  console.log(req.session)
   req.session.userInfo
     ? res.status(200).json({
         message: '',

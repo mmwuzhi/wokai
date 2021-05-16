@@ -10,9 +10,9 @@ export const USER_CHECK_LOGGED_REQUEST = 'USER_CHECK_LOGGED_REQUEST'
 export const USER_CHECK_LOGGED_SUCCESS = 'USER_CHECK_LOGGED_SUCCESS'
 export const USER_CHECK_LOGGED_FAIL = 'USER_CHECK_LOGGED_FAIL'
 
-// const USER_SIGNUP_REQUEST = 'USER_SIGNUP_REQUEST'
-// const USER_SIGNUP_SUCCESS = 'USER_SIGNUP_SUCCESS'
-// const USER_SIGNUP_FAIL = 'USER_SIGNUP_FAIL'
+export const USER_SIGNUP_REQUEST = 'USER_SIGNUP_REQUEST'
+export const USER_SIGNUP_SUCCESS = 'USER_SIGNUP_SUCCESS'
+export const USER_SIGNUP_FAIL = 'USER_SIGNUP_FAIL'
 
 export const userReducer = (state = {}, action) => {
   switch (action.type) {
@@ -70,7 +70,27 @@ export const userReducer = (state = {}, action) => {
         loading: false,
         error: action.value,
       }
+    case USER_SIGNUP_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      }
+    case USER_SIGNUP_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        logged: true,
+        userData: action.value,
+      }
+    case USER_SIGNUP_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.value,
+      }
     default:
       return state
   }
 }
+
+// TODO: 添加loading和loaded的action

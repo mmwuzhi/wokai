@@ -2,13 +2,13 @@ const router = require('express').Router()
 let Comment = require('../models/comment.model')
 
 router.route('/').get((req, res) => {
-  Comment.find()
+  Comment.find({ $or: [{ email: '' }, { email: req.session.userInfo?.email }] })
     .then((comments) => res.json(comments))
     .catch((err) => res.status(400).json('Error: ' + err))
 })
 
 router.route('/add').post((req, res) => {
-  const {username, content, email, createdTime} = req.body
+  const { username, content, email, createdTime } = req.body
   const newComment = new Comment({
     username,
     content,

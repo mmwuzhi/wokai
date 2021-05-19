@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 
+// TODO: 改为函数式
 export default class MyPage extends Component {
   constructor(props) {
     super(props)

@@ -1,76 +1,58 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import CommentInput from './comment/CommentInput'
 import CommentList from './comment/CommentList'
 //import PropTypes from 'prop-types'
 import axios from 'axios'
 
-// const Comment = (props) => {
+const Comment = () => {
+  const [comments, setComments] = useState([])
+  useEffect(() => {
+    commentLoader()
+  }, [])
 
-// }
-
-class Comment extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      comments: [],
-      username: '',
-    }
-  }
-
-  componentDidMount() {
+  const commentLoader = () => {
     axios
       .get('/api/comments/')
       .then((res) => {
-        this.setState({ comments: res.data })
+        setComments(res.data)
       })
       .catch((err) => {
-        console.log(err)
+        console.error(err)
       })
   }
 
-  handleSubmitComment(comment) {
+  const handleSubmitComment = (comment) => {
     if (!comment) return
     if (!comment.username) return alert('ユーザ名を入力してください！')
     if (!comment.content) return alert('コメントを入力してください！')
     axios
       .post('/api/comments/add', comment)
-      .then(this.componentDidMount.bind(this))
+      .then(commentLoader())
       .catch((err) => {
         console.log(err)
       })
   }
 
-  handleDeleteComment(id) {
+  const handleDeleteComment = (id) => {
     axios
       .delete('/api/comments/' + id)
-      .then((res) => console.log(res.data))
+      .then((res) => {
+        console.log(res.data)
+        setComments(comments.filter((comment) => comment._id !== id))
+      })
       .catch((err) => {
         console.log(err)
       })
-
-    this.setState({
-      comments: this.state.comments.filter((el) => el._id !== id),
-    })
   }
-
-  render() {
-    return (
-      <div className='wrapper'>
-        {
-          // 这里的onSubmit就相当于 this.handleSubmitComment({username, content})
-          // 过程:
-          // ・button onClick={this.handleSubmit.bind(this)} 调用handleSubmit
-          // ・handleSubmit判断onSubmit是否存在 因为存在 所以onSubmit() = onSubmit(CommentInput.state({username, content}))
-          // ・所以 onSubmit() = this.handleSubmitComment({username, content})
-        }
-        <CommentInput onSubmit={this.handleSubmitComment.bind(this)} />
-        <CommentList
-          comments={this.state.comments}
-          onDeleteComment={this.handleDeleteComment.bind(this)}
-        />
-      </div>
-    )
-  }
+  return (
+    <div className='wrapper'>
+      <CommentInput onSubmit={(comment) => handleSubmitComment(comment)} />
+      <CommentList
+        comments={comments}
+        onDeleteComment={(id) => handleDeleteComment(id)}
+      />
+    </div>
+  )
 }
 
 export default Comment

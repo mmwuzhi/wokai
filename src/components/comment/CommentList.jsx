@@ -1,9 +1,7 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import CommentDetail from './CommentDetail'
-import { UserContext } from '../../provider/UserContext'
 
 const CommentList = (props) => {
-  const { state } = useContext(UserContext)
   const handleDeleteComment = (id) => {
     if (props.onDeleteComment) {
       props.onDeleteComment(id)
@@ -11,17 +9,14 @@ const CommentList = (props) => {
   }
   return (
     <div>
-      {props.comments.map(
-        (comment, index) =>
-          (comment.email === state.userData.email || comment.email === '') && (
-            <CommentDetail
-              comment={comment}
-              key={index}
-              index={index}
-              onDeleteComment={(id) => handleDeleteComment(id)}
-            />
-          )
-      )}
+      {props.comments.map((comment, index) => (
+        <CommentDetail
+          comment={comment}
+          key={index}
+          index={index}
+          onDeleteComment={(id) => handleDeleteComment(id)}
+        />
+      ))}
     </div>
   )
 }

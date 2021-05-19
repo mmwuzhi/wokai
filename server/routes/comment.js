@@ -2,7 +2,7 @@ const router = require('express').Router()
 let Comment = require('../models/comment.model')
 
 router.route('/').get((req, res) => {
-  Comment.find({ $or: [{ email: '' }, { email: req.session.userInfo?.email }] })
+  Comment.find({ $or: [{ email: '' }, { email: req.session.userInfo?.email }] }).sort({'createdAt': -1})
     .then((comments) => res.json(comments))
     .catch((err) => res.status(400).json('Error: ' + err))
 })

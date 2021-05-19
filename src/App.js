@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './style.css'
 
-import {Navbar} from './components/Navbar'
+import Navbar from './components/Navbar'
 import Example from './components/Example'
 import Comment from './components/Comment'
 import SignUp from './components/user/SignUp'

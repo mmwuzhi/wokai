@@ -18,7 +18,7 @@ const Logout = (props) => {
       <span className='form-group'>なんでもさいとからログアウトしますか？</span>
       <div className='form-group'>
         <button
-          onClick={() => cancel()}
+          onClick={cancel}
           className='btn btn-info'
           style={{ backgroundColor: 'lightgray', borderColor: 'lightgray' }}
         >

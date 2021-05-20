@@ -27,7 +27,7 @@ const Comment = () => {
     if (!comment.content) return alert('コメントを入力してください！')
     axios
       .post('/api/comments/add', comment)
-      .then(commentLoader())
+      .then(commentLoader)
       .catch((err) => {
         console.log(err)
       })

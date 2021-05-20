@@ -19,20 +19,6 @@ const UserProvider = (props) => {
     checkLogged(dispatch)
   }, [])
 
-  // const handleCheckLogin = () => {
-  //   axios
-  //     .get('/api/users/userInfo')
-  //     .then((user) => {
-  //       user.data.code === 0
-  //         ? this.setState({
-  //             loading: false,
-  //             logged: true,
-  //             user: user.data.data,
-  //           })
-  //         : this.setState({ loading: false, logged: false })
-  //     })
-  //     .catch((error) => this.setState({ loading: false, logged: false, error }))
-  // }
   return (
     <Provider
       value={{

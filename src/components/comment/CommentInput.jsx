@@ -28,8 +28,6 @@ const CommentInput = (props) => {
 
     if (props.onSubmit) {
       const { email } = state.userData
-      console.table(state.userData)
-      console.log(email)
       props.onSubmit({
         username,
         email,

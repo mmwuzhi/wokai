@@ -9,10 +9,7 @@ const Navbar = () => {
   return (
     <nav className='navbar navbar-dark bg-info navbar-expand-lg shadow'>
       <Link to='/' className='navbar-brand'>
-        なんでもさいと{' '}
-        {/* <span role='img' aria-label='fire'>
-            🔥
-          </span> */}
+        なになにさいと
       </Link>
       <div className='collpase navbar-collapse'>
         <ul className='navbar-nav mr-auto'>

@@ -4,7 +4,6 @@ const CommentDetail = (props) => {
   const [timeString, setTimeString] = useState('')
   const ref = useRef()
   useEffect(() => {
-    console.log(props.comment.email)
     updateTimeString()
     ref.current = setInterval(updateTimeString, 1000 * 60)
     return () => {

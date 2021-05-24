@@ -1,135 +1,97 @@
-import React, { Component } from 'react'
+import React, { useContext, useRef, useEffect, useState } from 'react'
+import { UserContext } from '../../provider/UserContext'
 import axios from 'axios'
 
-// TODO: 改为函数式
-export default class MyPage extends Component {
-  constructor(props) {
-    super(props)
+const MyPage = (props) => {
+  const { state } = useContext(UserContext)
 
-    this.onSubmit = this.onSubmit.bind(this)
+  const [username, setUsername] = useState(state.userData.username)
+  const [password, setPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const confirmNewPassword = useRef(null)
+  const [errorMessage, setErrorMessage] = useState('')
+  const [message, setMessage] = useState('')
 
-    this.state = {
-      username: '',
-      email: '',
-      password: '',
-      newPassword: '',
-      confirmNewPassword: '',
-      errorMessage: '',
-      message: '',
-    }
-    axios.get('/api/users/userInfo').then((res) => {
-      res.data.code === 0
-        ? this.setState({
-            username: res.data.data.username,
-            email: res.data.data.email,
-          })
-        : this.props.history.push('/user/login')
-    })
-  }
+  useEffect(() => {
+    if (state.logged !== true) props.history.push('/user/login')
+  }, [state.logged, props.history])
 
-  onChangeUsername(e) {
-    this.setState({
-      username: e.target.value,
-    })
-  }
-  onChangePassword(e) {
-    this.setState({
-      password: e.target.value,
-    })
-  }
-  onChangeNewPassword(e) {
-    this.setState({
-      newPassword: e.target.value,
-    })
-  }
-  onChangeNewConfirmPassword(e) {
-    this.setState({
-      confirmNewPassword: e.target.value,
-    })
-  }
-  onSubmit(e) {
+  const onSubmit = (e) => {
     e.preventDefault()
-    if (this.state.newPassword !== this.state.confirmNewPassword) {
-      this.setState({
-        message: 'パスワードが一致していない！',
-      })
+    if (newPassword !== confirmNewPassword.current.value) {
+      setMessage('パスワードが一致していない！')
     } else {
       const user = {
-        username: this.state.username,
-        email: this.state.email,
-        password: this.state.password,
-        newPassword: this.state.newPassword,
+        username: username,
+        email: state.userData.email,
+        password: password,
+        newPassword: newPassword,
       }
-      this.setState({
-        message: '',
-      })
-      //调用后端接口创建user
+      setMessage('')
+      //调用后端接口修改user信息
       axios
         .post('/api/users/update', user)
         .then(() => {
           alert('変更しました！')
-          this.props.history.push('/comment')
+          props.history.push('/comment')
         })
         .catch((e) => {
-          this.setState({
-            errorMessage: 'パスワードが間違いました！',
-          })
-          alert(e)
+          console.table(e)
+          setErrorMessage('パスワードが間違いました！')
         })
     }
   }
-  render() {
-    return (
-      <div>
-        <h3 className='mt-3 mb-5'>ユーザー情報変更</h3>
-        <form onSubmit={this.onSubmit}>
-          <div className='form-group'>
-            <label>ニックネーム: </label>
-            <input
-              type='text'
-              className='form-control mt-2 mb-4'
-              value={this.state.username}
-              onChange={this.onChangeUsername.bind(this)}
-            />
-          </div>
-          <div className='form-group'>
-            <label>メールアドレス: </label>
-            <span>{this.state.email}</span>
-          </div>
-          <div className='form-group'>
-            <label>パスワード: </label>
-            <span style={{ color: 'red' }}>{this.state.errorMessage}</span>
-            <input
-              type='password'
-              className='form-control mt-2 mb-4'
-              value={this.state.password}
-              onChange={this.onChangePassword.bind(this)}
-            />
-          </div>
-          <div className='form-group'>
-            <label>新パスワード: </label>
-            <input
-              type='password'
-              className='form-control mt-2 mb-4'
-              value={this.state.newPassword}
-              onChange={this.onChangeNewPassword.bind(this)}
-            />
-          </div>
-          <div className='form-group'>
-            <label>新パスワード確認: </label>
-            <span style={{ color: 'red' }}>{this.state.message}</span>
-            <input
-              type='password'
-              className='form-control mt-2 mb-4'
-              value={this.state.confirmNewPassword}
-              onChange={this.onChangeNewConfirmPassword.bind(this)}
-            />
-          </div>
-          <div className='form-group'>
-            <input type='submit' value='変更' className='btn btn-info' />
-          </div>
-        </form>
-      </div>
-    )
-  }
+  return (
+    <div>
+      <h3 className='mt-3 mb-5'>ユーザー情報変更</h3>
+      <form onSubmit={onSubmit}>
+        <div className='form-group'>
+          <label>ニックネーム: </label>
+          <input
+            type='text'
+            className='form-control mt-2 mb-4'
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div className='form-group'>
+          <label>メールアドレス: </label>
+          <span>{state.email}</span>
+        </div>
+        <div className='form-group'>
+          <label>パスワード: </label>
+          <span style={{ color: 'red' }}>{errorMessage}</span>
+          <input
+            type='password'
+            className='form-control mt-2 mb-4'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div className='form-group'>
+          <label>新パスワード: </label>
+          <input
+            type='password'
+            className='form-control mt-2 mb-4'
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+        </div>
+        <div className='form-group'>
+          <label>新パスワード確認: </label>
+          <span style={{ color: 'red' }}>{message}</span>
+          <input
+            type='password'
+            className='form-control mt-2 mb-4'
+            ref={confirmNewPassword}
+          />
+        </div>
+        <div className='form-group'>
+          <input type='submit' value='変更' className='btn btn-info' />
+        </div>
+      </form>
+    </div>
+  )
 }
+
+export default MyPage

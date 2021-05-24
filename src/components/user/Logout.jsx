@@ -15,7 +15,7 @@ const Logout = (props) => {
   return (
     <div>
       <h3 className='mt-3 mb-5'>ログアウト</h3>
-      <span className='form-group'>なんでもさいとからログアウトしますか？</span>
+      <span className='form-group'>なになにさいとからログアウトしますか？</span>
       <div className='form-group'>
         <button
           onClick={cancel}

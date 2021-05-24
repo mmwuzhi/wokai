@@ -56,28 +56,28 @@ export const logout = (dispatch) => {
     })
 }
 
-export const checkLogged = (dispatch) => {
-  dispatch({
-    type: USER_CHECK_LOGGED_REQUEST,
-  })
-  axios
-    .get('/api/users/userInfo')
-    .then((res) => {
-      res.data.code === 0
-        ? dispatch({
-            type: USER_CHECK_LOGGED_SUCCESS,
-            value: res.data.data,
-          })
-        : dispatch({
-            type: USER_CHECK_LOGGED_FAIL,
-          })
+export const checkLogged = async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_CHECK_LOGGED_REQUEST,
     })
-    .catch((error) => {
-      console.log(error)
-      dispatch({
-        type: USER_CHECK_LOGGED_FAIL,
-      })
+    const res = await axios.get('/api/users/userInfo')
+    res.data.code === 0
+      ? dispatch({
+          type: USER_CHECK_LOGGED_SUCCESS,
+          value: res.data.data,
+        })
+      : dispatch({
+          type: USER_CHECK_LOGGED_FAIL,
+        })
+    return res
+  } catch (error) {
+    console.log(error)
+    dispatch({
+      type: USER_CHECK_LOGGED_FAIL,
     })
+    return false
+  }
 }
 
 export const signup = (user) => async (dispatch) => {

@@ -1,11 +1,12 @@
 import React, { useContext, useRef, useEffect, useState } from 'react'
 import { UserContext } from '../../provider/UserContext'
+import { checkLogged } from '../../actions/userActions'
 import axios from 'axios'
 
 const MyPage = (props) => {
-  const { state } = useContext(UserContext)
+  const { state, dispatch } = useContext(UserContext)
 
-  const [username, setUsername] = useState(state.userData.username)
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const confirmNewPassword = useRef(null)
@@ -13,8 +14,13 @@ const MyPage = (props) => {
   const [message, setMessage] = useState('')
 
   useEffect(() => {
-    if (state.logged !== true) props.history.push('/user/login')
-  }, [state.logged, props.history])
+    ;(async () => {
+      const check = await checkLogged(dispatch)
+      if (check?.data?.data?.username !== undefined) {
+        setUsername(check?.data?.data?.username)
+      } else props.history.push('/user/login')
+    })()
+  }, [props.history, dispatch])
 
   const onSubmit = (e) => {
     e.preventDefault()

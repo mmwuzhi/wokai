@@ -1,12 +1,15 @@
 import React, { useContext, useEffect } from 'react'
 import { UserContext } from '../../provider/UserContext'
-import { logout } from '../../actions/userActions'
+import { checkLogged, logout } from '../../actions/userActions'
 
 const Logout = (props) => {
   const { state, dispatch } = useContext(UserContext)
   useEffect(() => {
-    if (state.logged === false) props.history.push('/user/login')
-  }, [state.logged, props.history])
+    ;(async () => {
+      const check = await checkLogged(dispatch)
+      if (check?.data?.code !== 0) props.history.push('/user/login')
+    })()
+  }, [state.logged, dispatch, props.history])
 
   const cancel = () => {
     props.history.push('/')

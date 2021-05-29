@@ -32,12 +32,14 @@ const CommentInput = (props) => {
         username,
         email,
         content,
-        createdTime: +new Date(),
       })
     }
     setContent('')
   }
 
+  const keySend = (e) => {
+    if (e.ctrlKey && e.keyCode === 13) handleSubmit(e)
+  }
   return (
     <div className='comment-input'>
       <div className='comment-field'>
@@ -57,11 +59,12 @@ const CommentInput = (props) => {
             ref={textarea}
             value={content}
             onChange={(e) => setContent(e.target.value)}
+            onKeyDown={keySend}
           />
         </div>
       </div>
       <div className='comment-field-button'>
-        <button onClick={(e) => handleSubmit(e)}>投稿</button>
+        <button onClick={handleSubmit}>投稿</button>
       </div>
     </div>
   )

@@ -7,7 +7,9 @@ import { UserContext } from '../provider/UserContext'
 const Navbar = () => {
   const { state } = useContext(UserContext)
   return (
-    <nav className='navbar navbar-dark bg-info navbar-expand-lg shadow'>
+    <nav
+      className='navbar nav navbar-dark bg-info navbar-expand-lg shadow'
+    >
       <Link to='/' className='navbar-brand'>
         なになにさいと
       </Link>

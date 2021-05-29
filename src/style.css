@@ -1,15 +1,9 @@
 * {
   box-sizing: border-box;
 }
-body {
-  margin: 0;
-  padding: 0;
-}
 .bg-violet {
   background: #563d7c;
 }
-
-
 
 body {
   margin: 0;
@@ -18,8 +12,43 @@ body {
   background-color: #fbfbfb;
 }
 
+.nav {
+  position: sticky;
+  top: 0;
+}
+
+.content {
+  height: 100vh;
+  border: 1px solid #ccc;
+  overflow-y: hidden;
+}
+.content:hover {
+  overflow-y: overlay;
+}
+.scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scrollbar::-webkit-scrollbar-track-piece {
+  background-color: #fff;
+} /* 滚动条的内层滑轨背景颜色 */
+
+.scrollbar::-webkit-scrollbar-track {
+  background-color: #fff;
+} /* 滚动条的外层滑轨背景颜色 */
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: #d4d8e2;
+} /* 滚动条的内层滑块颜色 */
+
+.scrollbar::-webkit-scrollbar-button {
+  background-color: #fff;
+  display: none;
+} /* 滑轨两头的监听按钮颜色 */
+
 .wrapper {
-  width: 500px;
+  width: 90vw;
+  max-width: 700px;
   margin: 10px auto;
   font-size: 14px;
   background-color: #fff;
@@ -97,6 +126,7 @@ body {
 .comment {
   position: relative;
   display: flex;
+  flex-direction: column;
   border-bottom: 1px solid #f1f1f1;
   margin-bottom: 10px;
   padding-bottom: 10px;
@@ -109,15 +139,11 @@ body {
 
 .comment-username {
   color: #00a3cf;
-  font-style: italic;
 }
 
+/* 发送时间 */
 .comment-createdtime {
-  padding-right: 5px;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  padding: 5px;
+  color: rgb(91, 112, 131);
   font-size: 12px;
 }
 
@@ -134,8 +160,12 @@ body {
   cursor: pointer;
 }
 
+/* 本文 */
 .comment p {
-  margin: 0;
+  padding-top: 5px;
+  padding-right: 5px;
+  white-space: pre-wrap;
+  word-break: break-all;
   /*text-indent: 2em;*/
 }
 
@@ -145,14 +175,14 @@ code {
   padding: 0px 2px;
 }
 
-.loading{
-    position: fixed;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    background: white;
-    z-index: 999;
+.loading {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  background: white;
+  z-index: 999;
 }

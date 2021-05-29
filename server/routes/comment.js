@@ -11,12 +11,22 @@ router.route('/').get((req, res) => {
 })
 
 router.route('/add').post((req, res) => {
-  const { username, content, email, createdTime } = req.body
+  let { username, content, email } = req.body
+  // xss对应和link对应
+  const reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g
+  content = content
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+    .replace(/`([\S\s]+?)`/g, '<code>$1</code>')
+    .replace(reg, "<a href='$1$2' title='$1$2' target='_blank'>リンク</a>")
+
   const newComment = new Comment({
     username,
     content,
     email,
-    createdTime,
   })
   newComment
     .save()
@@ -41,7 +51,6 @@ router.route('/update/:id').post((req, res) => {
     .then((comment) => {
       comment.name = req.body.username
       comment.content = req.body.content
-      comment.createdTime = Date.parse(req.body.createdTime)
 
       comment
         .save()

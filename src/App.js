@@ -16,7 +16,6 @@ function App() {
     <Router>
       <div className='container'>
         <Navbar />
-        <br />
         <Route path='/' exact component={Example} />
         <Route path='/comment' component={Comment} />
         <Route path='/user/signup' component={SignUp} />

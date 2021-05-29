@@ -8,7 +8,7 @@ const CommentList = (props) => {
     }
   }
   return (
-    <div>
+    <div className='comment-list'>
       {props.comments.map((comment, index) => (
         <CommentDetail
           comment={comment}

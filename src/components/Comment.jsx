@@ -45,7 +45,7 @@ const Comment = () => {
       })
   }
   return (
-    <div className='wrapper'>
+    <div className='wrapper' >
       <CommentInput onSubmit={(comment) => handleSubmitComment(comment)} />
       <CommentList
         comments={comments}

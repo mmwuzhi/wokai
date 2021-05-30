@@ -15,7 +15,7 @@ const Navbar = () => {
         <Link to='/' className='navbar-brand'>
           なになにさいと
         </Link>
-        <div className='collpase navbar-collapse'>
+        <div className='navbar-collapse'>
           <ul className='navbar-nav mr-auto'>
             <li className='navbar-item'>
               <NavLink

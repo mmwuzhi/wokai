@@ -33,7 +33,7 @@ const SignUp = (props) => {
   return (
     <div>
       <h3 className='mt-3 mb-5'>サインアップ</h3>
-      <form onSubmit={(e) => onSubmit(e)}>
+      <form onSubmit={onSubmit}>
         <div className='form-group'>
           <label>ニックネーム: </label>
           <input

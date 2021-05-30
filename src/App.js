@@ -11,19 +11,25 @@ import MyPage from './components/user/MyPage'
 import Login from './components/user/Login'
 import Logout from './components/user/Logout'
 
+import {isMobile} from './tools/tools'
+
 function App() {
+  const scrollDiv = isMobile() ? '' : 'content scrollbar'
+
   return (
-    <Router>
-      <div className='container'>
-        <Navbar />
-        <Route path='/' exact component={Example} />
-        <Route path='/comment' component={Comment} />
-        <Route path='/user/signup' component={SignUp} />
-        <Route path='/user/mypage' component={MyPage} />
-        <Route path='/user/login' component={Login} />
-        <Route path='/user/logout' component={Logout} />
-      </div>
-    </Router>
+    <div className={scrollDiv}>
+      <Router>
+        <div className='container'>
+          <Navbar />
+          <Route path='/' exact component={Example} />
+          <Route path='/comment' component={Comment} />
+          <Route path='/user/signup' component={SignUp} />
+          <Route path='/user/mypage' component={MyPage} />
+          <Route path='/user/login' component={Login} />
+          <Route path='/user/logout' component={Logout} />
+        </div>
+      </Router>
+    </div>
   )
 }
 

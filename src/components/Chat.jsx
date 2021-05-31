@@ -8,7 +8,7 @@ import momentLocale from 'moment/locale/ja'
 moment.updateLocale('ja', momentLocale)
 
 export default function Chat() {
-  const socket = io('ws://104.198.93.49:3333')
+  const socket = io()
   const [name, setName] = useState('')
   const [msg, setMsg] = useState('')
   const [dataList, setDataList] = useState([])

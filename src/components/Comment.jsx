@@ -46,10 +46,10 @@ const Comment = () => {
   }
   return (
     <div className='wrapper'>
-      <CommentInput onSubmit={(comment) => handleSubmitComment(comment)} />
+      <CommentInput onSubmit={handleSubmitComment} />
       <CommentList
         comments={comments}
-        onDeleteComment={(id) => handleDeleteComment(id)}
+        onDeleteComment={handleDeleteComment}
       />
     </div>
   )

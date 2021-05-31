@@ -4,7 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './style.css'
 
 import Navbar from './components/Navbar'
-import Example from './components/Example'
+import Home from './components/Home'
+import Chat from './components/Chat'
 import Comment from './components/Comment'
 import SignUp from './components/user/SignUp'
 import MyPage from './components/user/MyPage'
@@ -21,7 +22,8 @@ function App() {
       <Router>
         <div className='container'>
           <Navbar />
-          <Route path='/' exact component={Example} />
+          <Route path='/' exact component={Home} />
+          <Route path='/chat' exact component={Chat} />
           <Route path='/comment' component={Comment} />
           <Route path='/user/signup' component={SignUp} />
           <Route path='/user/mypage' component={MyPage} />

@@ -7,9 +7,17 @@ app.get('/', (req, res) => {
       res.status(201)
 })
 
+let count = 0
+
 io.on('connection', (socket) => {
+  count++
+    console.log(`connection,online: ${count}`)
   socket.on('sendmsg', (data) => {
     io.emit('recvmsg', data)
+  })
+  socket.on('disconnect',  ()=> {
+  count--
+    console.log(`disconnect, online: ${count}`)
   })
 })
 http.listen(port, () => {

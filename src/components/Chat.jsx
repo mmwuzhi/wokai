@@ -7,8 +7,9 @@ import momentLocale from 'moment/locale/ja'
 
 moment.updateLocale('ja', momentLocale)
 
+const socket = io()
+
 export default function Chat() {
-  const socket = io()
   const [name, setName] = useState('')
   const [msg, setMsg] = useState('')
   const [dataList, setDataList] = useState([])
@@ -17,7 +18,7 @@ export default function Chat() {
     socket.emit('sendmsg', {
       msg: msg,
       name: name,
-      time: moment().format('YYYY年MM月DD日 HH時mm分'),
+      time: moment(),
     })
     setMsg('')
   }

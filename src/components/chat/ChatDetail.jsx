@@ -11,7 +11,7 @@ const ChatDetail = (props) => {
       <div className='comment-user'>
         <span className='comment-username'>{props.data.name}　</span>
         <span className='comment-createdtime'>
-          {moment(props.data.time).format('YYYY年MM月DD日 HH時mm分')}
+          {moment(props.data.createdAt).format('YYYY年MM月DD日 HH時mm分')}
         </span>
       </div>
       <span>{props.data.msg}</span>

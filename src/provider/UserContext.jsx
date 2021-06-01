@@ -1,5 +1,4 @@
 import React, { useEffect, useReducer, createContext } from 'react'
-// import axios from 'axios'
 import { userReducer } from '../reducers/userReducers'
 import { checkLogged } from '../actions/userActions'
 import { Loading } from '../components/loading/Loading'

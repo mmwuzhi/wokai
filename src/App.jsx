@@ -12,7 +12,7 @@ import MyPage from './components/user/MyPage'
 import Login from './components/user/Login'
 import Logout from './components/user/Logout'
 
-import {isMobile} from './tools/tools'
+import { isMobile } from './tools/tools'
 
 function App() {
   const scrollDiv = isMobile() ? '' : 'content scrollbar'

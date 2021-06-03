@@ -15,10 +15,9 @@ const SignUp = (props) => {
   }, [state.logged, props.history])
 
   const onSubmit = (e) => {
+    e.preventDefault()
     if (password !== confirmPassword.current.value) {
-      setMessage({
-        message: 'パスワードが一致していない！',
-      })
+      setMessage('パスワードが一致していない！')
     } else {
       const user = {
         username,

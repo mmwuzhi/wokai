@@ -86,11 +86,11 @@ export const signup = (user) => async (dispatch) => {
       type: USER_SIGNUP_REQUEST,
     })
     const { data } = await axios.post('/api/users/', user)
-    alert('サインアップしました！')
     dispatch({
       type: USER_SIGNUP_SUCCESS,
       value: data,
     })
+    alert('サインアップしました！')
   } catch (error) {
     dispatch({
       type: USER_SIGNUP_FAIL,

@@ -37,6 +37,16 @@ const Navbar = () => {
                 コメント
               </NavLink>
             </li>
+            <li className='navbar-item'>
+              <NavLink
+                to='/chat'
+                exact
+                activeClassName='active'
+                className='nav-link'
+              >
+                チャット
+              </NavLink>
+            </li>
             {state.logged ? (
               <li className='navbar-item'>
                 <NavLink

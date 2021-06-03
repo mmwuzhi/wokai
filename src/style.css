@@ -13,6 +13,7 @@ body {
 }
 
 .nav-div {
+  z-index: 1;
   position: sticky;
   top: 0;
 }
@@ -100,7 +101,8 @@ body {
   justify-content: flex-end;
 }
 
-.comment-field-button button {
+.comment-field-button  button,
+.chat-send-button button {
   padding: 5px 10px;
   width: 80px;
   border: none;
@@ -111,7 +113,8 @@ body {
   cursor: pointer;
 }
 
-.comment-field-button button:active {
+.comment-field-button button:active,
+.chat-send-button button:active {
   background: #13c1f1;
 }
 

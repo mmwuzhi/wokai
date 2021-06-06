@@ -1,37 +1,43 @@
-import React from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import React, { useState } from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
 import './style.css'
 
-import Navbar from './components/Navbar'
-import Home from './components/Home'
-import Chat from './components/Chat'
-import Comment from './components/Comment'
-import SignUp from './components/user/SignUp'
-import MyPage from './components/user/MyPage'
-import Login from './components/user/Login'
-import Logout from './components/user/Logout'
+import { Layout } from 'antd'
+import { MenuOutlined } from '@ant-design/icons'
 
-import { isMobile } from './tools/tools'
+import LeftSider from './components/LeftSider'
+import Header from './components/Header'
+import Routes from './components/Routes'
 
 function App() {
-  const scrollDiv = isMobile() ? '' : 'content scrollbar'
-
+  const [collapsed, setCollapsed] = useState(true)
+  const toggle = () => {
+    setCollapsed(!collapsed)
+  }
   return (
-    <div className={scrollDiv}>
+    <Layout
+      style={{
+        overflowY: 'scroll',
+        height: '100vh',
+      }}
+    >
       <Router>
-        <div className='container'>
-          <Navbar />
-          <Route path='/' exact component={Home} />
-          <Route path='/chat' exact component={Chat} />
-          <Route path='/comment' component={Comment} />
-          <Route path='/user/signup' component={SignUp} />
-          <Route path='/user/mypage' component={MyPage} />
-          <Route path='/user/login' component={Login} />
-          <Route path='/user/logout' component={Logout} />
-        </div>
+        <Header>
+          <div>
+            <MenuOutlined
+              style={{ fontSize: '20px', padding: '10px' }}
+              onClick={toggle}
+            />
+          </div>
+        </Header>
+        <Layout className='site-layout'>
+          <LeftSider collapsed={collapsed} />
+          <Layout.Content>
+            <Routes />
+          </Layout.Content>
+        </Layout>
       </Router>
-    </div>
+    </Layout>
   )
 }
 

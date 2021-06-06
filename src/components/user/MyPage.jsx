@@ -62,7 +62,7 @@ const MyPage = (props) => {
         </div>
         <div className='form-group'>
           <label>メールアドレス: </label>
-          <span>{state.email}</span>
+          <span>{state.userData.email}</span>
         </div>
         <div className='form-group'>
           <label>パスワード: </label>

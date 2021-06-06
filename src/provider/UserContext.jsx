@@ -1,7 +1,6 @@
 import React, { useEffect, useReducer, createContext } from 'react'
 import { userReducer } from '../reducers/userReducers'
 import { checkLogged } from '../actions/userActions'
-import { Loading } from '../components/loading/Loading'
 let UserContext
 const { Provider, Consumer } = (UserContext = createContext())
 
@@ -25,7 +24,6 @@ const UserProvider = (props) => {
         dispatch,
       }}
     >
-      {state.loading && <Loading />}
       {props.children}
     </Provider>
   )

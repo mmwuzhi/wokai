@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import io from 'socket.io-client'
 import ChatDetail from './chat/ChatDetail'
+import { Loading } from '../components/loading/Loading'
 
 import moment from 'moment'
 import momentLocale from 'moment/locale/ja'
@@ -14,6 +15,7 @@ export default function Chat() {
   const [msg, setMsg] = useState('')
   const [dataList, setDataList] = useState([])
   const [count, setCount] = useState()
+  const [loading, setLoading] = useState(true)
   const userArea = useRef(null)
   const msgArea = useRef(null)
 
@@ -28,6 +30,7 @@ export default function Chat() {
     // 监视chat
     socket.on('recvMsg', (data) => {
       setDataList(data)
+      setLoading(false)
     })
   }, [])
 
@@ -70,9 +73,12 @@ export default function Chat() {
       <div className='chat-send-button'>
         <button onClick={handleSubmit}>送信</button>
       </div>
-      {dataList?.map((data, index) => (
-        <ChatDetail data={data} key={index} index={index} />
-      ))}
+      <div className='msg-list'>
+        {loading && <Loading />}
+        {dataList?.map((data, index) => (
+          <ChatDetail data={data} key={index} index={index} />
+        ))}
+      </div>
     </div>
   )
 }

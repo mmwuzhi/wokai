@@ -8,7 +8,7 @@ const CommentList = (props) => {
     }
   }
   return (
-    <div className='comment-list'>
+    <>
       {props.comments.map((comment, index) => (
         <CommentDetail
           comment={comment}
@@ -17,7 +17,7 @@ const CommentList = (props) => {
           onDeleteComment={(id) => handleDeleteComment(id)}
         />
       ))}
-    </div>
+    </>
   )
 }
 

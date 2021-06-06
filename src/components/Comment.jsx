@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import CommentInput from './comment/CommentInput'
 import CommentList from './comment/CommentList'
-//import PropTypes from 'prop-types'
 import axios from 'axios'
+
+import { Loading } from '../components/loading/Loading'
 
 const Comment = () => {
   const [comments, setComments] = useState([])
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     commentLoader()
   }, [])
@@ -18,6 +20,9 @@ const Comment = () => {
       })
       .catch((err) => {
         console.error(err)
+      })
+      .then(() => {
+        setLoading(false)
       })
   }
 
@@ -45,13 +50,17 @@ const Comment = () => {
       })
   }
   return (
-    <div className='wrapper'>
+    <>
       <CommentInput onSubmit={handleSubmitComment} />
-      <CommentList
-        comments={comments}
-        onDeleteComment={handleDeleteComment}
-      />
-    </div>
+      <div className='comment-list'>
+        {loading && <Loading />}
+        <CommentList
+          loading={loading}
+          comments={comments}
+          onDeleteComment={handleDeleteComment}
+        />
+      </div>
+    </>
   )
 }
 

@@ -1,6 +1,6 @@
 const app = require('express')()
 const http = require('http').Server(app)
-const io = require('socket.io')(http, { cors: true })
+const io = require('socket.io')(http)
 const mongoose = require('mongoose')
 let Chat = require('../models/chat.model')
 
@@ -50,6 +50,7 @@ io.on('connection', (socket) => {
       io.emit('recvMsg', chats)
     })
   })
+ // socket.broadcast.to('socketId').emit('hi', 'hi') //给指定人发送
   // 有客户端断开连接时更新所有连接中的客户端的在线人数
   socket.on('disconnect', () => {
     count--

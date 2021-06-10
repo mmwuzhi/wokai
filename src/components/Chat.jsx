@@ -6,43 +6,57 @@ import { Loading } from '../components/loading/Loading'
 
 import moment from 'moment'
 import momentLocale from 'moment/locale/ja'
+import { DarkButton, LtInput } from '../tools/Inputs'
 
 moment.updateLocale('ja', momentLocale)
 const socket = io()
 
 export default function Chat() {
-  const [name, setName] = useState('')
-  const [msg, setMsg] = useState('')
   const [dataList, setDataList] = useState([])
   const [count, setCount] = useState()
   const [loading, setLoading] = useState(true)
-  const userArea = useRef(null)
-  const msgArea = useRef(null)
+  const nameRef = useRef(null)
+  const msgRef = useRef(null)
 
   useEffect(() => {
-    userArea.current.focus()
+    // 避免组件销毁后仍然执行异步操作导致内存泄漏
+    let isUnmounted = false
     // 向服务器发送请求获取当前msgList和在线人数
     socket.emit('reqMsg', {})
     // 监视在线人数
     socket.on('sysMsg', (count) => {
-      setCount(count)
+      if (!isUnmounted) {
+        setCount(count)
+      }
     })
     // 监视chat
     socket.on('recvMsg', (data) => {
-      setDataList(data)
-      setLoading(false)
+      if (!isUnmounted) {
+        setDataList(data)
+        setLoading(false)
+      }
     })
+    return () => {
+      isUnmounted = true
+    }
   }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    nameRef.current.checkSubmit()
+    msgRef.current.checkSubmit()
+    console.log(nameRef.current.value)
+    console.log(msgRef.current.value)
     // 发送msg
-    socket.emit('sendMsg', {
-      name: name,
-      msg: msg,
-    })
-    setMsg('')
-    msgArea.current.focus()
+    if (nameRef.current.value && msgRef.current.value) {
+      socket.emit('sendMsg', {
+        name: nameRef.current.value,
+        msg: msgRef.current.value,
+      })
+      msgRef.current.focus()
+      msgRef.current.setValue('')
+      msgRef.current.setFilled('')
+    }
   }
 
   const keySend = (e) => {
@@ -53,25 +67,25 @@ export default function Chat() {
   return (
     <div>
       <div>オンライン人数：{count}</div>
-      <div>
-        ユーザー名：
-        <input
-          value={name}
-          ref={userArea}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </div>
-      <div>
-        メッセージ：
-        <input
-          value={msg}
-          ref={msgArea}
-          onKeyDown={keySend}
-          onChange={(e) => setMsg(e.target.value)}
-        />
-      </div>
-      <div className='chat-send-button'>
-        <button onClick={handleSubmit}>送信</button>
+      <LtInput
+        type='text'
+        forID='user-name'
+        ref={nameRef}
+      >
+        ニックネーム
+      </LtInput>
+      <LtInput
+        type='textarea'
+        forID='msg'
+        onKeyDown={keySend}
+        ref={msgRef}
+      >
+        メッセージ
+      </LtInput>
+      <div className='flex justify-end'>
+        <DarkButton className='w-1/4' onClick={handleSubmit}>
+          送信
+        </DarkButton>
       </div>
       <div className='msg-list'>
         {loading && <Loading />}

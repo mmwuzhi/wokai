@@ -1,9 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import './style.css'
 import App from './App'
-import 'antd/dist/antd.css'
-
-import {UserProvider} from './provider/UserContext'
+import { UserProvider } from './provider/UserContext'
 
 ReactDOM.render(
   <UserProvider>

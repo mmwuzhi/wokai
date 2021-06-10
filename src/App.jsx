@@ -1,43 +1,25 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
-import './style.css'
 
-import { Layout } from 'antd'
-import { MenuOutlined } from '@ant-design/icons'
-
-import LeftSider from './components/LeftSider'
-import Header from './components/Header'
+import Navbar from './components/Navbar'
 import Routes from './components/Routes'
+import Sidebar from './components/Sidebar'
 
 function App() {
-  const [collapsed, setCollapsed] = useState(true)
-  const toggle = () => {
-    setCollapsed(!collapsed)
-  }
+  const [sidebar, setSidebar] = useState(false)
+  const showSidebar = () => {setSidebar(!sidebar)}
   return (
-    <Layout
-      style={{
-        overflowY: 'scroll',
-        height: '100vh',
-      }}
-    >
+    <div className=''>
       <Router>
-        <Header>
-          <div>
-            <MenuOutlined
-              style={{ fontSize: '20px', padding: '10px' }}
-              onClick={toggle}
-            />
-          </div>
-        </Header>
-        <Layout className='site-layout'>
-          <LeftSider collapsed={collapsed} />
-          <Layout.Content>
-            <Routes />
-          </Layout.Content>
-        </Layout>
+        <Navbar handleSidebar={showSidebar} />
+        <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+          <Sidebar />
+        </nav>
+        <div className='container mx-auto my-3 max-w-3xl p-5 wh-90 justify-center'>
+          <Routes />
+        </div>
       </Router>
-    </Layout>
+    </div>
   )
 }
 

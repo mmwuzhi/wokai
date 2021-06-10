@@ -11,7 +11,7 @@ import Logout from './user/Logout'
 
 const Routes = () => {
   return (
-    <div className='wrapper'>
+    <div>
       <Route path='/' exact component={Home} />
       <Route path='/chat' exact component={Chat} />
       <Route path='/comment' component={Comment} />

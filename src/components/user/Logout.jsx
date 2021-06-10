@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { UserContext } from '../../provider/UserContext'
 import { checkLogged, logout } from '../../actions/userActions'
 
+import { LightButton, DarkButton } from '../../tools/Inputs'
 const Logout = (props) => {
   const { state, dispatch } = useContext(UserContext)
   useEffect(() => {
@@ -17,19 +18,10 @@ const Logout = (props) => {
 
   return (
     <div>
-      <h3 className='mt-3 mb-5'>ログアウト</h3>
-      <span className='form-group'>なになにさいとからログアウトしますか？</span>
-      <div className='form-group'>
-        <button
-          onClick={cancel}
-          className='btn btn-info'
-          style={{ backgroundColor: 'lightgray', borderColor: 'lightgray' }}
-        >
-          キャンセル
-        </button>
-        <button onClick={() => logout(dispatch)} className='btn btn-info'>
-          ログアウト
-        </button>
+      <h3 className=''>なになにさいとからログアウトしますか？</h3>
+      <div className=''>
+        <LightButton onClick={cancel}>キャンセル</LightButton>
+        <DarkButton onClick={() => logout(dispatch)}>ログアウト</DarkButton>
       </div>
     </div>
   )

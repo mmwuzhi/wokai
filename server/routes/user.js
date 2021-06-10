@@ -86,7 +86,7 @@ router.route('/login').post(
     const { email, password } = req.body
     const user = await User.findOne({ email })
     const data = {
-      id: user.id,
+      id: user._id,
       username: user.username,
       email: user.email,
     }

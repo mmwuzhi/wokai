@@ -3,6 +3,7 @@ import { UserContext } from '../../provider/UserContext'
 
 import axios from 'axios'
 
+import { DarkButton } from '../../tools/Inputs'
 const CommentInput = (props) => {
   const { state } = useContext(UserContext)
   const [username, setUsername] = useState('')
@@ -18,7 +19,7 @@ const CommentInput = (props) => {
         setUsername(res.data.data.username)
         textarea.current.focus()
       } else {
-        nameArea.current.focus()
+        nameArea.current?.focus()
       }
     })
   }, [])
@@ -63,8 +64,10 @@ const CommentInput = (props) => {
           />
         </div>
       </div>
-      <div className='comment-field-button'>
-        <button onClick={handleSubmit}>投稿</button>
+      <div className='flex justify-end'>
+        <DarkButton className='w-1/4' onClick={handleSubmit}>
+          投稿
+        </DarkButton>
       </div>
     </div>
   )

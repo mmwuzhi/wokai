@@ -45,8 +45,6 @@ export default function Chat() {
     e.preventDefault()
     nameRef.current.checkSubmit()
     msgRef.current.checkSubmit()
-    console.log(nameRef.current.value)
-    console.log(msgRef.current.value)
     // 发送msg
     if (nameRef.current.value && msgRef.current.value) {
       socket.emit('sendMsg', {
@@ -67,19 +65,10 @@ export default function Chat() {
   return (
     <div>
       <div>オンライン人数：{count}</div>
-      <LtInput
-        type='text'
-        forID='user-name'
-        ref={nameRef}
-      >
+      <LtInput type='text' forID='user-name' ref={nameRef}>
         ニックネーム
       </LtInput>
-      <LtInput
-        type='textarea'
-        forID='msg'
-        onKeyDown={keySend}
-        ref={msgRef}
-      >
+      <LtInput type='textarea' forID='msg' onKeyDown={keySend} ref={msgRef}>
         メッセージ
       </LtInput>
       <div className='flex justify-end'>

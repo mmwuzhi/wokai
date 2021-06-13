@@ -13,15 +13,22 @@ const CommentInput = (props) => {
 
   // 第一次加载界面的时候调用，使光标移动到输入框
   useEffect(() => {
+    // 避免组件销毁后仍然执行异步操作导致内存泄漏
+    let isUnmounted = false
     // TODO: 以后说不定会有更好的获得当前用户名的方法
     axios.get('/api/users/userInfo').then((res) => {
-      if (res.data.code === 0) {
-        setUsername(res.data.data.username)
-        textarea.current.focus()
-      } else {
-        nameArea.current?.focus()
+      if (!isUnmounted) {
+        if (res.data.code === 0) {
+          setUsername(res.data.data.username)
+          textarea.current.focus()
+        } else {
+          nameArea.current?.focus()
+        }
       }
     })
+    return () => {
+      isUnmounted = true
+    }
   }, [])
 
   const handleSubmit = (e) => {
@@ -57,6 +64,7 @@ const CommentInput = (props) => {
         <span className='comment-field-name'>コメント：</span>
         <div className='comment-field-input'>
           <textarea
+            className='h-24'
             ref={textarea}
             value={content}
             onChange={(e) => setContent(e.target.value)}
@@ -65,7 +73,7 @@ const CommentInput = (props) => {
         </div>
       </div>
       <div className='flex justify-end'>
-        <DarkButton className='w-1/4' onClick={handleSubmit}>
+        <DarkButton className='w-20 sm:w-1/4' onClick={handleSubmit}>
           投稿
         </DarkButton>
       </div>

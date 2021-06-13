@@ -27,10 +27,9 @@ const CommentDetail = (props) => {
   }
   return (
     <div className='comment'>
-      <div className='comment-user'>
-        <span className='comment-username'>{props.comment.username}</span>
-        ・
-        <span className='comment-createdtime' title={timeTitle}>
+      <div className='comment-user text-sm'>
+        <span className='text-blue-500'>{props.comment.username}</span>・
+        <span className='text-gray-500 text-xs' title={timeTitle}>
           {timeString}
         </span>
         {!!props.comment.email && (

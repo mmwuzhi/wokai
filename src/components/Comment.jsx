@@ -9,6 +9,7 @@ const Comment = () => {
   const [comments, setComments] = useState([])
   const [loading, setLoading] = useState(true)
   useEffect(() => {
+    // TODO: 内存泄漏
     commentLoader()
   }, [])
 
@@ -52,7 +53,7 @@ const Comment = () => {
   return (
     <>
       <CommentInput onSubmit={handleSubmitComment} />
-      <div className='comment-list'>
+      <div className='bg-white p-5 border-2 border-gray-50'>
         {loading && <Loading />}
         <CommentList
           loading={loading}

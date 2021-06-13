@@ -12,10 +12,10 @@ function App() {
     <div className=''>
       <Router>
         <Navbar handleSidebar={showSidebar} />
-        <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-          <Sidebar />
-        </nav>
-        <div className='container mx-auto my-3 max-w-3xl p-5 wh-90 justify-center'>
+        <div className='relative top-6 container mx-auto my-3 max-w-3xl p-5 wh-90 justify-center'>
+          <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+            <Sidebar />
+          </nav>
           <Routes />
         </div>
       </Router>

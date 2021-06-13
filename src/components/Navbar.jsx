@@ -1,35 +1,60 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import { classnames } from 'tailwindcss-classnames'
 
 import { iconMenu, iconUser } from '../tools/Icons'
 import { UserContext } from '../provider/UserContext'
 
 const Navbar = (props) => {
   const { state } = useContext(UserContext)
+  const [clickedIconUser, setClickedIconUser] = useState(false)
+
+  const userDropClass = classnames(
+    'transition-all',
+    'duration-300',
+    'transform',
+    'origin-top-right',
+    {
+      'scale-95': !clickedIconUser,
+      '-translate-y-2': !clickedIconUser,
+      'opacity-0': !clickedIconUser,
+      invisible: !clickedIconUser,
+      'scale-100': clickedIconUser,
+      'translate-y-0': clickedIconUser,
+      'opacity-1': clickedIconUser,
+      visible: clickedIconUser,
+    }
+  )
+
+  const signArea = classnames('px-4', 'py-3', { hidden: !state.logged })
   return (
-    <header className='flex sticky top-0 h-14 border border-blue-100 bg-white justify-between items-center z-50'>
+    <header className='flex fixed w-full visible top-0 h-14 border border-blue-100 bg-white justify-between items-center z-50'>
       <span
         onClick={props.handleSidebar}
         aria-hidden='true'
-        className='p-5 text-blue-300 cursor-pointer'
+        className='p-4 text-blue-300 cursor-pointer'
       >
         {iconMenu}
       </span>
       <Link to='/' className='text-xl text-blue-300'>
         なになにさいと
       </Link>
-      <div className='relative inline-block text-left dropdown'>
-        <span aria-hidden='true' className='p-5 text-blue-300'>
+      <div className='relative inline-block text-left'>
+        <span
+          onClick={() => setClickedIconUser(!clickedIconUser)}
+          aria-hidden='true'
+          className='p-4 text-blue-300'
+        >
           <button className='transition ease-in-out rounded-md hover:text-gray-500 focus:outline-none focus:shadow-outline-blue'>
             {iconUser}
           </button>
         </span>
-        <div className='opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95'>
+        <div className={userDropClass}>
           <div
-            className='absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none'
+            className='z-20 absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none'
             role='menu'
           >
-            <div className='px-4 py-3'>
+            <div className={signArea}>
               <p className='text-sm leading-5'>Signed in as</p>
               <p className='text-sm font-medium leading-5 text-gray-900 truncate'>
                 {state.userData.email}

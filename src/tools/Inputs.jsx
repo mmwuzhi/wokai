@@ -52,7 +52,7 @@ export const LtInput = forwardRef((props, ref) => {
         onClick={(e) => {
           e.target.previousElementSibling.focus()
         }}
-        className={`label absolute mb-0 -mt-2 pt-4 pl-3 leading-tighter text-gray-400 text-base mt-2 cursor-text ${checkedLabelClassName}`}
+        className={`label absolute mb-0 -mt-2 pt-4 pl-3 leading-tighter text-gray-400 text-base cursor-text ${checkedLabelClassName}`}
       >
         {props.children}
       </label>

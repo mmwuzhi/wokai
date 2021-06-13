@@ -6,14 +6,14 @@ body {
   overflow-y: scroll;
 }
 
+code {
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  padding: 0px 2px;
+}
+
 .wh-90 {
   width: 90vw;
-}
-/* 用户下拉菜单样式 */
-.dropdown:focus-within .dropdown-menu {
-  opacity: 1;
-  transform: translate(0) scale(1);
-  visibility: visible;
 }
 
 /* 输入框样式 */
@@ -72,17 +72,6 @@ body {
   flex: 1;
 }
 
-.comment-field-input textarea {
-  height: 100px;
-}
-
-/* 评论列表样式 */
-.comment-list {
-  background-color: #fff;
-  border: 1px solid #f1f1f1;
-  padding: 20px;
-}
-
 /* 评论组件样式 */
 .comment {
   position: relative;
@@ -98,16 +87,7 @@ body {
   flex-shrink: 0;
 }
 
-.comment-username {
-  color: #00a3cf;
-}
-
 /* 发送时间 */
-.comment-createdtime {
-  color: rgb(91, 112, 131);
-  font-size: 12px;
-}
-
 .comment:hover .comment-delete {
   color: #00a3cf;
 }
@@ -130,12 +110,6 @@ body {
   /*text-indent: 2em;*/
 }
 
-code {
-  border: 1px solid #ccc;
-  background: #f9f9f9;
-  padding: 0px 2px;
-}
-
 .loading {
   position: relative;
   display: flex;
@@ -146,19 +120,13 @@ code {
   z-index: 999;
 }
 
-.menu-bars {
-  margin-left: 2rem;
-  font-size: 2rem;
-  background: none;
-}
-
 .nav-menu {
   background-color: white;
   width: 200px;
   height: 100vh;
   display: flex;
   justify-content: center;
-  z-index: 100;
+  z-index: 10;
   position: fixed;
   left: -100%;
   transition: 850ms;

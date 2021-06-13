@@ -1,14 +1,15 @@
-import React, { useState, useRef, useEffect, useContext } from 'react'
+import React, { useRef, useEffect, useContext } from 'react'
 import { UserContext } from '../../provider/UserContext'
 import { signup } from '../../actions/userActions'
+import { DarkButton, LtInput } from '../../tools/Inputs'
 
 const SignUp = (props) => {
   const { state, dispatch } = useContext(UserContext)
-  const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const confirmPassword = useRef(null)
-  const [message, setMessage] = useState('')
+
+  const nameRef = useRef(null)
+  const mailRef = useRef(null)
+  const passwordRef = useRef(null)
+  const confirmPasswordRef = useRef(null)
 
   useEffect(() => {
     if (state.logged === true) props.history.push('/user/mypage')
@@ -16,15 +17,14 @@ const SignUp = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault()
-    if (password !== confirmPassword.current.value) {
-      setMessage('パスワードが一致していない！')
+    if (passwordRef.current.value !== confirmPasswordRef.current.value) {
+      alert('パスワードが一致していない！')
     } else {
       const user = {
-        username,
-        email,
-        password,
+        username: nameRef.current.value,
+        email: mailRef.current.value,
+        password: passwordRef.current.value,
       }
-      setMessage('')
       //调用后端接口创建user
       signup(user)(dispatch)
     }
@@ -33,45 +33,23 @@ const SignUp = (props) => {
     <div>
       <h3 className='mt-3 mb-5'>サインアップ</h3>
       <form onSubmit={onSubmit}>
-        <div className='form-group'>
-          <label>ニックネーム: </label>
-          <input
-            type='text'
-            className='form-control mt-2 mb-4'
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div className='form-group'>
-          <label>メールアドレス: </label>
-          <input
-            type='email'
-            className='form-control mt-2 mb-4'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className='form-group'>
-          <label>パスワード: </label>
-          <input
-            type='password'
-            className='form-control mt-2 mb-4'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <div className='form-group'>
-          <label>パスワード確認: </label>
-          <span style={{ color: 'red' }}>{message}</span>
-          <input
-            type='password'
-            className='form-control mt-2 mb-4'
-            ref={confirmPassword}
-          />
-        </div>
-        <div className='form-group'>
-          <input type='submit' value='サインアップ' className='btn btn-info' />
-        </div>
+        <LtInput type='text' forID='user-name' ref={nameRef}>
+          ニックネーム
+        </LtInput>
+        <LtInput type='email' forID='e-mail' ref={mailRef}>
+          メールアドレス
+        </LtInput>
+        <LtInput type='password' forID='password' ref={passwordRef}>
+          パスワード
+        </LtInput>
+        <LtInput
+          type='password'
+          forID='confirm-password'
+          ref={confirmPasswordRef}
+        >
+          パスワード確認
+        </LtInput>
+        <DarkButton type='submit'>サインアップ</DarkButton>
       </form>
     </div>
   )

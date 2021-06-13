@@ -5,7 +5,7 @@ import { sideLinks } from '../tools/links'
 
 const Sidebar = () => {
   return (
-    <aside className='fixed flex flex-col p-3 h-full w-48'>
+    <aside className='bg-gray-50 fixed flex flex-col p-3 h-full w-48'>
       <nav>
         <ul className=''>
           {sideLinks.map((linkData, index) => (

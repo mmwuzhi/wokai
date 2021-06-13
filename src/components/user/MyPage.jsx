@@ -67,7 +67,7 @@ const MyPage = (props) => {
         >
           新パスワード確認
         </LtInput>
-        <DarkButton ype='submit'>変更</DarkButton>
+        <DarkButton type='submit'>変更</DarkButton>
       </form>
     </div>
   )

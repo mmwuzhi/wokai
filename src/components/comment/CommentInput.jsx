@@ -20,9 +20,9 @@ const CommentInput = (props) => {
       if (!isUnmounted) {
         if (res.data.code === 0) {
           setUsername(res.data.data.username)
-          textarea.current.focus()
+          textarea?.current.focus()
         } else {
-          nameArea.current?.focus()
+          nameArea?.current.focus()
         }
       }
     })

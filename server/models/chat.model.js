@@ -12,7 +12,7 @@ const chatSchema = new Schema(
       type: String,
       required: true,
     },
-    createdAt: { type: Date, default: Date.now, index: { expires: 60 * 60 * 3 } },
+    createdAt: { type: Date, default: Date.now, index: { expires: 60 * 60 * 6 } },
   },
   { timestamps: true }
 )

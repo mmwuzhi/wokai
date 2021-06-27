@@ -37,9 +37,11 @@ connection.once('open', () => {
 
 const usersRouter = require('./routes/user')
 const commentsRouter = require('./routes/comment')
+const subscribeRouter = require('./routes/subscribe')
 
 app.use('/comments', commentsRouter)
 app.use('/users', usersRouter)
+app.use('/subscribe', subscribeRouter)
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`)

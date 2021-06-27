@@ -22,6 +22,11 @@ export const isMobile = () => {
   return mobileFlag
 }
 
+/**
+ * 获得指定日期所在月份的6*7日历数组
+ * @param {string} date 指定日期
+ * @returns 指定日期所在月份的日历数组
+ */
 export const monthDay = (date) => {
   const daysArr = [[], [], [], [], [], []] // 6*7的日历数组
   const currentWeekday = moment(date).date(1).weekday() // 获取当月1日为星期几

@@ -1,4 +1,4 @@
-import { iconHome, iconComment, iconChat } from './Icons'
+import { iconHome, iconComment, iconChat, iconTool } from './Icons'
 
 export const sideLinks = [
   {
@@ -15,5 +15,10 @@ export const sideLinks = [
     to: '/chat',
     icon: iconChat,
     text: 'チャット',
+  },
+  {
+    to: '/tool',
+    icon: iconTool,
+    text: 'ツール',
   },
 ]

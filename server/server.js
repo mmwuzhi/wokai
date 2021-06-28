@@ -7,6 +7,7 @@ const MongoStore = require('connect-mongo')
 require('dotenv').config()
 
 const app = express()
+app.disable('x-powered-by') // 禁用X-Powered-By防止被攻击
 const port = process.env.PORT || 5000
 const uri = process.env.ATLAS_URI // 数据库地址
 

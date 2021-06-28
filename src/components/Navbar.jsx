@@ -71,7 +71,6 @@ const Navbar = (props) => {
         <div className='flex items-center'>
           <span
             onClick={props.handleSidebar}
-            aria-hidden='true'
             className='block lg:hidden p-4 text-blue-300 cursor-pointer'
           >
             {iconMenu}
@@ -83,7 +82,6 @@ const Navbar = (props) => {
         <div ref={userIconRef} className='relative inline-block text-left z-10'>
           <span
             onClick={showUserDropdown}
-            aria-hidden='true'
             className='p-4 text-blue-300 cursor-pointer'
           >
             <button className='transition ease-in-out rounded-md hover:text-gray-500 focus:outline-none focus:shadow-outline-blue'>

@@ -3,7 +3,6 @@ import axios from 'axios'
 const publicVapidKey =
   'BOVjyLKO6qyyTL_EkSuANUdMFfjCIdn26dDqXLBE69RKabZ5mQF6pU-GC9YJo01o5N9EOSs6nA_K8B1DqXqeIe8'
 
-
 /**
  * 将base64字符串转换为Uint8Array
  * @param {string} base64String base64字符串
@@ -29,7 +28,6 @@ const urlBase64ToUint8Array = (base64String) => {
  * @param {number} timer 倒计时时间
  */
 const run = async (title, detail, timer) => {
-  console.log('Registering service worker')
   const registration = await navigator.serviceWorker.register(
     '/serviceWorker.js',
     {

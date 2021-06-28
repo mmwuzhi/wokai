@@ -25,6 +25,7 @@ const Tool = () => {
       detailRef.current.value,
       parseInt(timerRef.current.value) * 1000 * 60
     )
+    // set成功之后给个提示不然都不知道自己干啥了。。。
   }
 
   return (

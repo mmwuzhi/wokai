@@ -21,7 +21,11 @@ const month = (
           {week.map((day, indexDay) => (
             <td
               className={`${
-                moment().format('DD') === String(day) ? 'bg-green-200' : ''
+                parseFloat(moment().format('DD')) === day &&
+                day >= (indexWeek - 1) * 7 &&
+                day <= (indexWeek + 1) * 7
+                  ? 'bg-green-200'
+                  : ''
               } border-gray-100 border-2 p-1`}
               key={indexDay}
             >

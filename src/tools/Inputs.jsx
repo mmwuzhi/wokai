@@ -1,4 +1,10 @@
-import { useState, useRef, forwardRef,useEffect, useImperativeHandle } from 'react'
+import {
+  useState,
+  useRef,
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+} from 'react'
 
 export const LtInput = forwardRef((props, ref) => {
   const [filled, setFilled] = useState('')
@@ -33,6 +39,17 @@ export const LtInput = forwardRef((props, ref) => {
     inputRef.current.focus()
   }
 
+  const handleChange = (e) => {
+    if (props.checkNaturalNumber) {
+      const { value } = e.target
+      const reg = /^\d*?$/ // 以任意数字开头和结尾，且中间出现零个或多个数字
+      if ((reg.test(value) && value.length < 4) || value === '') {
+        setValue(e.target.value)
+      }
+      return
+    }
+    setValue(e.target.value)
+  }
   return (
     <div className='mb-4 relative'>
       <input
@@ -40,9 +57,7 @@ export const LtInput = forwardRef((props, ref) => {
         id={props.forID}
         type={props.type}
         value={value}
-        onChange={(e) => {
-          setValue(e.target.value)
-        }}
+        onChange={handleChange}
         onKeyUp={checkInput}
         ref={inputRef}
         onKeyDown={props.onKeyDown}

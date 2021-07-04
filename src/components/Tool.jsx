@@ -37,7 +37,7 @@ const Tool = () => {
         <LtInput type='textarea' forID='detail' ref={detailRef}>
           プッシュ内容
         </LtInput>
-        <LtInput type='number' forID='timer' ref={timerRef}>
+        <LtInput type='text' checkNaturalNumber forID='timer' ref={timerRef}>
           タイマー（単位：分）
         </LtInput>
         <DarkButton onClick={doSubscribe}>セットプッシュ</DarkButton>

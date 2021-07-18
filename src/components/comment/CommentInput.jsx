@@ -33,13 +33,13 @@ const CommentInput = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-
     if (props.onSubmit) {
       const { email } = state.userData
       props.onSubmit({
         username,
         email,
-        content,
+        // 删除字符串右端所有空白
+        content: content.trimEnd(),
       })
     }
     setContent('')

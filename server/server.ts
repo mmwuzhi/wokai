@@ -1,15 +1,19 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const cookieParser = require('cookie-parser')
-const session = require('express-session')
-const MongoStore = require('connect-mongo')
+import express from 'express'
+import mongoose from 'mongoose'
+import cookieParser from 'cookie-parser'
+import session from 'express-session'
+import MongoStore from 'connect-mongo'
+
+import usersRouter from './routes/user'
+import commentsRouter from './routes/comment'
+import subscribeRouter from './routes/subscribe'
 
 require('dotenv').config()
 
 const app = express()
 app.disable('x-powered-by') // 禁用X-Powered-By防止被攻击
 const port = process.env.PORT || 5000
-const uri = process.env.ATLAS_URI // 数据库地址
+const uri = process.env.ATLAS_URI ?? '' // 数据库地址
 
 app.use(express.json())
 app.use(cookieParser('express_react_cookie'))
@@ -35,10 +39,6 @@ const connection = mongoose.connection
 connection.once('open', () => {
   console.log('MongoDB connection established successfully')
 })
-
-const usersRouter = require('./routes/user')
-const commentsRouter = require('./routes/comment')
-const subscribeRouter = require('./routes/subscribe')
 
 app.use('/comments', commentsRouter)
 app.use('/users', usersRouter)

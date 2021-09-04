@@ -1,16 +1,16 @@
-const router = require('express').Router()
-
+import * as express from 'express'
+import webPush from 'web-push'
+const router = express.Router()
 // 用于识别是谁发送了推送消息
-const webPush = require('web-push')
-const publicVapidKey = process.env.PUBLIC_VAPID_KEY
-const privateVapidKey = process.env.PRIVATE_VAPID_KEY
+const publicVapidKey = process.env.PUBLIC_VAPID_KEY ?? ''
+const privateVapidKey = process.env.PRIVATE_VAPID_KEY ?? ''
 webPush.setVapidDetails(
   'mailto:mmwuzhi@gmail.com',
   publicVapidKey,
   privateVapidKey
 )
 
-router.route('/').post((req, res) => {
+router.route('/').post((req: express.Request, res: express.Response) => {
   const subscription = req.body.subscription
   const data = JSON.stringify({
     title: req.body.title,
@@ -19,11 +19,11 @@ router.route('/').post((req, res) => {
   setTimeout(() => {
     webPush
       .sendNotification(subscription, data)
-      .catch((error) => {
+      .catch((error: { stack: any }) => {
         console.error(error.stack)
       })
   }, req.body.timer)
   res.sendStatus(201)
 })
 
-module.exports = router
+export default router

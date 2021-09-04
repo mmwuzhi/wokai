@@ -42,6 +42,7 @@ const CommentInput = (props) => {
         content: content.trimEnd(),
       })
     }
+    // TODO: 把这边给弄好 弄成如果发送失败就不set成空并且弹出提示
     setContent('')
   }
 

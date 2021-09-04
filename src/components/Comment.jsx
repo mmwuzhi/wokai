@@ -35,6 +35,7 @@ const Comment = () => {
       .post('/api/comments/add', comment)
       .then(commentLoader)
       .catch((err) => {
+        alert('投稿失敗しました。もう一度やり直してください。')
         console.log(err)
       })
   }

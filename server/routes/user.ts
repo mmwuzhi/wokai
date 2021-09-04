@@ -1,9 +1,11 @@
-const router = require('express').Router()
-const asyncHandler = require('express-async-handler')
-let User = require('../models/user.model')
+import express from 'express'
+import asyncHandler from 'express-async-handler'
+import { User } from '../models/user.model'
+
+const router = express.Router()
 
 router.route('/').post(
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req: express.Request, res: express.Response) => {
     const { username, email, password } = req.body
 
     const userExists = await User.findOne({ email })
@@ -35,7 +37,7 @@ router.route('/').post(
 )
 
 router.route('/update').post(
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req: express.Request, res: express.Response) => {
     const { username, email, password } = req.body
     const user = await User.findOne({ email })
     console.log('user')
@@ -67,7 +69,7 @@ router.route('/update').post(
   })
 )
 
-router.route('/userInfo').get((req, res) => {
+router.route('/userInfo').get((req: express.Request, res: express.Response) => {
   req.session.userInfo
     ? res.status(200).json({
         message: '',
@@ -82,13 +84,13 @@ router.route('/userInfo').get((req, res) => {
 })
 
 router.route('/login').post(
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req: express.Request, res: express.Response) => {
     const { email, password } = req.body
     const user = await User.findOne({ email })
     const data = {
-      id: user._id,
-      username: user.username,
-      email: user.email,
+      id: user?._id,
+      username: user?.username,
+      email: user?.email,
     }
     //登录成功后设置session
     req.session.userInfo = data
@@ -101,9 +103,11 @@ router.route('/login').post(
   })
 )
 
-router.route('/logout').get((req, res) => {
-  req.session.destroy()
+router.route('/logout').get((req: express.Request, res: express.Response) => {
+  req.session.destroy((err) => {
+    console.log(err)
+  })
   res.status(200).json({ logout: '1' })
 })
 
-module.exports = router
+export default router

@@ -2,8 +2,10 @@ version: '3.3'
 services:
   # 服务名称
   front:
+    container_name: front
     # 镜像:版本
     image: nginx:latest
+    restart: always
     # 映射容器80端口到本地
     ports:
       - '80:80'
@@ -16,11 +18,27 @@ services:
       - ./build:/usr/share/nginx/html
     # 覆盖容器启动后默认执行的命令。
     command: /bin/bash -c "nginx -g 'daemon off;'"
-  # wokai:
-  #     build: ./
-  #     image: wokai
-  #     ports:
-  #         - "3333:3333"
-  #         - "5000:5000"
-  #     container_name: wokai
-  #     command: "node ./server/server.js"
+    # 依赖于api容器，被依赖容器启动后此web容器才可启动
+    depends_on:
+      - wokai
+  wokai:
+    container_name: wokai
+    build: ./
+    # 指定设定上下文根目录，然后以该目录为准指定Dockerfile
+    restart: always
+    # 映射端口
+    ports:
+      - "3333:3333"
+      - "5000:5000"
+    # 容器创建后执行命令
+    command: >
+      sh -c "node ./dist/server.js &&
+             node ./dist/socket/server.js"
+#    command:
+#      "node ./dist/server.js"
+#    或者
+#      - sh
+#      - -c
+#      - |
+#          node ./dist/server.js
+#          node ./dist/socket/server.js

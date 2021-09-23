@@ -10,7 +10,7 @@ COPY .env ./package.json ./yarn.lock $PROJ_ROOTDIR
 RUN yarn install
 
 # 拷贝后端代码
-COPY ./server $PROJ_SVDIR
+COPY ./dist $PROJ_SVDIR
 
 # 暴露容器端口
 EXPOSE 3333 5000

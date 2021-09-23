@@ -2,8 +2,11 @@ import * as express from 'express'
 import webPush from 'web-push'
 const router = express.Router()
 // 用于识别是谁发送了推送消息
-const publicVapidKey = process.env.PUBLIC_VAPID_KEY ?? ''
-const privateVapidKey = process.env.PRIVATE_VAPID_KEY ?? ''
+const publicVapidKey =
+  process.env.PUBLIC_VAPID_KEY ??
+  'BOVjyLKO6qyyTL_EkSuANUdMFfjCIdn26dDqXLBE69RKabZ5mQF6pU-GC9YJo01o5N9EOSs6nA_K8B1DqXqeIe8'
+const privateVapidKey =
+  process.env.PRIVATE_VAPID_KEY ?? '77RcuZCSgnkNpTn-BB9mTiD_O4Gj_YTyoo2ko7Gpyds'
 webPush.setVapidDetails(
   'mailto:mmwuzhi@gmail.com',
   publicVapidKey,

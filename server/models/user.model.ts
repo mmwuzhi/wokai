@@ -44,5 +44,4 @@ export interface UserDocument extends Document {
   matchPW: any
 }
 
-
 export const User = model<UserDocument>('User', userSchema)

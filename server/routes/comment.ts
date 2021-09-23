@@ -1,5 +1,5 @@
 import express from 'express'
-import Comment from '../models/comment.model'
+import { Comment } from '../models/comment.model'
 
 const router = express.Router()
 

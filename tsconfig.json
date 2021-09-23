@@ -2,13 +2,13 @@
   "compilerOptions": {
     "target": "es6",
     "jsx": "react-jsx",
-    "module": "esnext",
     "lib": [
       "es2015",
       "es2016",
       "es2017",
       "dom"
     ],
+    "module": "commonjs",
     "declaration": true,
     "strict": true,
     "outDir": "./dist",
@@ -22,8 +22,7 @@
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true
+    "isolatedModules": true
   },
   "include": [
     "./server/**/*"

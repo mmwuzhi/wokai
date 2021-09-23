@@ -7,7 +7,9 @@ const http = require('http').Server(app)
 const io = require('socket.io')(http)
 
 const port = process.env.PORT_IO || 3333
-const uri = process.env.ATLAS_URI ?? '' // 数据库地址
+const uri =
+  process.env.ATLAS_URI ??
+  'mongodb+srv://admin:zzz123@mmwuzhi.vxx6t.mongodb.net/test-app?retryWrites=true&w=majority' // 数据库地址
 
 mongoose.connect(uri, {
   useNewUrlParser: true,

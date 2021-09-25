@@ -1,0 +1,11 @@
+apps:
+  - script: ./dist/server.js
+    # 启用多少个实例，可用于负载均衡。如果-i 0或者-i max，则根据当前机器核数确定实例数目，可以弥补node.js缺陷启用多少个实例，可用于负载均衡。如果-i 0或者-i max，则根据当前机器核数确定实例数目，可以弥补node.js缺陷
+    # instances: 1
+    watch : true
+  - script: ./dist/socket/server.js
+    watch : true
+    # min_uptime: 60s
+    # max_restarts: 10
+    # env :
+    #   NODE_ENV: production

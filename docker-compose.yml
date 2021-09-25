@@ -8,7 +8,7 @@ services:
     restart: always
     # 映射容器80端口到本地
     ports:
-      - '80:80'
+      - '3000:80'
       # - "443:443"
     # 映射本地文件到容器
     volumes:
@@ -22,7 +22,7 @@ services:
     depends_on:
       - wokai
   wokai:
-    container_name: wokai
+    container_name: wokai_backend
     build: ./
     # 指定设定上下文根目录，然后以该目录为准指定Dockerfile
     restart: always
@@ -30,15 +30,11 @@ services:
     ports:
       - "3333:3333"
       - "5000:5000"
-    # 容器创建后执行命令
-    command: >
-      sh -c "node ./dist/server.js &&
-             node ./dist/socket/server.js"
-#    command:
-#      "node ./dist/server.js"
-#    或者
-#      - sh
-#      - -c
-#      - |
-#          node ./dist/server.js
-#          node ./dist/socket/server.js
+    env_file:
+      - ./.env
+    # 环境变量(.env)
+    # environment:
+    #   - ATLAS_URI="mongodb+srv://admin:zzz123@mmwuzhi.vxx6t.mongodb.net/test-app?retryWrites=true&w=majority"
+    #   - PUBLIC_VAPID_KEY="BOVjyLKO6qyyTL_EkSuANUdMFfjCIdn26dDqXLBE69RKabZ5mQF6pU-GC9YJo01o5N9EOSs6nA_K8B1DqXqeIe8"
+    #   - PRIVATE_VAPID_KEY="77RcuZCSgnkNpTn-BB9mTiD_O4Gj_YTyoo2ko7Gpyds"
+

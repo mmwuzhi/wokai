@@ -8,8 +8,7 @@ services:
     restart: always
     # 映射容器80端口到本地
     ports:
-      - '3000:80'
-      # - "443:443"
+      - '5000:80'
     # 映射本地文件到容器
     volumes:
       # 映射nginx.conf文件到容器的/etc/nginx/conf.d目录并覆盖default.conf文件
@@ -26,15 +25,9 @@ services:
     build: ./
     # 指定设定上下文根目录，然后以该目录为准指定Dockerfile
     restart: always
-    # 映射端口
-    ports:
-      - "3333:3333"
-      - "5000:5000"
     env_file:
       - ./.env
-    # 环境变量(.env)
-    # environment:
-    #   - ATLAS_URI="mongodb+srv://admin:zzz123@mmwuzhi.vxx6t.mongodb.net/test-app?retryWrites=true&w=majority"
-    #   - PUBLIC_VAPID_KEY="BOVjyLKO6qyyTL_EkSuANUdMFfjCIdn26dDqXLBE69RKabZ5mQF6pU-GC9YJo01o5N9EOSs6nA_K8B1DqXqeIe8"
-    #   - PRIVATE_VAPID_KEY="77RcuZCSgnkNpTn-BB9mTiD_O4Gj_YTyoo2ko7Gpyds"
-
+    # 映射端口
+    ports:
+      - "5001:${PORT_SERVER}"
+      - "5002:${PORT_IO}"

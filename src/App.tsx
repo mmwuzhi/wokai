@@ -5,6 +5,8 @@ import Navbar from './components/Navbar'
 import DrawSidebar from './components/Sidebar'
 import Main from './components/Main'
 
+import "nprogress/nprogress.css"
+
 function App(): JSX.Element {
   const [sidebar, setSidebar] = useState(false)
   const showSidebar = () => {

@@ -12,7 +12,6 @@ const Login = (props) => {
   }, [state.logged, props.history])
   const onSubmit = (e) => {
     e.preventDefault()
-    //调用后端接口创建user
     login(emailRef.current.value, passwordRef.current.value)(dispatch)
   }
   return (

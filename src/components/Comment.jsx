@@ -3,17 +3,17 @@ import CommentInput from './comment/CommentInput'
 import CommentList from './comment/CommentList'
 import axios from 'axios'
 
-import { Loading } from '../components/loading/Loading'
+import NProgress from 'nprogress'
 
 const Comment = () => {
   const [comments, setComments] = useState([])
-  const [loading, setLoading] = useState(true)
   useEffect(() => {
     // TODO: 内存泄漏
     commentLoader()
   }, [])
 
   const commentLoader = () => {
+    NProgress.start()
     axios
       .get('/api/comments/')
       .then((res) => {
@@ -23,7 +23,7 @@ const Comment = () => {
         console.error(err)
       })
       .then(() => {
-        setLoading(false)
+        NProgress.done()
       })
   }
 
@@ -55,9 +55,7 @@ const Comment = () => {
     <>
       <CommentInput onSubmit={handleSubmitComment} />
       <div className='bg-white p-5 border-2 border-gray-50'>
-        {loading && <Loading />}
         <CommentList
-          loading={loading}
           comments={comments}
           onDeleteComment={handleDeleteComment}
         />

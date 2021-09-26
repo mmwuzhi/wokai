@@ -2,11 +2,12 @@
 import React, { useState, useEffect, useRef } from 'react'
 import io from 'socket.io-client'
 import ChatDetail from './chat/ChatDetail'
-import { Loading } from '../components/loading/Loading'
 
 import moment from 'moment'
 import momentLocale from 'moment/locale/ja'
 import { DarkButton, LtInput } from '../tools/Inputs'
+
+import NProgress from 'nprogress'
 
 moment.updateLocale('ja', momentLocale)
 const socket = io()
@@ -14,11 +15,11 @@ const socket = io()
 export default function Chat() {
   const [dataList, setDataList] = useState([])
   const [count, setCount] = useState()
-  const [loading, setLoading] = useState(true)
   const nameRef = useRef(null)
   const msgRef = useRef(null)
 
   useEffect(() => {
+    NProgress.start()
     // 避免组件销毁后仍然执行异步操作导致内存泄漏
     let isUnmounted = false
     // 向服务器发送请求获取当前msgList和在线人数
@@ -33,7 +34,7 @@ export default function Chat() {
     socket.on('recvMsg', (data) => {
       if (!isUnmounted) {
         setDataList(data)
-        setLoading(false)
+        NProgress.done()
       }
     })
     return () => {
@@ -77,7 +78,6 @@ export default function Chat() {
         </DarkButton>
       </div>
       <div className='msg-list'>
-        {loading && <Loading />}
         {dataList?.map((data, index) => (
           <ChatDetail data={data} key={index} index={index} />
         ))}

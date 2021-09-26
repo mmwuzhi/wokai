@@ -1,11 +1,5 @@
 import { iconHome, iconComment, iconChat, iconTool } from './Icons'
 
-type SideLink = {
-  to: string
-  icon: JSX.Element
-  text: string
-}
-
 export const sideLinks: SideLink[] = [
   {
     to: '/',

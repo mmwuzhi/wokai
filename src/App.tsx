@@ -18,7 +18,7 @@ function App(): JSX.Element {
     }
   }, [])
 
-  const onKeyDown = (e) => {
+  const onKeyDown = (e: { key: string }) => {
     if (e.key === 'Escape') setSidebar(false)
   }
 

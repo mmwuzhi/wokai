@@ -41,6 +41,7 @@ const Comment = () => {
   }
 
   const handleDeleteComment = (id) => {
+    NProgress.start()
     axios
       .delete('/api/comments/' + id)
       .then((res) => {
@@ -49,6 +50,9 @@ const Comment = () => {
       })
       .catch((err) => {
         console.log(err)
+      })
+      .then(() => {
+        NProgress.done()
       })
   }
   return (

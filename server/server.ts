@@ -13,9 +13,7 @@ require('dotenv').config()
 const app = express()
 app.disable('x-powered-by') // 禁用X-Powered-By防止被攻击
 const port = process.env.PORT_SERVER || 5001
-const uri =
-  process.env.ATLAS_URI ??
-  'mongodb+srv://admin:zzz123@mmwuzhi.vxx6t.mongodb.net/test-app?retryWrites=true&w=majority' // 数据库地址
+const uri = process.env.ATLAS_URI ?? 'mongodb://localhost:27017/wokai' // 数据库地址
 
 app.use(express.json())
 app.use(cookieParser('express_react_cookie'))

@@ -2,7 +2,7 @@
 FROM node:alpine
 WORKDIR /usr/src/wokai
 
-COPY ./package.json ./yarn.lock ./
+COPY ./server/package.json ./server/yarn.lock ./
 # 安装依赖
 RUN yarn install
 # 安装PM2

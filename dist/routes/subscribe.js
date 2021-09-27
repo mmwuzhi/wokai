@@ -27,7 +27,7 @@ const express = __importStar(require("express"));
 const web_push_1 = __importDefault(require("web-push"));
 const router = express.Router();
 const publicVapidKey = (_a = process.env.PUBLIC_VAPID_KEY) !== null && _a !== void 0 ? _a : 'BOVjyLKO6qyyTL_EkSuANUdMFfjCIdn26dDqXLBE69RKabZ5mQF6pU-GC9YJo01o5N9EOSs6nA_K8B1DqXqeIe8';
-const privateVapidKey = (_b = process.env.PRIVATE_VAPID_KEY) !== null && _b !== void 0 ? _b : '77RcuZCSgnkNpTn-BB9mTiD_O4Gj_YTyoo2ko7Gpyds';
+const privateVapidKey = (_b = process.env.PRIVATE_VAPID_KEY) !== null && _b !== void 0 ? _b : '';
 web_push_1.default.setVapidDetails('mailto:mmwuzhi@gmail.com', publicVapidKey, privateVapidKey);
 router.route('/').post((req, res) => {
     const subscription = req.body.subscription;

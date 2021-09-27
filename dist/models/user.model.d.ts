@@ -1,4 +1,3 @@
-/// <reference types="mongoose" />
 export interface UserDocument extends Document {
     id: string;
     _id: string;

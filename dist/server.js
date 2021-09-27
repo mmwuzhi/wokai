@@ -16,7 +16,7 @@ require('dotenv').config();
 const app = (0, express_1.default)();
 app.disable('x-powered-by');
 const port = process.env.PORT_SERVER || 5001;
-const uri = (_a = process.env.ATLAS_URI) !== null && _a !== void 0 ? _a : 'mongodb+srv://admin:zzz123@mmwuzhi.vxx6t.mongodb.net/test-app?retryWrites=true&w=majority';
+const uri = (_a = process.env.ATLAS_URI) !== null && _a !== void 0 ? _a : 'mongodb://localhost:27017/wokai';
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)('express_react_cookie'));
 app.use((0, express_session_1.default)({

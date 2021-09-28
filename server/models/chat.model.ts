@@ -20,4 +20,11 @@ const chatSchema = new Schema(
   { timestamps: true }
 )
 
-export const Chat = model('Chat', chatSchema)
+export interface ChatDocument extends Document {
+  /** 用户名 */
+  name: string
+  /** 信息 */
+  msg: string
+}
+
+export const Chat = model<ChatDocument>('Chat', chatSchema)

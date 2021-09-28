@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model, Document } from 'mongoose'
 
 const commentSchema = new Schema(
   {
@@ -9,4 +9,10 @@ const commentSchema = new Schema(
   { timestamps: true }
 )
 
-export const Comment = model('Comment', commentSchema)
+export interface CommentDocument extends Document {
+  username: string
+  email: string
+  content: string
+}
+
+export const Comment = model<CommentDocument>('Comment', commentSchema)

@@ -20,7 +20,7 @@ const app = (0, express_1.default)();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const port = process.env.PORT_IO || 5002;
-const uri = (_a = process.env.ATLAS_URI) !== null && _a !== void 0 ? _a : 'mongodb+srv://admin:zzz123@mmwuzhi.vxx6t.mongodb.net/test-app?retryWrites=true&w=majority';
+const uri = (_a = process.env.ATLAS_URI) !== null && _a !== void 0 ? _a : 'mongodb://localhost:27017/wokai';
 mongoose_1.default.connect(uri, {
     useNewUrlParser: true,
     useCreateIndex: true,
@@ -44,17 +44,17 @@ io.on('connection', (socket) => {
             socket.emit('recvMsg', chats);
         });
     });
-    socket.on('sendMsg', (data) => {
+    socket.on('sendMsg', (data) => __awaiter(void 0, void 0, void 0, function* () {
         const { name, msg } = data;
-        const newChat = new chat_model_1.Chat({
+        const chat = yield chat_model_1.Chat.create({
             name,
             msg,
         });
-        newChat.save().then(() => __awaiter(void 0, void 0, void 0, function* () {
+        if (chat) {
             const chats = yield chat_model_1.Chat.find().sort({ createdAt: -1 }).limit(20);
             io.emit('recvMsg', chats);
-        }));
-    });
+        }
+    }));
     socket.on('disconnect', () => {
         count--;
         io.emit('sysMsg', count);

@@ -1,6 +1,7 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler'
-import { User } from '../models/user.model'
+
+import { User, UserDocument } from '../models/user.model'
 
 const router = express.Router()
 
@@ -19,7 +20,7 @@ router.route('/').post(
       username,
       email,
       password,
-    })
+    } as UserDocument)
 
     if (user) {
       //注册成功后设置session

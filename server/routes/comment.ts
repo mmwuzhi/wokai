@@ -1,5 +1,7 @@
 import express from 'express'
-import { Comment } from '../models/comment.model'
+import asyncHandler from 'express-async-handler'
+
+import { Comment, CommentDocument } from '../models/comment.model'
 
 const router = express.Router()
 
@@ -12,29 +14,31 @@ router.route('/').get((req: express.Request, res) => {
     .catch((err: string) => res.status(400).json('Error: ' + err))
 })
 
-router.route('/add').post((req: express.Request, res: express.Response) => {
-  let { username, content, email } = req.body
-  // xss对应和link对应
-  const reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g
-  content = content
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;')
-    .replace(/`([\S\s]+?)`/g, '<code>$1</code>')
-    .replace(reg, "<a href='$1$2' title='$1$2' target='_blank'>リンク</a>")
+router.route('/add').post(
+  asyncHandler(async (req: express.Request, res: express.Response) => {
+    let { username, content, email } = req.body
+    // xss对应和link对应
+    const reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g
+    content = content
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;')
+      .replace(/`([\S\s]+?)`/g, '<code>$1</code>')
+      .replace(reg, "<a href='$1$2' title='$1$2' target='_blank'>リンク</a>")
 
-  const newComment = new Comment({
-    username,
-    content,
-    email,
+    const comment = Comment.create({
+      username,
+      content,
+      email,
+    } as CommentDocument)
+
+    comment
+      .then(() => res.json('Comment added!'))
+      .catch((err: string) => res.status(400).json('Error: ' + err))
   })
-  newComment
-    .save()
-    .then(() => res.json('Comment added!'))
-    .catch((err: string) => res.status(400).json('Error: ' + err))
-})
+)
 //获取
 router.route('/:id').get((req, res) => {
   Comment.findById(req.params.id)

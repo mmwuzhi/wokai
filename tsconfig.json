@@ -4,7 +4,6 @@
     "jsx": "react-jsx",
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
-    "declaration": true,
     "strict": true,
     "esModuleInterop": true,
     "removeComments": true,

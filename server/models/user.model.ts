@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model, Document } from 'mongoose'
 
 const userSchema = new Schema(
   {
@@ -24,7 +24,6 @@ const userSchema = new Schema(
 userSchema.methods.matchPW = async function (enteredPW) {
   return await enteredPW === (this as any).password
 }
-
 export interface UserDocument extends Document {
   /** id */
   id: string

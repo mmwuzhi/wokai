@@ -1,15 +1,14 @@
 import express from 'express'
 import mongoose from 'mongoose'
-import { Chat } from '../models/chat.model'
+
+import { Chat, ChatDocument } from '../models/chat.model'
 
 const app = express()
 const http = require('http').Server(app)
 const io = require('socket.io')(http)
 
 const port = process.env.PORT_IO || 5002
-const uri =
-  process.env.ATLAS_URI ??
-  'mongodb+srv://admin:zzz123@mmwuzhi.vxx6t.mongodb.net/test-app?retryWrites=true&w=majority' // 数据库地址
+const uri = process.env.ATLAS_URI ?? 'mongodb://localhost:27017/wokai' // 数据库地址
 
 mongoose.connect(uri, {
   useNewUrlParser: true,
@@ -41,17 +40,17 @@ io.on('connection', (socket) => {
       })
   })
   // 监视发送msg请求
-  socket.on('sendMsg', (data: { name: any; msg: any }) => {
+  socket.on('sendMsg', async (data: { name: any; msg: any }) => {
     const { name, msg } = data
-    const newChat = new Chat({
+    const chat = await Chat.create({
       name,
       msg,
-    })
-    newChat.save().then(async () => {
+    } as ChatDocument)
+    if (chat) {
       const chats = await Chat.find().sort({ createdAt: -1 }).limit(20)
       // 向所有连接中的客户端发送当前msgList
       io.emit('recvMsg', chats)
-    })
+    }
   })
   // socket.broadcast.to('socketId').emit('hi', 'hi') //给指定人发送
   // 有客户端断开连接时更新所有连接中的客户端的在线人数

@@ -1,3 +1,5 @@
+import { State } from '../../src/provider/UserContext'
+
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST'
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'
 export const USER_LOGIN_FAIL = 'USER_LOGIN_FAIL'
@@ -14,7 +16,10 @@ export const USER_SIGNUP_REQUEST = 'USER_SIGNUP_REQUEST'
 export const USER_SIGNUP_SUCCESS = 'USER_SIGNUP_SUCCESS'
 export const USER_SIGNUP_FAIL = 'USER_SIGNUP_FAIL'
 
-export const userReducer = (state = {}, action) => {
+export const userReducer = (
+  state: State,
+  action: { type: string; value: string }
+) => {
   switch (action.type) {
     case USER_LOGIN_REQUEST:
       return {

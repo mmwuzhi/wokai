@@ -4,14 +4,34 @@ import {
   forwardRef,
   useEffect,
   useImperativeHandle,
+  HTMLInputTypeAttribute,
+  MouseEventHandler,
+  KeyboardEventHandler,
 } from 'react'
 
-export const LtInput = forwardRef((props, ref) => {
+interface LtInputProps {
+  forID: string
+  checkNaturalNumber?: boolean
+  onKeyDown?: KeyboardEventHandler
+  children: JSX.Element | string
+  type: HTMLInputTypeAttribute | undefined
+}
+interface ButtonProps {
+  onClick?: MouseEventHandler
+  children: JSX.Element | string
+  type: 'button' | 'submit' | 'reset' | undefined
+  className?: string
+}
+interface DeleteButtonProps {
+  onClick: MouseEventHandler
+}
+
+export const LtInput = forwardRef((props: LtInputProps, ref) => {
   const [filled, setFilled] = useState('')
   const [value, setValue] = useState('')
   const [checkedInputClassName, setCheckedInputClassName] = useState('')
   const [checkedLabelClassName, setCheckedLabelClassName] = useState('')
-  const inputRef = useRef(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   useImperativeHandle(ref, () => ({
     checkSubmit,
     focus,
@@ -36,10 +56,10 @@ export const LtInput = forwardRef((props, ref) => {
     }
   }
   const focus = () => {
-    inputRef.current.focus()
+    inputRef.current?.focus()
   }
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     if (props.checkNaturalNumber) {
       const { value } = e.target
       const reg = /^\d*?$/ // 以任意数字开头和结尾，且中间出现零个或多个数字
@@ -65,7 +85,7 @@ export const LtInput = forwardRef((props, ref) => {
       <label
         htmlFor={props.forID}
         onClick={(e) => {
-          e.target.previousElementSibling.focus()
+          ((e.target as HTMLLabelElement).previousElementSibling as HTMLDivElement).focus()
         }}
         className={`label absolute mb-0 -mt-2 pt-4 pl-3 leading-tighter text-gray-400 text-base cursor-text ${checkedLabelClassName}`}
       >
@@ -75,7 +95,7 @@ export const LtInput = forwardRef((props, ref) => {
   )
 })
 
-export const LightButton = (props) => {
+export const LightButton = (props: ButtonProps) => {
   return (
     <button
       type={props.type}
@@ -87,7 +107,7 @@ export const LightButton = (props) => {
   )
 }
 
-export const DarkButton = (props) => {
+export const DarkButton = (props: ButtonProps) => {
   return (
     <button
       type={props.type}
@@ -99,7 +119,7 @@ export const DarkButton = (props) => {
   )
 }
 
-export const DeleteButton = (props) => {
+export const DeleteButton = (props: DeleteButtonProps) => {
   return (
     <button
       onClick={props.onClick}

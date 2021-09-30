@@ -41,8 +41,7 @@ router.route('/update').post(
   asyncHandler(async (req: express.Request, res: express.Response) => {
     const { username, email, password } = req.body
     const user = await User.findOne({ email })
-    console.log('user')
-    console.log(user)
+    console.log(`user: ${user}`)
     const data = {
       password: req.body.newPassword,
       username: username,

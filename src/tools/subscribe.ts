@@ -8,7 +8,7 @@ const publicVapidKey =
  * @param {string} base64String base64字符串
  * @returns Uint8Array
  */
-const urlBase64ToUint8Array = (base64String) => {
+const urlBase64ToUint8Array = (base64String: string) => {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
   const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
 
@@ -27,7 +27,7 @@ const urlBase64ToUint8Array = (base64String) => {
  * @param {string} detail 内容
  * @param {number} timer 倒计时时间
  */
-const run = async (title, detail, timer) => {
+const run = async (title: string, detail: string, timer: number) => {
   const registration = await navigator.serviceWorker.register(
     '/serviceWorker.js',
     {
@@ -57,7 +57,7 @@ const run = async (title, detail, timer) => {
  * @param {string} detail 内容
  * @param {number} timer 倒计时时间
  */
-const subscribe = (title, detail, timer) => {
+const subscribe = (title: string, detail: string, timer: number) => {
   if ('serviceWorker' in navigator) {
     run(title, detail, timer).catch((error) => console.error(error))
   }

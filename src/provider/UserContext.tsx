@@ -1,16 +1,33 @@
 import React, { useEffect, useReducer, createContext } from 'react'
 import { userReducer } from '../reducers/userReducers'
 import { checkLogged } from '../actions/userActions'
-let UserContext
-const { Provider, Consumer } = (UserContext = createContext())
 
-const initialState = {
+let UserContext: React.Context<defaultValue>
+const { Provider, Consumer } = (UserContext = createContext({} as defaultValue))
+
+interface defaultValue {
+  state: State
+  dispatch: any
+}
+interface UserProviderProps {
+  children: JSX.Element
+}
+export interface State {
+  userData: {}
+  error: any
+  logged: boolean
+  loading: boolean
+}
+
+const initialState: State = {
   userData: {}, // 用户data，里面包含id，username，email
   error: null,
   logged: false,
   loading: true,
 }
-const UserProvider = (props) => {
+const UserProvider: React.FC<UserProviderProps> = (
+  props: UserProviderProps
+) => {
   const [state, dispatch] = useReducer(userReducer, initialState)
   // TODO: 不知道为啥第一次加载的时候这里会渲染3次
   useEffect(() => {

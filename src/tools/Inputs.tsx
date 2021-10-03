@@ -6,94 +6,105 @@ import {
   useImperativeHandle,
   HTMLInputTypeAttribute,
   MouseEventHandler,
-  KeyboardEventHandler,
+  SyntheticEvent,
 } from 'react'
 
 interface LtInputProps {
   forID: string
   checkNaturalNumber?: boolean
-  onKeyDown?: KeyboardEventHandler
+  onKeyDown?: (e: KeyboardEvent | SyntheticEvent<any>) => void
   children: JSX.Element | string
   type: HTMLInputTypeAttribute | undefined
 }
 interface ButtonProps {
   onClick?: MouseEventHandler
   children: JSX.Element | string
-  type: 'button' | 'submit' | 'reset' | undefined
+  type?: 'button' | 'submit' | 'reset' | undefined
   className?: string
 }
 interface DeleteButtonProps {
   onClick: MouseEventHandler
 }
+interface LtInputHandles {
+  checkSubmit: () => void
+  focus: () => void
+  setValue: React.Dispatch<React.SetStateAction<string>>
+  setFilled: React.Dispatch<React.SetStateAction<string>>
+}
 
-export const LtInput = forwardRef((props: LtInputProps, ref) => {
-  const [filled, setFilled] = useState('')
-  const [value, setValue] = useState('')
-  const [checkedInputClassName, setCheckedInputClassName] = useState('')
-  const [checkedLabelClassName, setCheckedLabelClassName] = useState('')
-  const inputRef = useRef<HTMLInputElement>(null)
-  useImperativeHandle(ref, () => ({
-    checkSubmit,
-    focus,
-    value,
-    setValue,
-    setFilled,
-  }))
-  useEffect(() => {
-    !value ? setFilled('') : setFilled('filled')
-  }, [value])
-  const checkInput = () => {
-    setCheckedInputClassName('')
-    setCheckedLabelClassName('')
-  }
-  const checkSubmit = () => {
-    if (value) {
+export const LtInput = forwardRef<LtInputHandles, LtInputProps>(
+  (props: LtInputProps, ref) => {
+    const [filled, setFilled] = useState('')
+    const [value, setValue] = useState('')
+    const [checkedInputClassName, setCheckedInputClassName] = useState('')
+    const [checkedLabelClassName, setCheckedLabelClassName] = useState('')
+    const inputRef = useRef<HTMLInputElement>(null)
+    useImperativeHandle(ref, () => ({
+      checkSubmit,
+      focus,
+      value,
+      setValue,
+      setFilled,
+    }))
+    useEffect(() => {
+      !value ? setFilled('') : setFilled('filled')
+    }, [value])
+    const checkInput = () => {
       setCheckedInputClassName('')
       setCheckedLabelClassName('')
-    } else {
-      setCheckedInputClassName('border-red-500')
-      setCheckedLabelClassName('text-red-500')
     }
-  }
-  const focus = () => {
-    inputRef.current?.focus()
-  }
-
-  const handleChange = (e: any) => {
-    if (props.checkNaturalNumber) {
-      const { value } = e.target
-      const reg = /^\d*?$/ // 以任意数字开头和结尾，且中间出现零个或多个数字
-      if ((reg.test(value) && value.length < 4) || value === '') {
-        setValue(e.target.value)
+    const checkSubmit = () => {
+      if (value) {
+        setCheckedInputClassName('')
+        setCheckedLabelClassName('')
+      } else {
+        setCheckedInputClassName('border-red-500')
+        setCheckedLabelClassName('text-red-500')
       }
-      return
     }
-    setValue(e.target.value)
+    const focus = () => {
+      inputRef.current!.focus()
+    }
+
+    const handleChange = (e: any) => {
+      if (props.checkNaturalNumber) {
+        const { value } = e.target
+        const reg = /^\d*?$/ // 以任意数字开头和结尾，且中间出现零个或多个数字
+        if ((reg.test(value) && value.length < 4) || value === '') {
+          setValue(e.target.value)
+        }
+        return
+      }
+      setValue(e.target.value)
+    }
+    return (
+      <div className='mb-4 relative'>
+        <input
+          className={`${filled} input border border-gray-200 appearance-none rounded w-full px-3 py-3 pt-5 pb-2 focus focus:border-blue-200 focus:outline-none active:outline-none active:border-blue-200 ${checkedInputClassName}`}
+          id={props.forID}
+          type={props.type}
+          value={value}
+          onChange={handleChange}
+          onKeyUp={checkInput}
+          ref={inputRef}
+          onKeyDown={props.onKeyDown}
+        />
+        <label
+          htmlFor={props.forID}
+          onClick={(e) => {
+            ;(
+              (e.target as HTMLLabelElement)
+                .previousElementSibling as HTMLDivElement
+            ).focus()
+          }}
+          className={`label absolute mb-0 -mt-2 pt-4 pl-3 leading-tighter text-gray-400 text-base cursor-text ${checkedLabelClassName}`}
+        >
+          {props.children}
+        </label>
+      </div>
+    )
   }
-  return (
-    <div className='mb-4 relative'>
-      <input
-        className={`${filled} input border border-gray-200 appearance-none rounded w-full px-3 py-3 pt-5 pb-2 focus focus:border-blue-200 focus:outline-none active:outline-none active:border-blue-200 ${checkedInputClassName}`}
-        id={props.forID}
-        type={props.type}
-        value={value}
-        onChange={handleChange}
-        onKeyUp={checkInput}
-        ref={inputRef}
-        onKeyDown={props.onKeyDown}
-      />
-      <label
-        htmlFor={props.forID}
-        onClick={(e) => {
-          ((e.target as HTMLLabelElement).previousElementSibling as HTMLDivElement).focus()
-        }}
-        className={`label absolute mb-0 -mt-2 pt-4 pl-3 leading-tighter text-gray-400 text-base cursor-text ${checkedLabelClassName}`}
-      >
-        {props.children}
-      </label>
-    </div>
-  )
-})
+)
 
 export const LightButton = (props: ButtonProps) => {
   return (

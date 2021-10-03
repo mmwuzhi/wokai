@@ -1,27 +1,33 @@
-import React, { useContext, useRef, useEffect } from 'react'
+import React, { useContext, useRef, useEffect, SyntheticEvent } from 'react'
 import { UserContext } from '../../provider/UserContext'
 import { checkLogged } from '../../actions/userActions'
 import axios from 'axios'
+import { History } from 'history'
 
 import { LtInput, DarkButton } from '../../tools/Inputs'
-const MyPage = (props) => {
+
+interface MyPageProps {
+  history: History
+  /* other props for ChildComponent */
+}
+const MyPage = (props: MyPageProps) => {
   const { state, dispatch } = useContext(UserContext)
 
-  const nameRef = useRef(null)
-  const passwordRef = useRef(null)
-  const newPasswordRef = useRef(null)
-  const confirmNewPasswordRef = useRef(null)
+  const nameRef = useRef<any>(null)
+  const passwordRef = useRef<any>(null)
+  const newPasswordRef = useRef<any>(null)
+  const confirmNewPasswordRef = useRef<any>(null)
 
   useEffect(() => {
     ;(async () => {
-      const check = await checkLogged(dispatch)
-      if (check?.data?.data?.username !== undefined) {
-        nameRef.current.setValue(check?.data?.data?.username)
+      const data = await checkLogged(dispatch)
+      if (data?.data?.username !== undefined) {
+        nameRef!.current!.setValue(data?.data?.username)
       } else props.history.push('/user/login')
     })()
   }, [props.history, dispatch])
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: SyntheticEvent<any>) => {
     e.preventDefault()
     if (newPasswordRef.current.value !== confirmNewPasswordRef.current.value) {
     } else {

@@ -5,7 +5,16 @@ import momentLocale from 'moment/locale/ja'
 
 moment.updateLocale('ja', momentLocale)
 
-const ChatDetail = (props) => {
+interface ChatDetailProps {
+  data: {
+    name:string
+    createdAt: moment.MomentInput
+    msg: string
+  }
+  index?: number
+}
+
+const ChatDetail = (props: ChatDetailProps) => {
   return (
     <div className='comment'>
       <div className='comment-user'>

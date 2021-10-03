@@ -1,15 +1,20 @@
 import React from 'react'
-import CommentDetail from './CommentDetail'
+import CommentDetail, {IComment} from './CommentDetail'
 
-const CommentList = (props) => {
-  const handleDeleteComment = (id) => {
+interface CommentListProps {
+  onDeleteComment: (id: string) => void
+  comments: IComment[]
+}
+
+const CommentList = (props: CommentListProps) => {
+  const handleDeleteComment = (id: string) => {
     if (props.onDeleteComment) {
       props.onDeleteComment(id)
     }
   }
   return (
     <>
-      {props.comments.map((comment, index) => (
+      {props.comments?.map((comment, index) => (
         <CommentDetail
           comment={comment}
           key={index}

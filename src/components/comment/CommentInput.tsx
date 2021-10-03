@@ -1,15 +1,20 @@
-import React, { useState, useContext, useRef, useEffect } from 'react'
-import { UserContext } from '../../provider/UserContext'
-
+import React, { useState, useContext, useRef, useEffect, KeyboardEvent, SyntheticEvent } from 'react'
 import axios from 'axios'
 
+import { UserContext } from '../../provider/UserContext'
 import { DarkButton } from '../../tools/Inputs'
-const CommentInput = (props) => {
+import { IComment } from './CommentDetail'
+
+interface CommentInputProps {
+  onSubmit: (comment: IComment) => void
+}
+
+const CommentInput = (props: CommentInputProps) => {
   const { state } = useContext(UserContext)
   const [username, setUsername] = useState('')
   const [content, setContent] = useState('')
-  const textarea = useRef(null)
-  const nameArea = useRef(null)
+  const textarea = useRef<HTMLTextAreaElement>(null)
+  const nameArea = useRef<HTMLInputElement>(null)
 
   // 第一次加载界面的时候调用，使光标移动到输入框
   useEffect(() => {
@@ -20,9 +25,9 @@ const CommentInput = (props) => {
       if (!isUnmounted) {
         if (res.data.code === 0) {
           setUsername(res.data.data.username)
-          textarea?.current.focus()
+          textarea!.current!.focus()
         } else {
-          nameArea?.current.focus()
+          nameArea!.current!.focus()
         }
       }
     })
@@ -31,7 +36,7 @@ const CommentInput = (props) => {
     }
   }, [])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: SyntheticEvent<any>) => {
     e.preventDefault()
     if (props.onSubmit) {
       const { email } = state.userData
@@ -46,8 +51,8 @@ const CommentInput = (props) => {
     setContent('')
   }
 
-  const keySend = (e) => {
-    if (e.ctrlKey && e.keyCode === 13) handleSubmit(e)
+  const keySend = (e: KeyboardEvent) => {
+    if (e.ctrlKey && e.key === 'Enter') handleSubmit(e)
   }
   return (
     <div className='comment-input'>

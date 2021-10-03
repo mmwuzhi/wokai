@@ -11,14 +11,14 @@ interface LoginProps {
 }
 const Login = (props: LoginProps) => {
   const { state, dispatch } = useContext(UserContext)
-  const emailRef = useRef<HTMLInputElement>(null)
-  const passwordRef = useRef<HTMLInputElement>(null)
+  const emailRef = useRef<any>(null)
+  const passwordRef = useRef<any>(null)
   useEffect(() => {
     if (state.logged === true) props.history.push('/comment')
   }, [state.logged, props.history])
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    login(emailRef.current?.value, passwordRef.current?.value)(dispatch)
+    login(emailRef.current!.value, passwordRef.current!.value)(dispatch)
   }
   return (
     <div>

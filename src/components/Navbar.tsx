@@ -5,17 +5,17 @@ import { classnames } from 'tailwindcss-classnames'
 import { iconMenu, iconUser } from '../tools/Icons'
 import { UserContext } from '../provider/UserContext'
 
-const Navbar = (props) => {
+const Navbar = (props: { handleSidebar: () => void }) => {
   const { state } = useContext(UserContext)
   const [userDropdown, setUserDropdown] = useState(false)
 
-  const userIconRef = useRef(null)
-  const [userDropLeft, setUserDropLeft] = useState()
+  const userIconRef = useRef<HTMLDivElement>(null)
+  const [userDropLeft, setUserDropLeft] = useState<number>()
 
   useEffect(() => {
-    setUserDropLeft(userIconRef.current.offsetLeft - 180)
+    setUserDropLeft(userIconRef!.current!.offsetLeft - 180)
     const setLeft = () => {
-      const left = userIconRef.current.offsetLeft - 180
+      const left = userIconRef!.current!.offsetLeft - 180
       setUserDropLeft(left)
     }
     window.addEventListener('resize', setLeft)
@@ -31,7 +31,6 @@ const Navbar = (props) => {
   const userDropClass = classnames(
     'transition-all',
     'duration-300',
-    'transform',
     'origin-top-right',
     'absolute',
     'right-0',
@@ -55,7 +54,7 @@ const Navbar = (props) => {
       invisible: !userDropdown,
       'scale-100': userDropdown,
       'translate-y-0': userDropdown,
-      'opacity-1': userDropdown,
+      'opacity-100': userDropdown,
       visible: userDropdown,
     }
   )
@@ -90,7 +89,10 @@ const Navbar = (props) => {
           </span>
         </div>
         <div onClick={() => setUserDropdown(false)} className={overlay} />
-        <div style={{ left: userDropLeft }} className={userDropClass}>
+        <div
+          style={{ left: userDropLeft }}
+          className={`transform ${userDropClass}`}
+        >
           <div className={signArea}>
             <p className='text-sm leading-5'>Signed in as</p>
             <p className='text-sm font-medium leading-5 text-gray-900 truncate'>
@@ -118,7 +120,7 @@ const Navbar = (props) => {
               </NavLink>
             )}
             <span
-              tabIndex='-1'
+              tabIndex={-1}
               className='flex justify-between w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 cursor-not-allowed opacity-50'
               aria-disabled='true'
             >

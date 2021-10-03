@@ -4,13 +4,26 @@ import momentLocale from 'moment/locale/ja'
 
 moment.updateLocale('ja', momentLocale)
 
-const CommentDetail = (props) => {
+export interface IComment {
+  createdAt?: moment.MomentInput
+  username: string
+  _id?: string
+  email: string
+  content: string
+}
+interface CommentDetailProps {
+  onDeleteComment: (id: string) => void
+  comment: IComment
+  index?: number
+}
+
+const CommentDetail = (props: CommentDetailProps) => {
   const [timeString, setTimeString] = useState('')
   const [timeTitle, setTimeTitle] = useState('')
-  const ref = useRef()
+  const ref = useRef<number>()
   useEffect(() => {
     updateTimeString()
-    ref.current = setInterval(updateTimeString, 1000 * 60)
+    ref.current = window.setInterval(updateTimeString, 1000 * 60)
     return () => {
       clearInterval(ref.current)
     }
@@ -23,7 +36,7 @@ const CommentDetail = (props) => {
   }
 
   const handleDeleteComment = () => {
-    props.onDeleteComment && props.onDeleteComment(props.comment._id)
+    props.onDeleteComment && props.onDeleteComment(props.comment._id!)
   }
   return (
     <div className='comment'>

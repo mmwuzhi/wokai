@@ -7,9 +7,9 @@ import subscribe from '../tools/subscribe'
 
 const Tool = () => {
   const [checkedTime, setCheckedTime] = useState('')
-  const titleRef = useRef()
-  const detailRef = useRef()
-  const timerRef = useRef()
+  const titleRef = useRef<any>()
+  const detailRef = useRef<any>()
+  const timerRef = useRef<any>()
 
   useEffect(() => {
     setTime()
@@ -21,9 +21,9 @@ const Tool = () => {
 
   const doSubscribe = () => {
     subscribe(
-      titleRef.current.value,
-      detailRef.current.value,
-      parseInt(timerRef.current.value) * 1000 * 60
+      titleRef.current!.value,
+      detailRef.current!.value,
+      parseInt(timerRef.current!.value) * 1000 * 60
     )
     // set成功之后给个提示不然都不知道自己干啥了。。。
   }

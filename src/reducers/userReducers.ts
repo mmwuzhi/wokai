@@ -18,8 +18,8 @@ export const USER_SIGNUP_FAIL = 'USER_SIGNUP_FAIL'
 
 export const userReducer = (
   state: State,
-  action: { type: string; value: string }
-) => {
+  action: { type: string; value: string | IUserData }
+): State => {
   switch (action.type) {
     case USER_LOGIN_REQUEST:
       return {
@@ -31,7 +31,7 @@ export const userReducer = (
         ...state,
         loading: false,
         logged: true,
-        userData: action.value,
+        userData: action.value as IUserData,
       }
     case USER_LOGIN_FAIL:
       return {
@@ -49,7 +49,7 @@ export const userReducer = (
         ...state,
         loading: false,
         logged: false,
-        userData: {},
+        userData: {} as IUserData,
       }
     case USER_LOGOUT_FAIL:
       return {
@@ -67,7 +67,7 @@ export const userReducer = (
         ...state,
         loading: false,
         logged: true,
-        userData: action.value,
+        userData: action.value as IUserData,
       }
     case USER_CHECK_LOGGED_FAIL:
       return {
@@ -85,7 +85,7 @@ export const userReducer = (
         ...state,
         loading: false,
         logged: true,
-        userData: action.value,
+        userData: action.value as IUserData,
       }
     case USER_SIGNUP_FAIL:
       return {

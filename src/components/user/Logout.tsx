@@ -1,14 +1,15 @@
 import React, { useContext, useEffect } from 'react'
 import { UserContext } from '../../provider/UserContext'
 import { checkLogged, logout } from '../../actions/userActions'
+import { History } from 'history'
 
 import { LightButton, DarkButton } from '../../tools/Inputs'
-const Logout = (props) => {
+const Logout = (props: { history: History }) => {
   const { state, dispatch } = useContext(UserContext)
   useEffect(() => {
     ;(async () => {
-      const check = await checkLogged(dispatch)
-      if (check?.data?.code !== 0) props.history.push('/user/login')
+      const data = await checkLogged(dispatch)
+      if (data?.code !== 0) props.history.push('/user/login')
     })()
   }, [state.logged, dispatch, props.history])
 

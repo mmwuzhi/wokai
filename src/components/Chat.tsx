@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, SyntheticEvent } from 'react'
 import io from 'socket.io-client'
 import ChatDetail from './chat/ChatDetail'
 
@@ -15,8 +15,8 @@ const socket = io()
 export default function Chat() {
   const [dataList, setDataList] = useState([])
   const [count, setCount] = useState()
-  const nameRef = useRef(null)
-  const msgRef = useRef(null)
+  const nameRef = useRef<any>(null)
+  const msgRef = useRef<any>(null)
 
   useEffect(() => {
     NProgress.start()
@@ -42,7 +42,7 @@ export default function Chat() {
     }
   }, [])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: KeyboardEvent | SyntheticEvent<any>) => {
     e.preventDefault()
     nameRef.current.checkSubmit()
     msgRef.current.checkSubmit()
@@ -58,9 +58,9 @@ export default function Chat() {
     }
   }
 
-  const keySend = (e) => {
+  const keySend = (e: KeyboardEvent | SyntheticEvent<any>) => {
     // 回车发送msg
-    if (e.keyCode === 13) handleSubmit(e)
+    if ((e as KeyboardEvent).key === 'Enter') handleSubmit(e)
   }
 
   return (

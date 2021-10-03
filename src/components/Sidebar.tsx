@@ -4,7 +4,19 @@ import { classnames } from 'tailwindcss-classnames'
 
 import { sideLinks } from '../tools/links'
 
-const DrawSidebar = (props) => {
+interface DrawSidebarProps {
+  sidebar: boolean
+  handleSidebar?: () => void
+  toggleClass: string
+  toggleText?: string
+}
+interface SidebarProps {
+  handleSidebar?: () => void
+  class: string
+  toggleText?: string
+}
+
+const DrawSidebar = (props: DrawSidebarProps) => {
   const overlay = classnames('inset-0', 'fixed', 'z-20', {
     hidden: !props.sidebar,
   })
@@ -29,7 +41,7 @@ const DrawSidebar = (props) => {
   )
 }
 
-export const Sidebar = (props) => {
+export const Sidebar = (props: SidebarProps) => {
   return (
     <aside className={`${props.class} p-3 flex bg-white flex-col`}>
       <nav>

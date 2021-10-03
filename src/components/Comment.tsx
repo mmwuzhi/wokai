@@ -4,9 +4,10 @@ import CommentList from './comment/CommentList'
 import axios from 'axios'
 
 import NProgress from 'nprogress'
+import { IComment } from './comment/CommentDetail'
 
 const Comment = () => {
-  const [comments, setComments] = useState([])
+  const [comments, setComments] = useState<IComment[]>()
   useEffect(() => {
     // TODO: 内存泄漏
     commentLoader()
@@ -27,7 +28,7 @@ const Comment = () => {
       })
   }
 
-  const handleSubmitComment = (comment) => {
+  const handleSubmitComment = (comment:IComment) => {
     if (!comment) return
     if (!comment.username) return alert('ユーザ名を入力してください！')
     if (!comment.content) return alert('コメントを入力してください！')
@@ -40,13 +41,13 @@ const Comment = () => {
       })
   }
 
-  const handleDeleteComment = (id) => {
+  const handleDeleteComment = (id:string) => {
     NProgress.start()
     axios
       .delete('/api/comments/' + id)
       .then((res) => {
         console.log(res.data)
-        setComments(comments.filter((comment) => comment._id !== id))
+        setComments(comments!.filter((comment) => comment._id !== id))
       })
       .catch((err) => {
         console.log(err)
@@ -60,7 +61,7 @@ const Comment = () => {
       <CommentInput onSubmit={handleSubmitComment} />
       <div className='bg-white p-5 border-2 border-gray-50'>
         <CommentList
-          comments={comments}
+          comments={comments!}
           onDeleteComment={handleDeleteComment}
         />
       </div>

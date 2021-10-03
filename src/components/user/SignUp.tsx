@@ -1,29 +1,31 @@
-import React, { useRef, useEffect, useContext } from 'react'
+import React, { useRef, useEffect, useContext, SyntheticEvent } from 'react'
+import { History } from 'history'
+
 import { UserContext } from '../../provider/UserContext'
 import { signup } from '../../actions/userActions'
 import { DarkButton, LtInput } from '../../tools/Inputs'
 
-const SignUp = (props) => {
+const SignUp = (props: { history: History }) => {
   const { state, dispatch } = useContext(UserContext)
 
-  const nameRef = useRef(null)
-  const mailRef = useRef(null)
-  const passwordRef = useRef(null)
-  const confirmPasswordRef = useRef(null)
+  const nameRef = useRef<any>(null)
+  const mailRef = useRef<any>(null)
+  const passwordRef = useRef<any>(null)
+  const confirmPasswordRef = useRef<any>(null)
 
   useEffect(() => {
     if (state.logged === true) props.history.push('/user/mypage')
   }, [state.logged, props.history])
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: SyntheticEvent<any>) => {
     e.preventDefault()
-    if (passwordRef.current.value !== confirmPasswordRef.current.value) {
+    if (passwordRef!.current!.value !== confirmPasswordRef!.current!.value) {
       alert('パスワードが一致していない！')
     } else {
-      const user = {
-        username: nameRef.current.value,
-        email: mailRef.current.value,
-        password: passwordRef.current.value,
+      const user: IUser = {
+        username: nameRef!.current!.value,
+        email: mailRef!.current!.value,
+        password: passwordRef!.current!.value,
       }
       //调用后端接口创建user
       signup(user)(dispatch)

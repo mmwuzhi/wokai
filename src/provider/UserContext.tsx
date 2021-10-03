@@ -13,14 +13,18 @@ interface UserProviderProps {
   children: JSX.Element
 }
 export interface State {
-  userData: {}
+  userData: IUserData
   error: any
   logged: boolean
   loading: boolean
 }
 
 const initialState: State = {
-  userData: {}, // 用户data，里面包含id，username，email
+  userData: {
+    id: '',
+    username: '',
+    email:'',
+  }, // 用户data，里面包含id，username，email
   error: null,
   logged: false,
   loading: true,

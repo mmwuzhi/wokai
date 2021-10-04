@@ -1,16 +1,18 @@
-import React, { useState, useContext, useRef, useEffect, KeyboardEvent, SyntheticEvent } from 'react'
+import React, { useState, useRef, useEffect, KeyboardEvent, SyntheticEvent } from 'react'
 import axios from 'axios'
+import { useSelector } from 'react-redux'
 
-import { UserContext } from '../../provider/UserContext'
 import { DarkButton } from '../../tools/Inputs'
 import { IComment } from './CommentDetail'
+import { RootState } from '../../store/store'
 
 interface CommentInputProps {
   onSubmit: (comment: IComment) => void
 }
 
 const CommentInput = (props: CommentInputProps) => {
-  const { state } = useContext(UserContext)
+  // 通过选择器获取state
+  const userState = useSelector((state: RootState) => state.user)
   const [username, setUsername] = useState('')
   const [content, setContent] = useState('')
   const textarea = useRef<HTMLTextAreaElement>(null)
@@ -39,7 +41,7 @@ const CommentInput = (props: CommentInputProps) => {
   const handleSubmit = (e: SyntheticEvent<any>) => {
     e.preventDefault()
     if (props.onSubmit) {
-      const { email } = state.userData
+      const { email } = userState.userData
       props.onSubmit({
         username,
         email,

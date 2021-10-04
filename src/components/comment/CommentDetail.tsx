@@ -17,7 +17,7 @@ interface CommentDetailProps {
   index?: number
 }
 
-const CommentDetail = (props: CommentDetailProps) => {
+const CommentDetail:React.FC<CommentDetailProps> = (props) => {
   const [timeString, setTimeString] = useState('')
   const [timeTitle, setTimeTitle] = useState('')
   const ref = useRef<number>()

@@ -1,17 +1,35 @@
-import React, { useContext, useEffect } from 'react'
-import { UserContext } from '../../provider/UserContext'
-import { checkLogged, logout } from '../../actions/userActions'
+import React, { useEffect } from 'react'
 import { History } from 'history'
+import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { LightButton, DarkButton } from '../../tools/Inputs'
+import { RootState } from '../../store/store'
+import { loginFail, logoutSuccess } from '../../store/features/userSlice'
+import { checkLogged } from '../../actions/userActions'
+
+export const logoutAction = (dispatch: React.Dispatch<any>) => {
+  axios
+    .get('/api/users/logout')
+    .then(() => {
+      dispatch(logoutSuccess)
+    })
+    .catch((error) => {
+      dispatch(loginFail(error))
+    })
+}
+
 const Logout = (props: { history: History }) => {
-  const { state, dispatch } = useContext(UserContext)
+  const dispatch = useDispatch()
+  // 通过选择器获取state
+  const userState = useSelector((state: RootState) => state.user)
+
   useEffect(() => {
     ;(async () => {
       const data = await checkLogged(dispatch)
-      if (data?.code !== 0) props.history.push('/user/login')
+      if (data?.code !== 0 || userState.logged === false) props.history.push('/user/login')
     })()
-  }, [state.logged, dispatch, props.history])
+  }, [userState.logged, dispatch, props.history])
 
   const cancel = () => {
     props.history.push('/')
@@ -22,7 +40,9 @@ const Logout = (props: { history: History }) => {
       <h3 className=''>なになにさいとからログアウトしますか？</h3>
       <div className=''>
         <LightButton onClick={cancel}>キャンセル</LightButton>
-        <DarkButton onClick={() => logout(dispatch)}>ログアウト</DarkButton>
+        <DarkButton onClick={() => logoutAction(dispatch)}>
+          ログアウト
+        </DarkButton>
       </div>
     </div>
   )

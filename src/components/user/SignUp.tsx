@@ -1,12 +1,32 @@
-import React, { useRef, useEffect, useContext, SyntheticEvent } from 'react'
+import React, { useRef, useEffect, SyntheticEvent } from 'react'
+import axios from 'axios'
 import { History } from 'history'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { UserContext } from '../../provider/UserContext'
-import { signup } from '../../actions/userActions'
 import { DarkButton, LtInput } from '../../tools/Inputs'
+import { RootDispatch, RootState } from '../../store/store'
+import { loginFail, loginSuccess } from '../../store/features/userSlice'
+
+const signupAction = (user: IUser) => async (dispatch: RootDispatch) => {
+  try {
+    const { data } = await axios.post('/api/users/', user)
+    dispatch(loginSuccess(data))
+    alert('サインアップしました！')
+  } catch (error) {
+    if (
+      axios.isAxiosError(error) &&
+      error.response &&
+      error.response.status === 400
+    ) {
+      dispatch(loginFail(error.message))
+    }
+  }
+}
 
 const SignUp = (props: { history: History }) => {
-  const { state, dispatch } = useContext(UserContext)
+  const dispatch = useDispatch()
+  // 通过选择器获取state
+  const userState = useSelector((state: RootState) => state.user)
 
   const nameRef = useRef<any>(null)
   const mailRef = useRef<any>(null)
@@ -14,8 +34,8 @@ const SignUp = (props: { history: History }) => {
   const confirmPasswordRef = useRef<any>(null)
 
   useEffect(() => {
-    if (state.logged === true) props.history.push('/user/mypage')
-  }, [state.logged, props.history])
+    if (userState.logged === true) props.history.push('/user/mypage')
+  }, [userState.logged, props.history])
 
   const onSubmit = (e: SyntheticEvent<any>) => {
     e.preventDefault()
@@ -28,7 +48,7 @@ const SignUp = (props: { history: History }) => {
         password: passwordRef!.current!.value,
       }
       //调用后端接口创建user
-      signup(user)(dispatch)
+      signupAction(user)(dispatch)
     }
   }
   return (

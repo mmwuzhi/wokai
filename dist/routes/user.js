@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -16,14 +7,14 @@ const express_1 = __importDefault(require("express"));
 const express_async_handler_1 = __importDefault(require("express-async-handler"));
 const user_model_1 = require("../models/user.model");
 const router = express_1.default.Router();
-router.route('/').post((0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.route('/').post((0, express_async_handler_1.default)(async (req, res) => {
     const { username, email, password } = req.body;
-    const userExists = yield user_model_1.User.findOne({ email });
+    const userExists = await user_model_1.User.findOne({ email });
     if (userExists) {
         res.status(400);
         throw new Error('メールアドレスは既に登録しました');
     }
-    const user = yield user_model_1.User.create({
+    const user = await user_model_1.User.create({
         username,
         email,
         password,
@@ -40,19 +31,18 @@ router.route('/').post((0, express_async_handler_1.default)((req, res) => __awai
         res.status(400);
         throw new Error('無効なユーザーデータ!');
     }
-})));
-router.route('/update').post((0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+}));
+router.route('/update').post((0, express_async_handler_1.default)(async (req, res) => {
     const { username, email, password } = req.body;
-    const user = yield user_model_1.User.findOne({ email });
-    console.log('user');
-    console.log(user);
+    const user = await user_model_1.User.findOne({ email });
+    console.log(`user: ${user}`);
     const data = {
         password: req.body.newPassword,
         username: username,
         email: email,
     };
-    req.session.userInfo = data;
-    if (user && (yield user.matchPW(password))) {
+    if (user && (await user.matchPW(password))) {
+        req.session.userInfo = data;
         user_model_1.User.findOneAndUpdate({ email }, { $set: data }, {}, (err, data) => {
             if (err) {
                 console.log('error: ' + err);
@@ -72,7 +62,7 @@ router.route('/update').post((0, express_async_handler_1.default)((req, res) => 
         res.status(400);
         throw new Error('パスワードが間違いました！');
     }
-})));
+}));
 router.route('/userInfo').get((req, res) => {
     req.session.userInfo
         ? res.status(200).json({
@@ -86,23 +76,23 @@ router.route('/userInfo').get((req, res) => {
             code: 1,
         });
 });
-router.route('/login').post((0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.route('/login').post((0, express_async_handler_1.default)(async (req, res) => {
     const { email, password } = req.body;
-    const user = yield user_model_1.User.findOne({ email });
+    const user = await user_model_1.User.findOne({ email });
     const data = {
-        id: user === null || user === void 0 ? void 0 : user._id,
-        username: user === null || user === void 0 ? void 0 : user.username,
-        email: user === null || user === void 0 ? void 0 : user.email,
+        id: user?._id,
+        username: user?.username,
+        email: user?.email,
     };
-    req.session.userInfo = data;
-    if (user && (yield user.matchPW(password))) {
+    if (user && (await user.matchPW(password))) {
+        req.session.userInfo = data;
         res.status(201).json(data);
     }
     else {
         res.status(400);
         throw new Error('メールアドレスまたはパスワードが間違いました!');
     }
-})));
+}));
 router.route('/logout').get((req, res) => {
     req.session.destroy((err) => {
         console.log(err);

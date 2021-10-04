@@ -22,7 +22,7 @@ const userSchema = new Schema(
 )
 
 userSchema.methods.matchPW = async function (enteredPW) {
-  return await enteredPW === (this as any).password
+  return await enteredPW === (this as UserDocument).password
 }
 export interface UserDocument extends Document {
   /** id */

@@ -1,17 +1,20 @@
-import React, { useContext, useRef, useEffect, SyntheticEvent } from 'react'
-import { UserContext } from '../../provider/UserContext'
+import React, { useRef, useEffect, SyntheticEvent } from 'react'
 import { checkLogged } from '../../actions/userActions'
 import axios from 'axios'
 import { History } from 'history'
 
 import { LtInput, DarkButton } from '../../tools/Inputs'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../store/store'
 
 interface MyPageProps {
   history: History
   /* other props for ChildComponent */
 }
 const MyPage = (props: MyPageProps) => {
-  const { state, dispatch } = useContext(UserContext)
+  const dispatch = useDispatch()
+  // 通过选择器获取state
+  const userState = useSelector((state: RootState) => state.user)
 
   const nameRef = useRef<any>(null)
   const passwordRef = useRef<any>(null)
@@ -33,7 +36,7 @@ const MyPage = (props: MyPageProps) => {
     } else {
       const user = {
         username: nameRef.current.value,
-        email: state.userData.email,
+        email: userState.userData.email,
         password: passwordRef.current.value,
         newPassword: newPasswordRef.current.value,
       }
@@ -58,7 +61,7 @@ const MyPage = (props: MyPageProps) => {
         </LtInput>
         <div className='form-group'>
           <label>メールアドレス: </label>
-          <span>{state.userData.email}</span>
+          <span>{userState.userData.email}</span>
         </div>
         <LtInput type='password' forID='old-password' ref={passwordRef}>
           パスワード

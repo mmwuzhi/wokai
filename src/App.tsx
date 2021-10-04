@@ -1,24 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 
+import 'nprogress/nprogress.css'
+
 import Navbar from './components/Navbar'
 import DrawSidebar from './components/Sidebar'
 import Main from './components/Main'
+import { useDispatch } from 'react-redux'
+import { checkLogged } from './actions/userActions'
 
-import "nprogress/nprogress.css"
-
-function App(): JSX.Element {
+const App: React.FC = () => {
+  const dispatch = useDispatch()
   const [sidebar, setSidebar] = useState(false)
   const showSidebar = () => {
     setSidebar(!sidebar)
   }
 
   useEffect(() => {
+    checkLogged(dispatch)
     window.addEventListener('keydown', onKeyDown)
     return () => {
       window.removeEventListener('keydown', onKeyDown)
     }
-  }, [])
+  }, [dispatch])
 
   const onKeyDown = (e: { key: string }) => {
     if (e.key === 'Escape') setSidebar(false)

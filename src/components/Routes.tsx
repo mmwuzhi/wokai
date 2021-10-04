@@ -10,7 +10,7 @@ import MyPage from './user/MyPage'
 import Login from './user/Login'
 import Logout from './user/Logout'
 
-const Routes = () => {
+const Routes: React.FC = () => {
   return (
     <div className={`max-w-2xl w-full p-6`}>
       <Route path='/' exact component={Home} />

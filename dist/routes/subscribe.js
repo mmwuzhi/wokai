@@ -21,13 +21,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
 const web_push_1 = __importDefault(require("web-push"));
 const router = express.Router();
-const publicVapidKey = (_a = process.env.PUBLIC_VAPID_KEY) !== null && _a !== void 0 ? _a : 'BOVjyLKO6qyyTL_EkSuANUdMFfjCIdn26dDqXLBE69RKabZ5mQF6pU-GC9YJo01o5N9EOSs6nA_K8B1DqXqeIe8';
-const privateVapidKey = (_b = process.env.PRIVATE_VAPID_KEY) !== null && _b !== void 0 ? _b : '';
+const publicVapidKey = process.env.PUBLIC_VAPID_KEY ??
+    'BOVjyLKO6qyyTL_EkSuANUdMFfjCIdn26dDqXLBE69RKabZ5mQF6pU-GC9YJo01o5N9EOSs6nA_K8B1DqXqeIe8';
+const privateVapidKey = process.env.PRIVATE_VAPID_KEY ?? '';
 web_push_1.default.setVapidDetails('mailto:mmwuzhi@gmail.com', publicVapidKey, privateVapidKey);
 router.route('/').post((req, res) => {
     const subscription = req.body.subscription;

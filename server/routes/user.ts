@@ -48,8 +48,8 @@ router.route('/update').post(
       email: email,
     }
     //登录成功后设置session
-    req.session.userInfo = data
     if (user && (await user.matchPW(password))) {
+      req.session.userInfo = data
       User.findOneAndUpdate({ email }, { $set: data }, {}, (err, data) => {
         if (err) {
           console.log('error: ' + err)
@@ -93,8 +93,8 @@ router.route('/login').post(
       email: user?.email,
     }
     //登录成功后设置session
-    req.session.userInfo = data
     if (user && (await user.matchPW(password))) {
+      req.session.userInfo = data
       res.status(201).json(data)
     } else {
       res.status(400)

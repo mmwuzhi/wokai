@@ -2,7 +2,6 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
@@ -16,7 +15,7 @@ require('dotenv').config();
 const app = (0, express_1.default)();
 app.disable('x-powered-by');
 const port = process.env.PORT_SERVER || 5001;
-const uri = (_a = process.env.ATLAS_URI) !== null && _a !== void 0 ? _a : 'mongodb://localhost:27017/wokai';
+const uri = process.env.ATLAS_URI ?? 'mongodb://localhost:27017/wokai';
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)('express_react_cookie'));
 app.use((0, express_session_1.default)({

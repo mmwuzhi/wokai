@@ -1,12 +1,14 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Link, NavLink } from 'react-router-dom'
 import { classnames } from 'tailwindcss-classnames'
+import { RootState } from '../store/store'
 
 import { iconMenu, iconUser } from '../tools/Icons'
-import { UserContext } from '../provider/UserContext'
 
 const Navbar = (props: { handleSidebar: () => void }) => {
-  const { state } = useContext(UserContext)
+  // 通过选择器获取state
+  const userState = useSelector((state: RootState) => state.user)
   const [userDropdown, setUserDropdown] = useState(false)
 
   const userIconRef = useRef<HTMLDivElement>(null)
@@ -62,7 +64,7 @@ const Navbar = (props: { handleSidebar: () => void }) => {
   const overlay = classnames('inset-0', 'fixed', 'z-0', {
     hidden: !userDropdown,
   })
-  const signArea = classnames('px-4', 'py-3', { hidden: !state.logged })
+  const signArea = classnames('px-4', 'py-3', { hidden: !userState.logged })
 
   return (
     <header className='z-10 flex justify-center fixed w-full top-0 h-14 border border-blue-100 bg-white items-center'>
@@ -96,11 +98,11 @@ const Navbar = (props: { handleSidebar: () => void }) => {
           <div className={signArea}>
             <p className='text-sm leading-5'>Signed in as</p>
             <p className='text-sm font-medium leading-5 text-gray-900 truncate'>
-              {state.userData.email}
+              {userState.userData.email}
             </p>
           </div>
           <div className='py-1'>
-            {state.logged ? (
+            {userState.logged ? (
               <NavLink
                 to='/user/mypage'
                 onClick={() => setUserDropdown(false)}
@@ -128,7 +130,7 @@ const Navbar = (props: { handleSidebar: () => void }) => {
             </span>
           </div>
           <div className='py-1'>
-            {state.logged ? (
+            {userState.logged ? (
               <NavLink
                 to='/user/logout'
                 activeClassName='active'

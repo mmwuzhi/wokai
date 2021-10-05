@@ -22,13 +22,13 @@ export const userSlice = createSlice({
     loginFail(state, { payload }) {
       state.error = payload.error
     },
-    logoutSuccess(state) {
+    logoutSuccess(state, { payload }) {
       state.userData = {
         id: '',
         username: '',
         email: '',
       }
-      state.logged = false
+      state.logged = payload
     },
   },
 })

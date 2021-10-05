@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import CommentInput from './comment/CommentInput'
-import CommentList from './comment/CommentList'
 import axios from 'axios'
 
-import NProgress from 'nprogress'
+import CommentInput from './comment/CommentInput'
+import CommentList from './comment/CommentList'
 import { IComment } from './comment/CommentDetail'
 
 const Comment = () => {
@@ -14,7 +13,6 @@ const Comment = () => {
   }, [])
 
   const commentLoader = () => {
-    NProgress.start()
     axios
       .get('/api/comments/')
       .then((res) => {
@@ -23,12 +21,9 @@ const Comment = () => {
       .catch((err) => {
         console.error(err)
       })
-      .then(() => {
-        NProgress.done()
-      })
   }
 
-  const handleSubmitComment = (comment:IComment) => {
+  const handleSubmitComment = (comment: IComment) => {
     if (!comment) return
     if (!comment.username) return alert('ユーザ名を入力してください！')
     if (!comment.content) return alert('コメントを入力してください！')
@@ -41,8 +36,7 @@ const Comment = () => {
       })
   }
 
-  const handleDeleteComment = (id:string) => {
-    NProgress.start()
+  const handleDeleteComment = (id: string) => {
     axios
       .delete('/api/comments/' + id)
       .then((res) => {
@@ -51,9 +45,6 @@ const Comment = () => {
       })
       .catch((err) => {
         console.log(err)
-      })
-      .then(() => {
-        NProgress.done()
       })
   }
   return (

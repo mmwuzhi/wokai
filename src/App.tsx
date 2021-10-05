@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
-
 import 'nprogress/nprogress.css'
 
+import './plugins/setNprogress'
 import Navbar from './components/Navbar'
 import DrawSidebar from './components/Sidebar'
 import Main from './components/Main'

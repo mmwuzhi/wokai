@@ -12,7 +12,7 @@ export const logoutAction = (dispatch: React.Dispatch<any>) => {
   axios
     .get('/api/users/logout')
     .then(() => {
-      dispatch(logoutSuccess)
+      dispatch(logoutSuccess(false))
     })
     .catch((error) => {
       dispatch(loginFail(error))
@@ -22,14 +22,15 @@ export const logoutAction = (dispatch: React.Dispatch<any>) => {
 const Logout = (props: { history: History }) => {
   const dispatch = useDispatch()
   // 通过选择器获取state
-  const userState = useSelector((state: RootState) => state.user)
+  const logged = useSelector((state: RootState) => state.user.logged)
 
   useEffect(() => {
     ;(async () => {
       const data = await checkLogged(dispatch)
-      if (data?.code !== 0 || userState.logged === false) props.history.push('/user/login')
+      if (data?.code !== 0 || logged === false)
+        props.history.push('/user/login')
     })()
-  }, [userState.logged, dispatch, props.history])
+  }, [logged, dispatch, props.history])
 
   const cancel = () => {
     props.history.push('/')

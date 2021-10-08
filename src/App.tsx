@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
 import 'nprogress/nprogress.css'
 
 import './plugins/setNprogress'
@@ -11,6 +13,7 @@ import { checkLogged } from './actions/userActions'
 
 const App: React.FC = () => {
   const dispatch = useDispatch()
+  const queryClient = new QueryClient()
   const [sidebar, setSidebar] = useState(false)
   const showSidebar = () => {
     setSidebar(!sidebar)
@@ -29,7 +32,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className=''>
+    <QueryClientProvider client={queryClient}>
       <Router>
         <Navbar handleSidebar={showSidebar} />
         <DrawSidebar
@@ -39,7 +42,8 @@ const App: React.FC = () => {
         />
         <Main />
       </Router>
-    </div>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   )
 }
 

@@ -1,16 +1,33 @@
-import React, { useState, useRef, useEffect, KeyboardEvent, SyntheticEvent } from 'react'
-import axios from 'axios'
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  KeyboardEvent,
+  SyntheticEvent,
+} from 'react'
 import { useSelector } from 'react-redux'
+import axios from 'axios'
+import { useMutation, useQueryClient } from 'react-query'
 
 import { DarkButton } from '../../tools/Inputs'
 import { IComment } from './CommentDetail'
 import { RootState } from '../../store/store'
 
-interface CommentInputProps {
-  onSubmit: (comment: IComment) => void
+const submitComment = async (comment: IComment) => {
+  if (!comment) return
+  if (!comment.username) return alert('ユーザ名を入力してください！')
+  if (!comment.content) return alert('コメントを入力してください！')
+  try {
+    await axios.post('/api/comments/add', comment)
+  } catch (err) {
+    alert('投稿失敗しました。もう一度やり直してください。')
+    console.log(err)
+  }
 }
 
-const CommentInput = (props: CommentInputProps) => {
+const CommentInput = () => {
+  const { mutate } = useMutation(submitComment)
+  const queryClient = useQueryClient()
   // 通过选择器获取state
   const userState = useSelector((state: RootState) => state.user)
   const [username, setUsername] = useState('')
@@ -20,37 +37,29 @@ const CommentInput = (props: CommentInputProps) => {
 
   // 第一次加载界面的时候调用，使光标移动到输入框
   useEffect(() => {
-    // 避免组件销毁后仍然执行异步操作导致内存泄漏
-    let isUnmounted = false
-    // TODO: 以后说不定会有更好的获得当前用户名的方法
-    axios.get('/api/users/userInfo').then((res) => {
-      if (!isUnmounted) {
-        if (res.data.code === 0) {
-          setUsername(res.data.data.username)
-          textarea!.current!.focus()
-        } else {
-          nameArea!.current!.focus()
-        }
-      }
-    })
-    return () => {
-      isUnmounted = true
-    }
-  }, [])
+    setUsername(userState.userData.username)
+  }, [userState.userData.username])
 
   const handleSubmit = (e: SyntheticEvent<any>) => {
     e.preventDefault()
-    if (props.onSubmit) {
-      const { email } = userState.userData
-      props.onSubmit({
+    const { email } = userState.userData
+    mutate(
+      {
         username,
         email,
         // 删除字符串右端所有空白
         content: content.trimEnd(),
-      })
-    }
-    // TODO: 把这边给弄好 弄成如果发送失败就不set成空并且弹出提示
-    setContent('')
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries('comments')
+        },
+        onError: () => {
+          // TODO: 把这边给弄好 弄成如果发送失败就不set成空并且弹出提示
+          setContent('')
+        },
+      }
+    )
   }
 
   const keySend = (e: KeyboardEvent) => {

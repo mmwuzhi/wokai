@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react'
 import moment from 'moment'
 import momentLocale from 'moment/locale/ja'
+import { useMutation, useQueryClient } from 'react-query'
+import axios from 'axios'
 
 moment.updateLocale('ja', momentLocale)
 
@@ -12,15 +14,22 @@ export interface IComment {
   content: string
 }
 interface CommentDetailProps {
-  onDeleteComment: (id: string) => void
   comment: IComment
   index?: number
 }
 
-const CommentDetail:React.FC<CommentDetailProps> = (props) => {
+const deleteComment = async (id: string) => {
+  const { data } = await axios.delete('/api/comments/' + id)
+  console.log(data)
+}
+
+const CommentDetail: React.FC<CommentDetailProps> = (props) => {
   const [timeString, setTimeString] = useState('')
   const [timeTitle, setTimeTitle] = useState('')
   const ref = useRef<number>()
+  const { mutate } = useMutation(deleteComment)
+  const queryClient = useQueryClient()
+
   useEffect(() => {
     updateTimeString()
     ref.current = window.setInterval(updateTimeString, 1000 * 60)
@@ -36,7 +45,11 @@ const CommentDetail:React.FC<CommentDetailProps> = (props) => {
   }
 
   const handleDeleteComment = () => {
-    props.onDeleteComment && props.onDeleteComment(props.comment._id!)
+    mutate(props.comment._id!, {
+      onSuccess: () => {
+        queryClient.invalidateQueries('comments')
+      },
+    })
   }
   return (
     <div className='comment'>

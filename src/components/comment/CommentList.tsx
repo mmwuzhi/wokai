@@ -1,27 +1,34 @@
 import React from 'react'
-import CommentDetail, {IComment} from './CommentDetail'
+import CommentDetail, { IComment } from './CommentDetail'
+import { useQuery } from 'react-query'
+import axios from 'axios'
 
-interface CommentListProps {
-  onDeleteComment: (id: string) => void
-  comments: IComment[]
-}
 
-const CommentList = (props: CommentListProps) => {
-  const handleDeleteComment = (id: string) => {
-    if (props.onDeleteComment) {
-      props.onDeleteComment(id)
+const CommentList = () => {
+  const { data, isLoading, isError } = useQuery<IComment[]>(
+    'comments',
+    async () => {
+      const { data } = await axios.get('/api/comments/')
+      return data
     }
-  }
+  )
+
   return (
     <>
-      {props.comments?.map((comment, index) => (
-        <CommentDetail
-          comment={comment}
-          key={index}
-          index={index}
-          onDeleteComment={(id) => handleDeleteComment(id)}
-        />
-      ))}
+      {isLoading ? ( // TODO: LOADING画面
+        <span>Loading...</span>
+      ) : isError ? (
+        // TODO: エラーcomponent
+        <span>エラーが発生しました。</span>
+      ) : (
+        data?.map((comment, index) => (
+          <CommentDetail
+            comment={comment}
+            key={index}
+            index={index}
+          />
+        ))
+      )}
     </>
   )
 }

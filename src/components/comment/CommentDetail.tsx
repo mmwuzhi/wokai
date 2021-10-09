@@ -19,8 +19,7 @@ interface CommentDetailProps {
 }
 
 const deleteComment = async (id: string) => {
-  const { data } = await axios.delete('/api/comments/' + id)
-  console.log(data)
+  await axios.delete('/api/comments/' + id)
 }
 
 const CommentDetail: React.FC<CommentDetailProps> = (props) => {

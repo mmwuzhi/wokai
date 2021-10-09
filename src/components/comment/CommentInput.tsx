@@ -14,14 +14,13 @@ import { IComment } from './CommentDetail'
 import { RootState } from '../../store/store'
 
 const submitComment = async (comment: IComment) => {
-  if (!comment) return
-  if (!comment.username) return alert('ユーザ名を入力してください！')
-  if (!comment.content) return alert('コメントを入力してください！')
+  if (!comment.username) throw new Error('ユーザ名を入力してください！')
+  if (!comment.content) throw new Error('コメントを入力してください！')
   try {
     await axios.post('/api/comments/add', comment)
   } catch (err) {
-    alert('投稿失敗しました。もう一度やり直してください。')
-    console.log(err)
+    console.error(err)
+    throw new Error('投稿失敗しました。もう一度やり直してください。')
   }
 }
 
@@ -53,10 +52,10 @@ const CommentInput = () => {
       {
         onSuccess: () => {
           queryClient.invalidateQueries('comments')
-        },
-        onError: () => {
-          // TODO: 把这边给弄好 弄成如果发送失败就不set成空并且弹出提示
           setContent('')
+        },
+        onError: (err) => {
+          alert((err as Error).message)
         },
       }
     )
@@ -71,6 +70,7 @@ const CommentInput = () => {
         <span className='comment-field-name'>ユーザ名：</span>
         <div className='comment-field-input'>
           <input
+            type='text'
             value={username}
             ref={nameArea}
             onChange={(e) => setUsername(e.target.value)}

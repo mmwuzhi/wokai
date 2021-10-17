@@ -12,8 +12,7 @@ router.route('/').post(
     const userExists = await User.findOne({ email })
 
     if (userExists) {
-      res.status(400)
-      throw new Error('メールアドレスは既に登録しました')
+      res.status(400).json('メールアドレスは既に登録しました')
     }
 
     const user = await User.create({
@@ -31,13 +30,12 @@ router.route('/').post(
         email: user.email,
       })
     } else {
-      res.status(400)
-      throw new Error('無効なユーザーデータ!')
+      res.status(400).json('無効なユーザーデータ!')
     }
   })
 )
 
-router.route('/update').post(
+router.route('/update').put(
   asyncHandler(async (req: express.Request, res: express.Response) => {
     const { username, email, password } = req.body
     const user = await User.findOne({ email })
@@ -63,8 +61,7 @@ router.route('/update').post(
       })
       res.status(201).json(data)
     } else {
-      res.status(400)
-      throw new Error('パスワードが間違いました！')
+      res.status(400).json('パスワードが間違いました!')
     }
   })
 )
@@ -97,8 +94,7 @@ router.route('/login').post(
       req.session.userInfo = data
       res.status(201).json(data)
     } else {
-      res.status(400)
-      throw new Error('メールアドレスまたはパスワードが間違いました!')
+      res.status(400).json('メールアドレスまたはパスワードが間違いました!')
     }
   })
 )

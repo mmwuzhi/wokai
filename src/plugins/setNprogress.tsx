@@ -8,6 +8,7 @@ axios.interceptors.request.use(
     return config
   },
   (error) => {
+    NProgress.done() // 设置加载进度条(结束..)
     return Promise.reject(error)
   }
 )
@@ -18,6 +19,7 @@ axios.interceptors.response.use(
     return response
   },
   function (error) {
+    NProgress.done() // 设置加载进度条(结束..)
     return Promise.reject(error)
   }
 )

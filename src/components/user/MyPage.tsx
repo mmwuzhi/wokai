@@ -32,7 +32,11 @@ const MyPage = (props: MyPageProps) => {
 
   const onSubmit = (e: SyntheticEvent<any>) => {
     e.preventDefault()
+    // TODO: 改成不影响用户的方法 不要用alert
     if (newPasswordRef.current.value !== confirmNewPasswordRef.current.value) {
+      alert("新パスワードが確認用パスワードと一致していません！")
+    }else if (!passwordRef.current.value) {
+      alert("パスワードを入力してください！")
     } else {
       const user = {
         username: nameRef.current.value,
@@ -41,14 +45,14 @@ const MyPage = (props: MyPageProps) => {
         newPassword: newPasswordRef.current.value,
       }
       //调用后端接口修改user信息
+      // TODO: 改成不影响用户的方法 不要用alert
       axios
-        .post('/api/users/update', user)
+        .put('/api/users/update', user)
         .then(() => {
           alert('変更しました！')
-          props.history.push('/comment')
         })
         .catch((e) => {
-          console.table(e)
+          alert(e.response.data)
         })
     }
   }

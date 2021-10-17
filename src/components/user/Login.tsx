@@ -28,7 +28,9 @@ const loginAction =
         error.response &&
         error.response.status === 400
       ) {
+        // TODO: 改成不影响用户的方法 不要用alert
         dispatch(loginFail(error.message))
+        alert(error.response.data)
       }
     }
   }

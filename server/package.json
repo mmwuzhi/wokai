@@ -20,7 +20,7 @@
     "start": "yarn run server",
     "wokai": "cross-env NODE_ENV=production pm2 start ./process.yml",
     "server": "cross-env nodemon -r dotenv/config -e ts --exec 'ts-node --files' ./server.ts",
-    "socket": "cross-env nodemon -e ts --exec 'ts-node --files' ./socket/server.ts",
+    "socket": "cross-env nodemon -r dotenv/config -e ts --exec 'ts-node --files' ./socket/server.ts",
     "dev": "concurrently \"yarn run server\" \"yarn run socket\"",
     "test": "craco test",
     "eject": "react-scripts eject"

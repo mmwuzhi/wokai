@@ -11,8 +11,7 @@ router.route('/').post((0, express_async_handler_1.default)(async (req, res) => 
     const { username, email, password } = req.body;
     const userExists = await user_model_1.User.findOne({ email });
     if (userExists) {
-        res.status(400);
-        throw new Error('メールアドレスは既に登録しました');
+        res.status(400).json('メールアドレスは既に登録しました');
     }
     const user = await user_model_1.User.create({
         username,
@@ -28,11 +27,10 @@ router.route('/').post((0, express_async_handler_1.default)(async (req, res) => 
         });
     }
     else {
-        res.status(400);
-        throw new Error('無効なユーザーデータ!');
+        res.status(400).json('無効なユーザーデータ!');
     }
 }));
-router.route('/update').post((0, express_async_handler_1.default)(async (req, res) => {
+router.route('/update').put((0, express_async_handler_1.default)(async (req, res) => {
     const { username, email, password } = req.body;
     const user = await user_model_1.User.findOne({ email });
     console.log(`user: ${user}`);
@@ -59,8 +57,7 @@ router.route('/update').post((0, express_async_handler_1.default)(async (req, re
         res.status(201).json(data);
     }
     else {
-        res.status(400);
-        throw new Error('パスワードが間違いました！');
+        res.status(400).json('パスワードが間違いました!');
     }
 }));
 router.route('/userInfo').get((req, res) => {
@@ -89,8 +86,7 @@ router.route('/login').post((0, express_async_handler_1.default)(async (req, res
         res.status(201).json(data);
     }
     else {
-        res.status(400);
-        throw new Error('メールアドレスまたはパスワードが間違いました!');
+        res.status(400).json('メールアドレスまたはパスワードが間違いました!');
     }
 }));
 router.route('/logout').get((req, res) => {

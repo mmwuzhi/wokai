@@ -39,20 +39,23 @@ router.route('/add').post(
       .catch((err: string) => res.status(400).json('Error: ' + err))
   })
 )
+
 //获取
 router.route('/:id').get((req, res) => {
   Comment.findById(req.params.id)
     .then((comment: any) => res.json(comment))
     .catch((err: string) => res.status(400).json('Error: ' + err))
 })
+
 //删除
 router.route('/:id').delete((req, res) => {
   Comment.findByIdAndDelete(req.params.id)
-    .then(() => res.json('Comment deleted.'))
+    .then(() => res.status(204).json('Comment deleted.'))
     .catch((err: string) => res.status(400).json('Error: ' + err))
 })
+
 //更新
-router.route('/update/:id').post((req, res) => {
+router.route('/update/:id').put((req, res) => {
   Comment.findById(req.params.id)
     .then((comment: any) => {
       comment.name = req.body.username
@@ -60,7 +63,7 @@ router.route('/update/:id').post((req, res) => {
 
       comment
         .save()
-        .then(() => res.json('Comment updated!'))
+        .then(() => res.status(201).json('Comment updated!'))
         .catch((err: string) => res.status(400).json('Error: ' + err))
     })
     .catch((err: string) => res.status(400).json('Error: ' + err))

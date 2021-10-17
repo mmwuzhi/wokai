@@ -42,17 +42,17 @@ router.route('/:id').get((req, res) => {
 });
 router.route('/:id').delete((req, res) => {
     comment_model_1.Comment.findByIdAndDelete(req.params.id)
-        .then(() => res.json('Comment deleted.'))
+        .then(() => res.status(204).json('Comment deleted.'))
         .catch((err) => res.status(400).json('Error: ' + err));
 });
-router.route('/update/:id').post((req, res) => {
+router.route('/update/:id').put((req, res) => {
     comment_model_1.Comment.findById(req.params.id)
         .then((comment) => {
         comment.name = req.body.username;
         comment.content = req.body.content;
         comment
             .save()
-            .then(() => res.json('Comment updated!'))
+            .then(() => res.status(201).json('Comment updated!'))
             .catch((err) => res.status(400).json('Error: ' + err));
     })
         .catch((err) => res.status(400).json('Error: ' + err));

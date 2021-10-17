@@ -13,7 +13,16 @@ import { checkLogged } from './actions/userActions'
 
 const App: React.FC = () => {
   const dispatch = useDispatch()
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: true,
+        retryDelay: 3 * 1000,
+        staleTime: 1 * 1000,
+        cacheTime: 10 * 60 * 1000,
+      },
+    },
+  })
   const [sidebar, setSidebar] = useState(false)
   const showSidebar = () => {
     setSidebar(!sidebar)
@@ -27,23 +36,25 @@ const App: React.FC = () => {
     }
   }, [dispatch])
 
-  const onKeyDown = (e: { key: string }) => {
+  const onKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'Escape') setSidebar(false)
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router>
-        <Navbar handleSidebar={showSidebar} />
-        <DrawSidebar
-          toggleClass='block lg:hidden'
-          handleSidebar={showSidebar}
-          sidebar={sidebar}
-        />
-        <Main />
-      </Router>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <React.StrictMode>
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <Navbar handleSidebar={showSidebar} />
+          <DrawSidebar
+            toggleClass='block lg:hidden'
+            handleSidebar={showSidebar}
+            sidebar={sidebar}
+          />
+          <Main />
+        </Router>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </React.StrictMode>
   )
 }
 

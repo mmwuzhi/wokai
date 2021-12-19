@@ -9,7 +9,11 @@ const comment_model_1 = require("../models/comment.model");
 const router = express_1.default.Router();
 router.route('/').get((req, res) => {
     comment_model_1.Comment.find({
-        $or: [{ email: undefined }, { email: req.session.userInfo?.email }],
+        $or: [
+            { email: undefined },
+            { email: '' },
+            { email: req.session.userInfo?.email },
+        ],
     })
         .sort({ createdAt: -1 })
         .then((comments) => res.json(comments))

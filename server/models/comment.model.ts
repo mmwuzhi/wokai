@@ -11,7 +11,7 @@ const commentSchema = new Schema(
 
 export interface CommentDocument extends Document {
   username: string
-  email: string
+  email?: string
   content: string
 }
 

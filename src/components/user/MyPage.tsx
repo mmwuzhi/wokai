@@ -1,17 +1,13 @@
 import React, { useRef, useEffect, SyntheticEvent } from 'react'
 import { checkLogged } from '../../actions/userActions'
 import axios from 'axios'
-import { History } from 'history'
 
 import { LtInput, DarkButton } from '../../tools/Inputs'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store/store'
+import { useNavigate } from 'react-router-dom'
 
-interface MyPageProps {
-  history: History
-  /* other props for ChildComponent */
-}
-const MyPage = (props: MyPageProps) => {
+const MyPage = () => {
   const dispatch = useDispatch()
   // 通过选择器获取state
   const userState = useSelector((state: RootState) => state.user)
@@ -20,23 +16,24 @@ const MyPage = (props: MyPageProps) => {
   const passwordRef = useRef<any>(null)
   const newPasswordRef = useRef<any>(null)
   const confirmNewPasswordRef = useRef<any>(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     ;(async () => {
       const data = await checkLogged(dispatch)
       if (data?.data?.username !== undefined) {
         nameRef!.current!.setValue(data?.data?.username)
-      } else props.history.push('/user/login')
+      } else navigate('/user/login')
     })()
-  }, [props.history, dispatch])
+  }, [navigate, dispatch])
 
   const onSubmit = (e: SyntheticEvent<any>) => {
     e.preventDefault()
     // TODO: 改成不影响用户的方法 不要用alert
     if (newPasswordRef.current.value !== confirmNewPasswordRef.current.value) {
-      alert("新パスワードが確認用パスワードと一致していません！")
-    }else if (!passwordRef.current.value) {
-      alert("パスワードを入力してください！")
+      alert('新パスワードが確認用パスワードと一致していません！')
+    } else if (!passwordRef.current.value) {
+      alert('パスワードを入力してください！')
     } else {
       const user = {
         username: nameRef.current.value,

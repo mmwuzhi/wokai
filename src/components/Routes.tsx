@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 
 import Home from './Home'
 import Chat from './Chat'
@@ -10,19 +10,21 @@ import MyPage from './user/MyPage'
 import Login from './user/Login'
 import Logout from './user/Logout'
 
-const Routes: React.FC = () => {
+const MyRoute: React.FC = () => {
   return (
     <div className={`max-w-2xl w-full p-6`}>
-      <Route path='/' exact component={Home} />
-      <Route path='/chat' exact component={Chat} />
-      <Route path='/comment' component={Comment} />
-      <Route path='/tool' exact component={Tool} />
-      <Route path='/user/signup' component={SignUp} />
-      <Route path='/user/mypage' component={MyPage} />
-      <Route path='/user/login' component={Login} />
-      <Route path='/user/logout' component={Logout} />
+      <Routes>
+        <Route path='/*' element={<Home />} />
+        <Route path='/comment' element={<Comment />} />
+        <Route path='/chat' element={<Chat />} />
+        <Route path='/tool' element={<Tool />} />
+        <Route path='/user/signup' element={<SignUp />} />
+        <Route path='/user/mypage' element={<MyPage />} />
+        <Route path='/user/login' element={<Login />} />
+        <Route path='/user/logout' element={<Logout />} />
+      </Routes>
     </div>
   )
 }
 
-export default Routes
+export default MyRoute

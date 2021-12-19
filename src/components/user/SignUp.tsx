@@ -1,11 +1,11 @@
 import React, { useRef, useEffect, SyntheticEvent } from 'react'
 import axios from 'axios'
-import { History } from 'history'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { DarkButton, LtInput } from '../../tools/Inputs'
 import { RootDispatch, RootState } from '../../store/store'
 import { loginFail, loginSuccess } from '../../store/features/userSlice'
+import { useNavigate } from 'react-router-dom'
 
 const signupAction = (user: IUser) => async (dispatch: RootDispatch) => {
   try {
@@ -25,7 +25,7 @@ const signupAction = (user: IUser) => async (dispatch: RootDispatch) => {
   }
 }
 
-const SignUp = (props: { history: History }) => {
+const SignUp = () => {
   const dispatch = useDispatch()
   // 通过选择器获取state
   const userState = useSelector((state: RootState) => state.user)
@@ -35,9 +35,11 @@ const SignUp = (props: { history: History }) => {
   const passwordRef = useRef<any>(null)
   const confirmPasswordRef = useRef<any>(null)
 
+  const navigate = useNavigate()
+
   useEffect(() => {
-    if (userState.logged === true) props.history.push('/user/mypage')
-  }, [userState.logged, props.history])
+    if (userState.logged === true) navigate('/user/mypage')
+  }, [userState.logged, navigate])
 
   const onSubmit = (e: SyntheticEvent<any>) => {
     e.preventDefault()

@@ -1,17 +1,12 @@
 import React, { useEffect, useRef } from 'react'
 import axios from 'axios'
-import { History } from 'history'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { loginSuccess, loginFail } from '../../store/features/userSlice'
 import { RootDispatch } from '../../store/store'
 import { DarkButton, LtInput } from '../../tools/Inputs'
 import { RootState } from '../../store/store'
-
-interface LoginProps {
-  history: History
-  /* other props for ChildComponent */
-}
+import { useNavigate } from 'react-router-dom'
 
 const loginAction =
   (email: string, password: string) => async (dispatch: RootDispatch) => {
@@ -35,18 +30,19 @@ const loginAction =
     }
   }
 
-const Login = (props: LoginProps) => {
+const Login = () => {
   const dispatch = useDispatch()
   // 通过选择器获取state
   const userState = useSelector((state: RootState) => state.user)
   const emailRef = useRef<any>(null)
   const passwordRef = useRef<any>(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (userState.logged === true) {
-      props.history.push('/comment')
+      navigate('/comment')
     }
-  }, [userState.logged, props.history])
+  }, [userState.logged, navigate])
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

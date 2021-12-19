@@ -7,7 +7,11 @@ const router = express.Router()
 
 router.route('/').get((req: express.Request, res) => {
   Comment.find({
-    $or: [{ email: undefined }, { email: req.session.userInfo?.email }],
+    $or: [
+      { email: undefined }, // TODO: 以后要删
+      { email: '' },
+      { email: req.session.userInfo?.email },
+    ],
   })
     .sort({ createdAt: -1 })
     .then((comments: any) => res.json(comments))

@@ -61,6 +61,9 @@ const Navbar = (props: { handleSidebar: () => void }) => {
     }
   )
 
+  const navbarClass =
+    'text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left'
+
   const overlay = classnames('inset-0', 'fixed', 'z-0', {
     hidden: !userDropdown,
   })
@@ -106,17 +109,19 @@ const Navbar = (props: { handleSidebar: () => void }) => {
               <NavLink
                 to='/user/mypage'
                 onClick={() => setUserDropdown(false)}
-                activeClassName='active'
-                className='text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left'
+                className={(navData) =>
+                  navbarClass + (navData.isActive ? ' active-nav' : '')
+                }
               >
                 マイページ
               </NavLink>
             ) : (
               <NavLink
                 to='/user/signup'
-                activeClassName='active'
                 onClick={() => setUserDropdown(false)}
-                className='text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left'
+                className={(navData) =>
+                  navbarClass + (navData.isActive ? ' active-nav' : '')
+                }
               >
                 サインアップ
               </NavLink>
@@ -133,9 +138,10 @@ const Navbar = (props: { handleSidebar: () => void }) => {
             {userState.logged ? (
               <NavLink
                 to='/user/logout'
-                activeClassName='active'
                 onClick={() => setUserDropdown(false)}
-                className='text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left'
+                className={(navData) =>
+                  navbarClass + (navData.isActive ? ' active-nav' : '')
+                }
               >
                 ログアウト
               </NavLink>
@@ -143,8 +149,9 @@ const Navbar = (props: { handleSidebar: () => void }) => {
               <NavLink
                 to='/user/login'
                 onClick={() => setUserDropdown(false)}
-                activeClassName='active'
-                className='text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left'
+                className={(navData) =>
+                  navbarClass + (navData.isActive ? ' active-nav' : '')
+                }
               >
                 ログイン
               </NavLink>

@@ -50,10 +50,10 @@ export const Sidebar = (props: SidebarProps) => {
             <li key={index}>
               <NavLink
                 to={linkData.to}
-                exact
                 onClick={props.handleSidebar}
-                activeClassName='active-nav'
-                className='nav-text'
+                className={(navData) =>
+                  'nav-text' + (navData.isActive ? ' active-nav' : '')
+                }
               >
                 {linkData.icon}
                 <span className={props.toggleText}>{linkData.text}</span>

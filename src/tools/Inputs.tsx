@@ -25,11 +25,12 @@ interface ButtonProps {
 interface DeleteButtonProps {
   onClick: MouseEventHandler
 }
-interface LtInputHandles {
+export interface LtInputHandles {
   checkSubmit: () => void
   focus: () => void
   setValue: React.Dispatch<React.SetStateAction<string>>
   setFilled: React.Dispatch<React.SetStateAction<string>>
+  value: string
 }
 
 export const LtInput = forwardRef<LtInputHandles, LtInputProps>(

@@ -5,6 +5,7 @@ import { classnames } from 'tailwindcss-classnames'
 import { sideLinks } from '../tools/links'
 
 interface DrawSidebarProps {
+  /** 侧边栏的表示与否 */
   sidebar: boolean
   handleSidebar?: () => void
   toggleClass: string

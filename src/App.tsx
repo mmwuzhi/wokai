@@ -8,11 +8,9 @@ import './plugins/setNprogress'
 import Navbar from './components/Navbar'
 import DrawSidebar from './components/Sidebar'
 import Main from './components/Main'
-import { useDispatch } from 'react-redux'
-import { checkLogged } from './actions/userActions'
+import { checkLogged } from './hooks/useLogged'
 
 const App: React.FC = () => {
-  const dispatch = useDispatch()
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -29,12 +27,14 @@ const App: React.FC = () => {
   }
 
   useEffect(() => {
-    checkLogged(dispatch)
+    // 预读取登陆信息
+    queryClient.prefetchQuery('logged', checkLogged)
     window.addEventListener('keydown', onKeyDown)
     return () => {
       window.removeEventListener('keydown', onKeyDown)
     }
-  }, [dispatch])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const onKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'Escape') setSidebar(false)

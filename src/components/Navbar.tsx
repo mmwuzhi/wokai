@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux'
 import { Link, NavLink } from 'react-router-dom'
 import { classnames } from 'tailwindcss-classnames'
 import { RootState } from '../store/store'
-
 import { iconMenu, iconUser } from '../tools/Icons'
 
 const Navbar = (props: { handleSidebar: () => void }) => {

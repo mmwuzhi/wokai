@@ -1,12 +1,12 @@
 declare module 'moment/locale/ja' {}
 
-interface IUser {
+interface User {
   username: string
   email: string
   password: string
 }
 
-interface IUserData {
+interface UserData {
   id: string
   username: string
   email: string

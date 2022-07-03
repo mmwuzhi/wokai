@@ -1,13 +1,12 @@
-import React, { useRef, useEffect, SyntheticEvent } from 'react'
+import { useRef, useEffect, SyntheticEvent } from 'react'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
-
-import { DarkButton, LtInput } from '../../tools/Inputs'
+import { useNavigate } from 'react-router-dom'
+import { DarkButton, LtInput, LtInputHandles } from '../../tools/Inputs'
 import { RootDispatch, RootState } from '../../store/store'
 import { loginFail, loginSuccess } from '../../store/features/userSlice'
-import { useNavigate } from 'react-router-dom'
 
-const signupAction = (user: IUser) => async (dispatch: RootDispatch) => {
+const signupAction = (user: User) => async (dispatch: RootDispatch) => {
   try {
     const { data } = await axios.post('/api/users/', user)
     dispatch(loginSuccess(data))
@@ -30,10 +29,10 @@ const SignUp = () => {
   // 通过选择器获取state
   const userState = useSelector((state: RootState) => state.user)
 
-  const nameRef = useRef<any>(null)
-  const mailRef = useRef<any>(null)
-  const passwordRef = useRef<any>(null)
-  const confirmPasswordRef = useRef<any>(null)
+  const nameRef = useRef<LtInputHandles>(null)
+  const mailRef = useRef<LtInputHandles>(null)
+  const passwordRef = useRef<LtInputHandles>(null)
+  const confirmPasswordRef = useRef<LtInputHandles>(null)
 
   const navigate = useNavigate()
 
@@ -46,10 +45,10 @@ const SignUp = () => {
     if (passwordRef!.current!.value !== confirmPasswordRef!.current!.value) {
       alert('パスワードが一致していない！')
     } else {
-      const user: IUser = {
-        username: nameRef!.current!.value,
-        email: mailRef!.current!.value,
-        password: passwordRef!.current!.value,
+      const user: User = {
+        username: nameRef.current!.value,
+        email: mailRef.current!.value,
+        password: passwordRef.current!.value,
       }
       //调用后端接口创建user
       signupAction(user)(dispatch)

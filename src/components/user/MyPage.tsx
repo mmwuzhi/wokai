@@ -1,45 +1,36 @@
-import React, { useRef, useEffect, SyntheticEvent } from 'react'
-import { checkLogged } from '../../actions/userActions'
-import axios from 'axios'
-
-import { LtInput, DarkButton } from '../../tools/Inputs'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../store/store'
+import { useRef, SyntheticEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { useLogged } from '../../hooks/useLogged'
+import { LtInput, DarkButton, LtInputHandles } from '../../tools/Inputs'
 
 const MyPage = () => {
-  const dispatch = useDispatch()
-  // 通过选择器获取state
-  const userState = useSelector((state: RootState) => state.user)
+  const { data, isLoading, isError } = useLogged()
 
-  const nameRef = useRef<any>(null)
-  const passwordRef = useRef<any>(null)
-  const newPasswordRef = useRef<any>(null)
-  const confirmNewPasswordRef = useRef<any>(null)
+  const nameRef = useRef<LtInputHandles>(null)
+  const passwordRef = useRef<LtInputHandles>(null)
+  const newPasswordRef = useRef<LtInputHandles>(null)
+  const confirmNewPasswordRef = useRef<LtInputHandles>(null)
   const navigate = useNavigate()
 
-  useEffect(() => {
-    ;(async () => {
-      const data = await checkLogged(dispatch)
-      if (data?.data?.username !== undefined) {
-        nameRef!.current!.setValue(data?.data?.username)
-      } else navigate('/user/login')
-    })()
-  }, [navigate, dispatch])
+  if (isError) navigate('/user/login')
+  if (data != null) nameRef!.current!.setValue(data.username)
 
   const onSubmit = (e: SyntheticEvent<any>) => {
     e.preventDefault()
     // TODO: 改成不影响用户的方法 不要用alert
-    if (newPasswordRef.current.value !== confirmNewPasswordRef.current.value) {
+    if (
+      newPasswordRef.current!.value !== confirmNewPasswordRef.current!.value
+    ) {
       alert('新パスワードが確認用パスワードと一致していません！')
-    } else if (!passwordRef.current.value) {
+    } else if (!passwordRef.current!.value) {
       alert('パスワードを入力してください！')
     } else {
       const user = {
-        username: nameRef.current.value,
-        email: userState.userData.email,
-        password: passwordRef.current.value,
-        newPassword: newPasswordRef.current.value,
+        username: nameRef.current!.value,
+        email: data!.email,
+        password: passwordRef.current!.value,
+        newPassword: newPasswordRef.current!.value,
       }
       //调用后端接口修改user信息
       // TODO: 改成不影响用户的方法 不要用alert
@@ -62,7 +53,7 @@ const MyPage = () => {
         </LtInput>
         <div className='form-group'>
           <label>メールアドレス: </label>
-          <span>{userState.userData.email}</span>
+          <span>{!isLoading ? data!.email: ''}</span>
         </div>
         <LtInput type='password' forID='old-password' ref={passwordRef}>
           パスワード

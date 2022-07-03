@@ -1,43 +1,39 @@
-import React from 'react'
 import axios from 'axios'
-import { useDispatch } from 'react-redux'
-
-import { LightButton, DarkButton } from '../../tools/Inputs'
-import { loginFail, logoutSuccess } from '../../store/features/userSlice'
-import { useLogged } from '../../hooks/useLogged'
 import { useNavigate } from 'react-router-dom'
-
-export const logoutAction = (dispatch: React.Dispatch<any>) => {
-  axios
-    .get('/api/users/logout')
-    .then(() => {
-      dispatch(logoutSuccess(false))
-    })
-    .catch((error) => {
-      dispatch(loginFail(error))
-    })
-}
+import { useQueryClient } from 'react-query'
+import { LightButton, DarkButton } from '../../tools/Inputs'
+import { useLogged } from '../../hooks/useLogged'
 
 const Logout = () => {
-  const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { isError } = useLogged()
+  const queryClient = useQueryClient()
+  const { isLoading, isError } = useLogged()
   if (isError) navigate('/user/login')
 
-  const cancel = () => {
+  const handleLogout = async () => {
+    try {
+      await axios.get('/api/users/logout')
+      // logout成功则将logged标记为失效数据
+      queryClient.invalidateQueries('logged')
+    } catch {
+      alert('ログアウト失敗！')
+    }
+  }
+
+  const handleCancel = () => {
     navigate('/')
   }
 
-  return (
-    <div>
+  return isLoading ? (
+    <div>Loading...</div>
+  ) : (
+    <>
       <h3 className=''>なになにさいとからログアウトしますか？</h3>
       <div className=''>
-        <LightButton onClick={cancel}>キャンセル</LightButton>
-        <DarkButton onClick={() => logoutAction(dispatch)}>
-          ログアウト
-        </DarkButton>
+        <LightButton onClick={handleCancel}>キャンセル</LightButton>
+        <DarkButton onClick={handleLogout}>ログアウト</DarkButton>
       </div>
-    </div>
+    </>
   )
 }
 export default Logout

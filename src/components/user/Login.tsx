@@ -1,57 +1,44 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import axios from 'axios'
-import { useSelector, useDispatch } from 'react-redux'
-
-import { loginSuccess, loginFail } from '../../store/features/userSlice'
-import { RootDispatch } from '../../store/store'
-import { DarkButton, LtInput } from '../../tools/Inputs'
-import { RootState } from '../../store/store'
+import { DarkButton, LtInput, LtInputHandles } from '../../tools/Inputs'
 import { useNavigate } from 'react-router-dom'
-
-const loginAction =
-  (email: string, password: string) => async (dispatch: RootDispatch) => {
-    try {
-      const user = {
-        email: email,
-        password: password,
-      }
-      const { data } = await axios.post('/api/users/login', user)
-      dispatch(loginSuccess(data))
-    } catch (error) {
-      if (
-        axios.isAxiosError(error) &&
-        error.response &&
-        error.response.status === 400
-      ) {
-        // TODO: 改成不影响用户的方法 不要用alert
-        dispatch(loginFail(error.message))
-        alert(error.response.data)
-      }
-    }
-  }
+import { useLogged } from '../../hooks/useLogged'
+import { useQueryClient } from 'react-query'
 
 const Login = () => {
-  const dispatch = useDispatch()
-  // 通过选择器获取state
-  const userState = useSelector((state: RootState) => state.user)
-  const emailRef = useRef<any>(null)
-  const passwordRef = useRef<any>(null)
+  const { isLoading, isError } = useLogged()
+  const emailRef = useRef<LtInputHandles>(null)
+  const passwordRef = useRef<LtInputHandles>(null)
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
-  useEffect(() => {
-    if (userState.logged === true) {
-      navigate('/comment')
+  if (!isLoading && !isError) navigate('/comment')
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault()
+
+      const user = {
+        email: emailRef.current!.value,
+        password: passwordRef.current!.value,
+      }
+      const { data } = await axios.post('/api/users/login', user)
+      queryClient.setQueryData('logged', () => data.data)
+    } catch (err) {
+      if (
+        axios.isAxiosError(err) &&
+        err.response &&
+        err.response.status === 400
+      ) {
+        // TODO: 改成不影响用户的方法 不要用alert
+        alert(err.response.data)
+      }
     }
-  }, [userState.logged, navigate])
-
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    loginAction(emailRef.current!.value, passwordRef.current!.value)(dispatch)
   }
 
   return (
     <div>
-      <form onSubmit={(e) => onSubmit(e)}>
+      <form onSubmit={handleSubmit}>
         <LtInput type='email' forID='mail-address' ref={emailRef}>
           メールアドレス
         </LtInput>
@@ -63,4 +50,5 @@ const Login = () => {
     </div>
   )
 }
+
 export default Login
